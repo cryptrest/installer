@@ -12,6 +12,7 @@ nginx_config_define()
     sed -i "s/\[DOMAIN\]/$DOMAIN/g" $NGINX_CONFIG_FILE
     sed -i "s/\[UPSTREAM\]/$UPSTREAM/g" $NGINX_CONFIG_FILE
     sed -i "s#\[ROOT_WWW\]#$ROOT_WWW#g" $NGINX_CONFIG_FILE
+    sed -i "s#\[SERVER_CIPHERS\]#$SERVER_CIPHERS#g" $NGINX_CONFIG_FILE
     sed -i "s#\[LETSENCRYPT_DIR\]#$LETSENCRYPT_DIR#g" $NGINX_CONFIG_FILE
     sed -i "s#\[PUBLIC_KEY_PINS\]#$PUBLIC_KEY_PINS#g" $NGINX_CONFIG_FILE
 

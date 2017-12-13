@@ -6,6 +6,7 @@ LETSENCRYPT_DIR='/etc/letsencrypt/live'
 LETSENCRYPT_BITS='256'
 
 PUBLIC_KEY_PINS=''
+SERVER_CIPHERS="$(openssl ciphers)"
 
 ECDSA_KEY="${LETSENCRYPT_DIR}/${DOMAIN}/ecdsa.key"
 ECDSA_CSR="${LETSENCRYPT_DIR}/${DOMAIN}/ecdsa.csr"
@@ -13,7 +14,7 @@ ECDSA_CSR="${LETSENCRYPT_DIR}/${DOMAIN}/ecdsa.csr"
 # HD Param
 hd_param_define()
 {
-    openssl dhparam -out ${LETSENCRYPT_DIR}/${DOMAIN}/dhparam.pem 2048
+    openssl dhparam -out ${LETSENCRYPT_DIR}/${DOMAIN}/dhparam.pem 4096
 }
 
 # ECDSA

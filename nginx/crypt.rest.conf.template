@@ -16,7 +16,7 @@ server {
 }
 
 server {
-    listen 443 deferred ssl; # spdy
+    listen 443 deferred ssl http2;
     server_name [DOMAIN];
 
     ssl on;
@@ -27,7 +27,7 @@ server {
 
     ssl_protocols TLSv1.2 TLSv1.1 TLSv1; # TLSv1.3;
     ssl_prefer_server_ciphers on;
-    ssl_ciphers HIGH:!RC4:!aNULL:!eNULL:!LOW:!MD5:!DSS:!SSL:!CBC:!3DES:!CAMELLIA:!ADH:!EXP:!PSK:!SRP:!DHE:ECDHE-RSA-AES256-GCM-SHA512:DHE-RSA-AES256-GCM-SHA512:ECDHE-RSA-AES256-GCM-SHA384:DHE-RSA-AES256-GCM-SHA384:ECDHE-RSA-AES256-SHA384:ECDHE-RSA-AES256-GCM-SHA384:ECDHE-ECDSA-AES256-GCM-SHA384:ECDHE-RSA-AES256-SHA384:ECDHE-ECDSA-AES256-SHA384:ECDHE-RSA-AES256-SHA:ECDHE-ECDSA-AES256-SHA:ECDH-RSA-AES256-GCM-SHA384:ECDH-ECDSA-AES256-GCM-SHA384:ECDH-RSA-AES256-SHA384:ECDH-ECDSA-AES256-SHA384:ECDH-RSA-AES256-SHA:ECDH-ECDSA-AES256-SHA:AES256-GCM-SHA384:AES256-SHA256:AES256-SHA;
+    ssl_ciphers HIGH:!RC4:!aNULL:!eNULL:!LOW:!MD5:!DSS:!SSL:!CBC:!3DES:!CAMELLIA:!ADH:!EXP:!PSK:!SRP:!EXPORT:!IDEA:!SEED:[SERVER_CIPHERS];
     ssl_session_cache shared:SSL:10m;
     ssl_session_timeout 10m;
     ssl_session_tickets off;
@@ -41,6 +41,7 @@ server {
     add_header Strict-Transport-Security "max-age=31536000; includeSubDomains; preload";
     add_header Public-Key-Pins '[PUBLIC_KEY_PINS]max-age=31536000';
     add_header X-XSS-Protection "1; mode=block";
+    add_header Content-Security-Policy-Report-Only "default-src https:; script-src https: 'unsafe-eval' 'unsafe-inline'; style-src https: 'unsafe-inline'; img-src https: data:; font-src https: data:; report-uri /csp-report";
 
     resolver 8.8.8.8 8.8.4.4 valid=300s;
     resolver_timeout 10s;
