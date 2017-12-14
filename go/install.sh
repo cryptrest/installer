@@ -3,6 +3,7 @@
 CRYPTREST_GO_VERSION="${CRYPTREST_GO_VERSION:=1.9.2}"
 CRYPTREST_GO="go${CRYPTREST_GO_VERSION}"
 CRYPTREST_GO_DIR="${HOME}/.${CRYPTREST_GO}"
+CRYPTREST_GO_PATH="${HOME}/go"
 CRYPTREST_GO_TMP_DIR="${TMP:=/tmp}/.${CRYPTREST_GO}"
 CRYPTREST_HOME_SHELL_PROFILE_FILES=".bash_profile .bashrc .mkshrc .profile .zlogin .zshrc"
 
@@ -74,6 +75,7 @@ golang_install()
         if [ -f "${HOME}/${shell_profile_file}" ]; then
             echo "" >> "${HOME}/${shell_profile_file}"
             echo "export GOROOT=\"\${HOME}/.${CRYPTREST_GO}\"  # Add GOROOT" >> "${HOME}/${shell_profile_file}"
+            echo "export GOPATH=\"\${HOME}/go\"  # Add GOPATH" >> "${HOME}/${shell_profile_file}"
             echo "export PATH=\"\${PATH}:\${GOROOT}/bin\"  # Add Golang to PATH" >> "${HOME}/${shell_profile_file}"
 
             . "${HOME}/${shell_profile_file}"
@@ -81,6 +83,8 @@ golang_install()
             echo "    '${HOME}/${shell_profile_file}'"
         fi
     done
+
+    mkdir -p "$CRYPTREST_GO_PATH"
 }
 
 
