@@ -60,6 +60,11 @@ golang_build()
     cd "$CRYPTREST_GO_DIR/src" && ./all.bash
 }
 
+golang_prepare()
+{
+    rm -rf "$CRYPTREST_GO_DIR"
+}
+
 golang_download()
 {
     mkdir -p "$CRYPTREST_GO_TMP_DIR" && \
@@ -103,11 +108,12 @@ golang_define()
 
 
 echo ''
-echo "Golang version '$CRYPTREST_GO_VERSION' will be installing"
+echo "Golang version: $CRYPTREST_GO_VERSION"
 echo "Golang source URL: $CRYPTREST_GO_URL"
 echo "Golang URL: $CRYPTREST_GO_URL"
 echo ''
 
+golang_prepare && \
 golang_download && \
 golang_install && \
 golang_define
