@@ -7,7 +7,7 @@ CRYPTREST_GO_PATH="${HOME}/go"
 CRYPTREST_GO_TMP_DIR="${TMP:=/tmp}/.${CRYPTREST_GO}"
 CRYPTREST_HOME_SHELL_PROFILE_FILES=".bash_profile .bashrc .mkshrc .profile .zlogin .zshrc"
 
-case $(uname -m) in
+case "$(uname -m)" in
     x86_64 | amd64 )
         CRYPTREST_GO_ARCH='amd64'
     ;;
@@ -16,11 +16,12 @@ case $(uname -m) in
     ;;
     * )
         echo "ERROR: Current OS architecture has not been supported for Golang"
+
         exit 1
     ;;
 esac
 
-case $(uname -s) in
+case "$(uname -s)" in
     Linux )
         CRYPTREST_GO_OS='linux'
     ;;
@@ -32,6 +33,7 @@ case $(uname -s) in
     ;;
     * )
         echo "ERROR: Current OS does not supported for Golang"
+
         exit 1
     ;;
 esac
@@ -48,6 +50,7 @@ golang_src_download()
     if [ $? -ne 0 ]; then
         echo "Some error with download"
         rm -rf "$CRYPTREST_GO_DIR"
+
         exit 1
     fi
 }
@@ -64,7 +67,8 @@ golang_download()
     curl -SL "$CRYPTREST_GO_URL" | tar -xz
     if [ $? -ne 0 ]; then
         echo "Some error with download"
-        rm -rf "$CRYPTREST_GO_DIR"
+        rm -rf "$CRYPTREST_GO_TMP_DIR"
+
         exit 1
     fi
 }
