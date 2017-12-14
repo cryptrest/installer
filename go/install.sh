@@ -42,11 +42,12 @@ CRYPTREST_GO_URL="https://redirector.gvt1.com/edgedl/go/${CRYPTREST_GO}.${CRYPTR
 
 golang_src_download()
 {
-    mkdir -p "$CRYPTREST_GO_DIR" && cd "$CRYPTREST_GO_DIR" && curl -SL "$CRYPTREST_GO_URL_SRC" | tar -xz
+    mkdir -p "$CRYPTREST_GO_DIR" && \
+    cd "$CRYPTREST_GO_DIR" && \
+    curl -SL "$CRYPTREST_GO_URL_SRC" | tar -xz
     if [ $? -ne 0 ]; then
         echo "Some error with download"
         rm -rf "$CRYPTREST_GO_DIR"
-
         exit 1
     fi
 }
@@ -58,18 +59,29 @@ golang_build()
 
 golang_download()
 {
-    mkdir -p "$CRYPTREST_GO_TMP_DIR" && cd "$CRYPTREST_GO_TMP_DIR" && curl -SL "$CRYPTREST_GO_URL" | tar -xz
+    mkdir -p "$CRYPTREST_GO_TMP_DIR" && \
+    cd "$CRYPTREST_GO_TMP_DIR" && \
+    curl -SL "$CRYPTREST_GO_URL" | tar -xz
     if [ $? -ne 0 ]; then
         echo "Some error with download"
         rm -rf "$CRYPTREST_GO_DIR"
-
         exit 1
     fi
 }
 
 golang_install()
 {
-    mv "$CRYPTREST_GO_TMP_DIR/go" "$CRYPTREST_GO_DIR" && rm -rf "$CRYPTREST_GO_TMP_DIR"
+    mv "$CRYPTREST_GO_TMP_DIR/go" "$CRYPTREST_GO_DIR" && \
+    rm -rf "$CRYPTREST_GO_TMP_DIR" && \
+    chmod 700 "$CRYPTREST_GO_DIR" && \
+    mkdir -p "$CRYPTREST_GO_PATH" && \
+    chmod 700 "$CRYPTREST_GO_PATH"
+}
+
+golang_define()
+{
+    echo ""
+    echo "GOPATH, GOROOT and in PATH will be added in following file(s):"
 
     for shell_profile_file in $CRYPTREST_HOME_SHELL_PROFILE_FILES; do
         if [ -f "${HOME}/${shell_profile_file}" ]; then
@@ -83,8 +95,6 @@ golang_install()
             echo "    '${HOME}/${shell_profile_file}'"
         fi
     done
-
-    mkdir -p "$CRYPTREST_GO_PATH"
 }
 
 
@@ -94,5 +104,6 @@ echo "Golang source URL: $CRYPTREST_GO_URL"
 echo "Golang URL: $CRYPTREST_GO_URL"
 echo ''
 
-golang_download
-golang_install
+golang_download && \
+golang_install && \
+golang_define
