@@ -53,7 +53,7 @@ cryptrest_network()
     echo 'Crypt REST mode: network'
     echo ''
 
-    rm -rf "$CRYPTREST_DIR" && \
+    rm -rf "$CRYPTREST_INSTALLER_DIR" && \
     cryptrest_download && \
     mv -f "$CRYPTREST_INSTALLER_DIR-$CRYPTREST_BRANCH" "$CRYPTREST_INSTALLER_DIR" && \
     chmod 700 "$CRYPTREST_DIR"
