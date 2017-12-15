@@ -1,0 +1,80 @@
+# for redirecting to non-www version of the site
+server {
+    listen 80;
+    server_name i.[DOMAIN] installer.[DOMAIN];
+    rewrite ^(.*) https://installer.[DOMAIN]$1 permanent;
+}
+
+server {
+    listen 443;
+    server_name i.[DOMAIN];
+    rewrite ^(.*) https://installer.[DOMAIN]$1 permanent;
+}
+
+server {
+    listen installer.[DOMAIN]:443 ssl http2;
+    server_name installer.[DOMAIN];
+
+    root [INSTALLER_ROOT_WWW];
+
+    ssl on;
+    ssl_certificate [LETSENCRYPT_DIR]/[DOMAIN]/fullchain.pem;
+    ssl_certificate_key [LETSENCRYPT_DIR]/[DOMAIN]/privkey.pem;
+    ssl_trusted_certificate [LETSENCRYPT_DIR]/[DOMAIN]/cert.pem;
+    ssl_dhparam [LETSENCRYPT_DIR]/[DOMAIN]/dhparam.pem;
+
+    ssl_protocols TLSv1.2 TLSv1.1 TLSv1; # TLSv1.3;
+    ssl_prefer_server_ciphers on;
+    ssl_ciphers HIGH:!RC4:!aNULL:!eNULL:!LOW:!MD5:!DSS:!SSL:!CBC:!3DES:!CAMELLIA:!ADH:!EXP:!PSK:!SRP:!EXPORT:!IDEA:!SEED:[SERVER_CIPHERS];
+    ssl_session_cache shared:SSL:10m;
+    ssl_session_timeout 10m;
+    ssl_session_tickets off;
+    ssl_ecdh_curve secp384r1; # sect283k1:sect283r1:sect409k1:sect409r1:sect571k1:sect571r1:secp256k1:secp256r1:secp384r1:secp521r1:brainpoolP256r1:brainpoolP384r1:brainpoolP512r1
+    ssl_stapling on;
+    ssl_stapling_verify on;
+    ssl_buffer_size 16k;
+
+    add_header X-Frame-Options "DENY";
+    add_header X-Content-Type-Options "nosniff";
+    add_header Strict-Transport-Security "max-age=31536000; includeSubDomains; preload";
+    add_header Public-Key-Pins '[PUBLIC_KEY_PINS]max-age=31536000';
+    add_header X-XSS-Protection "1; mode=block";
+    add_header Content-Security-Policy-Report-Only "default-src https:; script-src https: 'unsafe-eval' 'unsafe-inline'; style-src https: 'unsafe-inline'; img-src https: data:; font-src https: data:; report-uri /csp-report";
+
+    resolver 8.8.8.8 8.8.4.4 valid=300s;
+    resolver_timeout 10s;
+
+    keepalive_timeout 10;
+    if_modified_since exact;
+    ignore_invalid_headers off;
+    directio 512;
+    output_buffers 1 128k;
+    autoindex off;
+    charset utf-8;
+    server_tokens off;
+
+    client_max_body_size 20m;
+    client_header_timeout 20s;
+    client_body_timeout 30s;
+    client_header_buffer_size 4k;
+    client_body_buffer_size 16k;
+
+    lingering_close on;
+    lingering_time 600s;
+    lingering_timeout 300s;
+
+    lingering_close on;
+    lingering_time 600s;
+    lingering_timeout 300s;
+
+    location = / {
+        limit_except GET {
+            deny all;
+        }
+
+        try_files $uri/installer.html $uri;
+    }
+
+    error_page 500 502 503 504 /50X.html;
+    error_page 400 402 403 404 /40X.html;
+}
