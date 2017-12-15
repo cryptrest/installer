@@ -71,10 +71,6 @@ server {
     lingering_time 600s;
     lingering_timeout 300s;
 
-    lingering_close on;
-    lingering_time 600s;
-    lingering_timeout 300s;
-
     location ^~ /assets/ {
         limit_except GET {
             deny all;
