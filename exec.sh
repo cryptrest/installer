@@ -69,12 +69,14 @@ cryptrest_install()
         cryptrest_local && \
         rm -rf "$CRYPTREST_INSTALLER_PATH" && \
         mkdir -p "$CRYPTREST_INSTALLER_PATH" && \
-        cp "$CURRENT_DIR/exec.sh" "$CRYPTREST_INSTALLER_PATH/index.html"
+        cp "$CURRENT_DIR/exec.sh" "$CRYPTREST_INSTALLER_PATH/index.html" && \
+        chmod 444 "$CRYPTREST_INSTALLER_PATH/index.html"
     else
         cryptrest_network && \
         rm -rf "$CRYPTREST_INSTALLER_PATH" && \
         mkdir -p "$CRYPTREST_INSTALLER_PATH" && \
-        cp "$CRYPTREST_INSTALLER_DIR/exec.sh" "$CRYPTREST_INSTALLER_PATH/index.html"
+        cp "$CRYPTREST_INSTALLER_DIR/exec.sh" "$CRYPTREST_INSTALLER_PATH/index.html" && \
+        chmod 444 "$CRYPTREST_INSTALLER_PATH/index.html"
     fi
 }
 
