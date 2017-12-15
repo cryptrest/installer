@@ -10,6 +10,7 @@ DOMAIN='crypt.rest'
 UPSTREAM='cryptrest'
 ROOT_WWW="/home/$UPSTREAM/www/rest"
 ROOT_WWW_INSTALLER="/home/$UPSTREAM/installer"
+CERTBOT_BIN_FILE="/home/$UPSTREAM/.letsencrypt/certbot/certbot-auto"
 
 
 . $CERTS_DEFINE_FILE
@@ -22,5 +23,5 @@ letsencrypt_hd_param_define
 
 nginx_configs_define
 
-#/home/$UPSTREAM/.letsencrypt/certbot/certbot-auto certonly --webroot -d $DOMAIN -d www.$DOMAIN -d i.$DOMAIN -d installer.$DOMAIN --email $DOMAIN@gmail.com --csr $ECDSA_CSR --agree-tos
-/home/$UPSTREAM/.letsencrypt/certbot/certbot-auto certonly --standalone --email $DOMAIN@gmail.com --renew-by-default --rsa-key-size 4096 -d $DOMAIN -d www.$DOMAIN -d i.$DOMAIN -d installer.$DOMAIN --pre-hook "service nginx stop" --post-hook "service nginx start"
+#$CERTBOT_BIN_FILE certonly --webroot -d $DOMAIN -d www.$DOMAIN -d i.$DOMAIN -d installer.$DOMAIN --email $DOMAIN@gmail.com --csr $ECDSA_CSR --agree-tos
+$CERTBOT_BIN_FILE certonly --standalone --email $DOMAIN@gmail.com --renew-by-default --rsa-key-size 4096 -d $DOMAIN -d www.$DOMAIN -d i.$DOMAIN -d installer.$DOMAIN --pre-hook "service nginx stop" --post-hook "service nginx start"
