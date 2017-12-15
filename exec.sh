@@ -8,14 +8,14 @@ CRYPTREST_INSTALLER_PATH="$HOME/installer"
 CRYPTREST_BRANCH='master'
 CRYPTREST_GIT_URL="https://github.com/cryptrest/installer/archive/$CRYPTREST_BRANCH.tar.gz"
 CRYPTREST_MODULES='go letsencrypt nginx'
-CRYPTREST_IS_LOCAL=0
+CRYPTREST_IS_LOCAL=1
 
 
 cryptrest_is_local()
 {
     for i in $CRYPTREST_MODULES; do
-        if [ ! -d "$CURRENT_DIR/$i" ] && [ -f "$CURRENT_DIR/$i/install.sh" ]; then
-            CRYPTREST_IS_LOCAL=1
+        if [ -d "$CURRENT_DIR/$i" ] && [ -f "$CURRENT_DIR/$i/install.sh" ]; then
+            CRYPTREST_IS_LOCAL=0
             break
         fi
     done
