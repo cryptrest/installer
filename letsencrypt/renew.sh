@@ -9,6 +9,7 @@ NGINX_CONFIG_DEFINE_FILE="$NGINX_DIR/config-define.sh"
 DOMAIN='crypt.rest'
 UPSTREAM='cryptrest'
 ROOT_WWW="/home/$UPSTREAM/www/rest"
+ROOT_WWW_INSTALLER="/home/$UPSTREAM/installer"
 
 
 . $CERTS_DEFINE_FILE
