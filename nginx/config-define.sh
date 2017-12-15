@@ -61,12 +61,10 @@ nginx_configs_define()
 
     echo ''
     echo "Links and config has been defined for $DOMAIN"
-    echo ''
 
     nginx_installer_links_define && \
     nginx_installer_config_define
 
-    echo ''
     echo "Links and config has been defined for installer.$DOMAIN"
     echo ''
 }
