@@ -73,7 +73,7 @@ cryptrest_local()
 
 cryptrest_download()
 {
-    cd "$CRYPTREST_INSTALLER_DIR" && \
+    cd "$CRYPTREST_DIR" && \
     curl -SL "$CRYPTREST_GIT_URL" | tar -xz
     if [ $? -ne 0 ]; then
         echo 'Some errors with download'
