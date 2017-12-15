@@ -2,6 +2,9 @@
 
 CURRENT_DIR="${CURRENT_DIR:=$(cd $(dirname $0) && pwd -P)}"
 
+CRYPTREST_GIT_BRANCH="${CRYPTREST_GIT_BRANCH:=master}"
+CRYPTREST_GIT_URL="https://github.com/cryptrest/installer/archive/$CRYPTREST_GIT_BRANCH.tar.gz"
+
 CRYPTREST_DIR="$HOME/.cryptrest"
 CRYPTREST_ENV_FILE="$CRYPTREST_DIR/.env"
 CRYPTREST_ENV_DIR="$CRYPTREST_DIR/env"
@@ -10,12 +13,8 @@ CRYPTREST_SRC_DIR="$CRYPTREST_DIR/src"
 CRYPTREST_ETC_DIR="$CRYPTREST_DIR/etc"
 CRYPTREST_WWW_DIR="$CRYPTREST_DIR/www"
 CRYPTREST_TMP_DIR="${TMPDIR:=/tmp}/cryptrest"
-CRYPTREST_INSTALLER_DIR="$CRYPTREST_DIR/installer"
-
-CRYPTREST_INSTALLER_PATH="$HOME/installer"
-
-CRYPTREST_GIT_BRANCH='master'
-CRYPTREST_GIT_URL="https://github.com/cryptrest/installer/archive/$CRYPTREST_GIT_BRANCH.tar.gz"
+CRYPTREST_INSTALLER_DIR="$CRYPTREST_DIR/installer-$CRYPTREST_GIT_BRANCH"
+CRYPTREST_INSTALLER_HTML_FILE="$CRYPTREST_WWW_DIR/installer.html"
 
 CRYPTREST_MODULES='go letsencrypt nginx'
 CRYPTREST_IS_LOCAL=1
@@ -90,7 +89,6 @@ cryptrest_network()
     echo ''
 
     cryptrest_download && \
-    mv "$CRYPTREST_INSTALLER_DIR-$CRYPTREST_BRANCH" "$CRYPTREST_INSTALLER_DIR" && \
     chmod 700 "$CRYPTREST_DIR" && \
     "$CRYPTREST_INSTALLER_DIR/bin.sh"
 }
@@ -100,22 +98,17 @@ cryptrest_install()
     cryptrest_is_local
     if [ $? -eq 0 ]; then
         cryptrest_local && \
-        rm -rf "$CRYPTREST_INSTALLER_PATH" && \
-        mkdir -p "$CRYPTREST_INSTALLER_PATH" && \
-        cp "$CURRENT_DIR/bin.sh" "$CRYPTREST_INSTALLER_PATH/index.html"
-#    else
-#        cryptrest_network && \
-#        rm -rf "$CRYPTREST_INSTALLER_PATH" && \
-#        mkdir -p "$CRYPTREST_INSTALLER_PATH" && \
-#        cp "$CRYPTREST_INSTALLER_DIR/bin.sh" "$CRYPTREST_INSTALLER_PATH/index.html"
+        cp "$CURRENT_DIR/bin.sh" "$CRYPTREST_INSTALLER_HTML_FILE"
+    else
+        cryptrest_network && \
+        cp "$CRYPTREST_INSTALLER_DIR/bin.sh" "$CRYPTREST_INSTALLER_HTML_FILE"
     fi
 }
 
 cryptrest_define()
 {
-    chmod 444 "$CRYPTREST_INSTALLER_PATH/index.html" && \
+    chmod 444 "$CRYPTREST_INSTALLER_HTML_FILE" && \
     chmod 400 "$CRYPTREST_ENV_FILE" && \
-    cp "$CURRENT_DIR/bin.sh" "$CRYPTREST_INSTALLER_DIR/" && \
     chmod 500 "$CRYPTREST_INSTALLER_DIR/bin.sh"
 }
 
