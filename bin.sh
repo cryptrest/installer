@@ -14,7 +14,8 @@ CRYPTREST_ETC_DIR="$CRYPTREST_DIR/etc"
 CRYPTREST_WWW_DIR="$CRYPTREST_DIR/www"
 CRYPTREST_TMP_DIR="${TMPDIR:=/tmp}/cryptrest"
 CRYPTREST_INSTALLER_DIR="$CRYPTREST_DIR/installer-$CRYPTREST_GIT_BRANCH"
-CRYPTREST_INSTALLER_HTML_FILE="$CRYPTREST_WWW_DIR/installer.html"
+CRYPTREST_WWW_INSTALLER_DIR="$CRYPTREST_WWW_DIR/installer"
+CRYPTREST_WWW_IINSTALLER_HTML_FILE="$CRYPTREST_INSTALLER_DIR/index.html"
 
 CRYPTREST_MODULES='go letsencrypt nginx'
 CRYPTREST_IS_LOCAL=1
@@ -48,6 +49,8 @@ cryptrest_init()
     chmod 700 "$CRYPTREST_ETC_DIR" && \
     mkdir -p "$CRYPTREST_WWW_DIR" && \
     chmod 700 "$CRYPTREST_WWW_DIR" && \
+    mkdir -p "$CRYPTREST_WWW_IINSTALLER_DIR" && \
+    chmod 700 "$CRYPTREST_WWW_IINSTALLER_DIR" && \
     mkdir -p "$CRYPTREST_TMP_DIR" && \
     chmod 700 "$CRYPTREST_TMP_DIR" && \
     mkdir -p "$CRYPTREST_INSTALLER_DIR" && \
@@ -94,19 +97,20 @@ cryptrest_network()
 
 cryptrest_install()
 {
+    rm -rf "$CRYPTREST_WWW_INSTALLER_DIR" && \
     cryptrest_is_local
     if [ $? -eq 0 ]; then
         cryptrest_local && \
-        cp "$CURRENT_DIR/bin.sh" "$CRYPTREST_INSTALLER_HTML_FILE"
+        cp "$CURRENT_DIR/bin.sh" "$CRYPTREST_WWW_IINSTALLER_HTML_FILE"
     else
         cryptrest_network && \
-        cp "$CRYPTREST_INSTALLER_DIR/bin.sh" "$CRYPTREST_INSTALLER_HTML_FILE"
+        cp "$CRYPTREST_INSTALLER_DIR/bin.sh" "$CRYPTREST_WWW_IINSTALLER_HTML_FILE"
     fi
 }
 
 cryptrest_define()
 {
-    chmod 444 "$CRYPTREST_INSTALLER_HTML_FILE" && \
+    chmod 444 "$CRYPTREST_WWW_IINSTALLER_HTML_FILE" && \
     chmod 400 "$CRYPTREST_ENV_FILE" && \
     chmod 500 "$CRYPTREST_INSTALLER_DIR/bin.sh"
 }
