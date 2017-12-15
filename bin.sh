@@ -37,6 +37,7 @@ cryptrest_is_local()
 cryptrest_init()
 {
     rm -f "$CRYPTREST_ENV_FILE" && \
+    rm -rf "$CRYPTREST_WWW_INSTALLER_DIR" && \
     mkdir -p "$CRYPTREST_DIR" && \
     chmod 700 "$CRYPTREST_DIR" && \
     mkdir -p "$CRYPTREST_ENV_DIR" && \
@@ -97,7 +98,6 @@ cryptrest_network()
 
 cryptrest_install()
 {
-    rm -rf "$CRYPTREST_WWW_INSTALLER_DIR" && \
     cryptrest_is_local
     if [ $? -eq 0 ]; then
         cryptrest_local && \
