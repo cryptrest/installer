@@ -80,7 +80,11 @@ server {
             deny all;
         }
 
+        gzip on;
         gzip_static on;
+        gzip_comp_level 5;
+        gzip_disable "msie6";
+        gzip_types text/plain text/css application/json application/x-javascript text/xml application/xml application/xml+rss text/javascript application/javascript;
         expires 7d;
         add_header Cache-Control public,max-age=259200;
     }

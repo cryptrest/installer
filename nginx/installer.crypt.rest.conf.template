@@ -72,7 +72,7 @@ server {
             deny all;
         }
 
-        try_files $uri/installer.html $uri;
+        try_files $uri/index.html $uri;
     }
 
     error_page 500 502 503 504 /50X.html;
