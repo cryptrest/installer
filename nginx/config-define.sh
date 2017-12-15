@@ -40,6 +40,11 @@ nginx_installer_config_define()
 
 nginx_configs_define()
 {
+    ln -s /home/$UPSTREAM/nginx/$DOMAIN.conf /etc/nginx/sites-available/$DOMAIN.conf
+    ln -s /etc/nginx/sites-available/$DOMAIN.conf /etc/nginx/sites-enabled/$DOMAIN.conf
     nginx_config_define
+
+    ln -s /home/$UPSTREAM/nginx/installer.$DOMAIN.conf /etc/nginx/sites-available/installer.$DOMAIN.conf
+    ln -s /etc/nginx/sites-available/installer.$DOMAIN.conf /etc/nginx/sites-enabled/installer.$DOMAIN.conf
     nginx_installer_config_define
 }
