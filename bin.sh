@@ -36,6 +36,7 @@ cryptrest_is_local()
 cryptrest_init()
 {
     rm -f "$CRYPTREST_ENV_FILE" && \
+    rm -rf "$CRYPTREST_INSTALLER_DIR" && \
     mkdir -p "$CRYPTREST_DIR" && \
     chmod 700 "$CRYPTREST_DIR" && \
     mkdir -p "$CRYPTREST_ENV_DIR" && \
@@ -72,7 +73,7 @@ cryptrest_local()
 
 cryptrest_download()
 {
-    cd "$CRYPTREST_DIR" && \
+    cd "$CRYPTREST_INSTALLER_DIR" && \
     curl -SL "$CRYPTREST_GIT_URL" | tar -xz
     if [ $? -ne 0 ]; then
         echo 'Some errors with download'
