@@ -25,6 +25,10 @@ cryptrest_is_local()
 
 cryptrest_local()
 {
+    echo ''
+    echo 'Crypt REST mode: local'
+    echo ''
+
     for i in $CRYPTREST_MODULES; do
         "$CURRENT_DIR/$i/install.sh"
     done
@@ -45,6 +49,10 @@ cryptrest_download()
 
 cryptrest_network()
 {
+    echo ''
+    echo 'Crypt REST mode: network'
+    echo ''
+
     cryptrest_download && \
     mv -f "$CRYPTREST_INSTALLER_DIR-$CRYPTREST_BRANCH" "$CRYPTREST_INSTALLER_DIR" && \
     chmod 700 "$CRYPTREST_DIR"
