@@ -3,9 +3,9 @@
 CURRENT_DIR="$(cd $(dirname $0) && pwd -P)"
 
 CRYPTREST_DIR="${HOME}/.cryptrest"
-CRYPTREST_SETUP_DIR="$CRYPTREST_DIR/setup"
+CRYPTREST_INSTALLER_DIR="$CRYPTREST_DIR/installer"
 CRYPTREST_BRANCH='master'
-CRYPTREST_GIT_URL="https://github.com/cryptrest/setup/archive/${CRYPTREST_BRANCH}.tar.gz"
+CRYPTREST_GIT_URL="https://github.com/cryptrest/installer/archive/${CRYPTREST_BRANCH}.tar.gz"
 CRYPTREST_MODULES='go letsencrypt nginx'
 CRYPTREST_IS_LOCAL=0
 
@@ -45,10 +45,10 @@ cryptrest_download()
 cryptrest_network()
 {
     cryptrest_download && \
-    mv "$CRYPTREST_SETUP_DIR-$CRYPTREST_BRANCH" "$CRYPTREST_SETUP_DIR" && \
+    mv "$CRYPTREST_INSTALLER_DIR-$CRYPTREST_BRANCH" "$CRYPTREST_INSTALLER_DIR" && \
     chmod 700 "$CRYPTREST_DIR"
     if [ $? -eq 0 ]; then
-        "$CRYPTREST_SETUP_DIR/install.sh"
+        "$CRYPTREST_INSTALLER_DIR/install.sh"
     fi
 }
 
