@@ -27,7 +27,7 @@ nginx_config_define()
     sed -i "s#\[LETSENCRYPT_DIR\]#$LETSENCRYPT_DIR#g" "$NGINX_CONFIG_FILE" && \
     sed -i "s#\[PUBLIC_KEY_PINS\]#$PUBLIC_KEY_PINS#g" "$NGINX_CONFIG_FILE"
 
-    nginx -t 2> /dev/null
+    nginx -t
 }
 
 nginx_installer_links_define()
@@ -51,7 +51,7 @@ nginx_installer_config_define()
     sed -i "s#\[LETSENCRYPT_DIR\]#$LETSENCRYPT_DIR#g" "$NGINX_CONFIG_INSTALLER_FILE" && \
     sed -i "s#\[PUBLIC_KEY_PINS\]#$PUBLIC_KEY_PINS#g" "$NGINX_CONFIG_INSTALLER_FILE"
 
-    nginx -t 2> /dev/null
+    nginx -t
 }
 
 nginx_configs_define()
@@ -61,10 +61,12 @@ nginx_configs_define()
 
     echo ''
     echo "Links and config has been defined for $DOMAIN"
+    echo ''
 
     nginx_installer_links_define && \
     nginx_installer_config_define
 
+    echo ''
     echo "Links and config has been defined for installer.$DOMAIN"
     echo ''
 }

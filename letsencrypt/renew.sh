@@ -16,9 +16,9 @@ ROOT_WWW_INSTALLER="/home/$UPSTREAM/installer"
 . $NGINX_CONFIG_DEFINE_FILE
 
 
-ecdsa_define
-public_key_pins_define
-hd_param_define
+letsencrypt_ecdsa_define
+letsencrypt_public_key_pins_define
+letsencrypt_hd_param_define
 
 nginx_configs_define
 

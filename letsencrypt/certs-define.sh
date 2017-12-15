@@ -12,20 +12,20 @@ ECDSA_KEY="${LETSENCRYPT_DIR}/${DOMAIN}/ecdsa.key"
 ECDSA_CSR="${LETSENCRYPT_DIR}/${DOMAIN}/ecdsa.csr"
 
 # HD Param
-hd_param_define()
+letsencrypt_hd_param_define()
 {
     openssl dhparam -out ${LETSENCRYPT_DIR}/${DOMAIN}/dhparam.pem 4096
 }
 
 # ECDSA
-ecdsa_define()
+letsencrypt_ecdsa_define()
 {
     openssl req -new -sha512 -key ${LETSENCRYPT_DIR}/${DOMAIN}/privkey.pem -out $ECDSA_CSR -subj "/CN=$DOMAIN" -config $CURRENT_DIR/csr-$DOMAIN.conf
 #    openssl ecparam -genkey -name secp384r1 | openssl ec -out $ECDSA_KEY && openssl req -new -sha256 -key $ECDSA_KEY -nodes -out $ECDSA_CSR -outform pem
 }
 
 # PUBLIC_KEY_PINS
-public_key_pins_define()
+letsencrypt_public_key_pins_define()
 {
     local hash=''
 
