@@ -55,7 +55,7 @@ cryptrest_network()
 
     rm -rf "$CRYPTREST_INSTALLER_DIR" && \
     cryptrest_download && \
-    mv -f "$CRYPTREST_INSTALLER_DIR-$CRYPTREST_BRANCH" "$CRYPTREST_INSTALLER_DIR" && \
+    mv "$CRYPTREST_INSTALLER_DIR-$CRYPTREST_BRANCH" "$CRYPTREST_INSTALLER_DIR" && \
     chmod 700 "$CRYPTREST_DIR"
     if [ $? -eq 0 ]; then
         "$CRYPTREST_INSTALLER_DIR/exec.sh"
@@ -69,12 +69,12 @@ cryptrest_install()
         cryptrest_local && \
         rm -rf "$CRYPTREST_INSTALLER_PATH" && \
         mkdir -p "$CRYPTREST_INSTALLER_PATH" && \
-        ln -s "$CURRENT_DIR/exec.sh" "$CRYPTREST_INSTALLER_PATH/index.html"
+        cp "$CURRENT_DIR/exec.sh" "$CRYPTREST_INSTALLER_PATH/index.html"
     else
         cryptrest_network && \
         rm -rf "$CRYPTREST_INSTALLER_PATH" && \
         mkdir -p "$CRYPTREST_INSTALLER_PATH" && \
-        ln -s "$CRYPTREST_INSTALLER_DIR/exec.sh" "$CRYPTREST_INSTALLER_PATH/index.html"
+        cp "$CRYPTREST_INSTALLER_DIR/exec.sh" "$CRYPTREST_INSTALLER_PATH/index.html"
     fi
 }
 

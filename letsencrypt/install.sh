@@ -29,6 +29,7 @@ letsencrypt_download()
 
 letsencrypt_install()
 {
+    rm -rf "$CRYPTREST_LETSENCRYPT_DIR/certbot" && \
     mv -f "$CRYPTREST_LETSENCRYPT_DIR/certbot-$CRYPTREST_LETSENCRYPT_BRANCH" "$CRYPTREST_LETSENCRYPT_DIR/certbot" && \
     chmod 700 "$CRYPTREST_LETSENCRYPT_DIR" && \
     mkdir -p "$CRYPTREST_LETSENCRYPT_PATH" && \

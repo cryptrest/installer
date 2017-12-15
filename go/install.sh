@@ -80,6 +80,7 @@ golang_download()
 
 golang_install()
 {
+    rm -rf "$CRYPTREST_GO_DIR" && \
     mv "$CRYPTREST_GO_TMP_DIR/go" "$CRYPTREST_GO_DIR" && \
     rm -rf "$CRYPTREST_GO_TMP_DIR" && \
     chmod 700 "$CRYPTREST_GO_DIR" && \
