@@ -24,9 +24,9 @@ nginx_config_define()
 
 nginx_installer_config_define()
 {
-    cp -f "$NGINX_CONFIG_TEMPLATE_FILE" "$NGINX_CONFIG_FILE" && \
-    chown "$UPSTREAM.$UPSTREAM" "$NGINX_CONFIG_FILE" && \
-    chmod 400 "$NGINX_CONFIG_FILE"
+    cp -f "$NGINX_CONFIG_INSTALLER_TEMPLATE_FILE" "$NGINX_CONFIG_INSTALLER_FILE" && \
+    chown "$UPSTREAM.$UPSTREAM" "$NGINX_CONFIG_INSTALLER_FILE" && \
+    chmod 400 "$NGINX_CONFIG_INSTALLER_FILE"
 
     sed -i "s/\[DOMAIN\]/$DOMAIN/g" "$NGINX_CONFIG_INSTALLER_FILE" && \
     sed -i "s/\[UPSTREAM\]/$UPSTREAM/g" "$NGINX_CONFIG_INSTALLER_FILE" && \
@@ -40,11 +40,15 @@ nginx_installer_config_define()
 
 nginx_configs_define()
 {
-    ln -s /home/$UPSTREAM/nginx/$DOMAIN.conf /etc/nginx/sites-available/$DOMAIN.conf
-    ln -s /etc/nginx/sites-available/$DOMAIN.conf /etc/nginx/sites-enabled/$DOMAIN.conf
+    rm -f /etc/nginx/sites-available/$DOMAIN.conf && \
+    ln -s /home/$UPSTREAM/nginx/$DOMAIN.conf /etc/nginx/sites-available/$DOMAIN.conf && \
+    rm -f /etc/nginx/sites-enabled/$DOMAIN.conf && \
+    ln -s /etc/nginx/sites-available/$DOMAIN.conf /etc/nginx/sites-enabled/$DOMAIN.conf && \
     nginx_config_define
 
-    ln -s /home/$UPSTREAM/nginx/installer.$DOMAIN.conf /etc/nginx/sites-available/installer.$DOMAIN.conf
-    ln -s /etc/nginx/sites-available/installer.$DOMAIN.conf /etc/nginx/sites-enabled/installer.$DOMAIN.conf
+    rm -f /etc/nginx/sites-available/installer.$DOMAIN.conf && \
+    ln -s /home/$UPSTREAM/nginx/installer.$DOMAIN.conf /etc/nginx/sites-available/installer.$DOMAIN.conf && \
+    rm -f /etc/nginx/sites-enabled/installer.$DOMAIN.conf && \
+    ln -s /etc/nginx/sites-available/installer.$DOMAIN.conf /etc/nginx/sites-enabled/installer.$DOMAIN.conf && \
     nginx_installer_config_define
 }
