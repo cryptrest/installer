@@ -14,7 +14,7 @@ CRYPTREST_IS_LOCAL=0
 cryptrest_is_local()
 {
     for i in $CRYPTREST_MODULES; do
-        if [ ! -d "$CURRENT_DIR/$i" ]; then
+        if [ ! -d "$CURRENT_DIR/$i" ] && [ -f "$CURRENT_DIR/$i/install.sh" ]; then
             CRYPTREST_IS_LOCAL=1
             break
         fi
