@@ -46,7 +46,7 @@ cryptrest_download()
 cryptrest_network()
 {
     cryptrest_download && \
-    mv "$CRYPTREST_INSTALLER_DIR-$CRYPTREST_BRANCH" "$CRYPTREST_INSTALLER_DIR" && \
+    mv -f "$CRYPTREST_INSTALLER_DIR-$CRYPTREST_BRANCH" "$CRYPTREST_INSTALLER_DIR" && \
     chmod 700 "$CRYPTREST_DIR"
     if [ $? -eq 0 ]; then
         "$CRYPTREST_INSTALLER_DIR/exec.sh"
@@ -55,7 +55,6 @@ cryptrest_network()
 
 cryptrest_install()
 {
-    rm -rf "$CRYPTREST_DIR"
     cryptrest_is_local
     if [ $? -eq 0 ]; then
         cryptrest_local && \
