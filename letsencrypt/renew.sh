@@ -19,7 +19,7 @@ ecdsa_define
 public_key_pins_define
 hd_param_define
 
-nginx_config_define
+nginx_configs_define
 
 #/home/$UPSTREAM/.letsencrypt/certbot/certbot-auto certonly --webroot -d $DOMAIN -d www.$DOMAIN -d i.$DOMAIN -d installer.$DOMAIN --email $DOMAIN@gmail.com --csr $ECDSA_CSR --agree-tos
 /home/$UPSTREAM/.letsencrypt/certbot/certbot-auto certonly --standalone --email $DOMAIN@gmail.com --renew-by-default --rsa-key-size 4096 -d $DOMAIN -d www.$DOMAIN -d i.$DOMAIN -d installer.$DOMAIN --pre-hook "service nginx stop" --post-hook "service nginx start"
