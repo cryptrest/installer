@@ -41,7 +41,7 @@ letsencrypt_define()
     cp "$CURRENT_DIR/"*.conf "$CRYPTREST_LETSENCRYPT_PATH" && \
     chmod 400 "$CRYPTREST_LETSENCRYPT_PATH/"* && \
     rm -f "$CRYPTREST_LETSENCRYPT_PATH/$(basename $0)" && \
-    chmod 700 "$CRYPTREST_LETSENCRYPT_PATH/update"*
+    chmod 700 "$CRYPTREST_LETSENCRYPT_PATH/renew"*
 }
 
 

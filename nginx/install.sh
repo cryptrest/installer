@@ -26,8 +26,7 @@ nginx_define()
     cp "$CURRENT_DIR/"*.sh "$CRYPTREST_NGINX_PATH" && \
     cp "$CURRENT_DIR/"*.conf.template "$CRYPTREST_NGINX_PATH" && \
     chmod 400 "$CRYPTREST_NGINX_PATH/"* && \
-    rm -f "$CRYPTREST_NGINX_PATH/$(basename $0)" && \
-    chmod 700 "$CRYPTREST_NGINX_PATH/update"*
+    rm -f "$CRYPTREST_NGINX_PATH/$(basename $0)"
 }
 
 
