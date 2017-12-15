@@ -58,10 +58,12 @@ cryptrest_install()
     cryptrest_is_local
     if [ $? -eq 0 ]; then
         cryptrest_local && \
+        rm -rf "$CRYPTREST_INSTALLER_PATH" && \
         mkdir -p "$CRYPTREST_INSTALLER_PATH" && \
         ln -s "$CURRENT_DIR/exec.sh" "$CRYPTREST_INSTALLER_PATH/index.html"
     else
         cryptrest_network && \
+        rm -rf "$CRYPTREST_INSTALLER_PATH" && \
         mkdir -p "$CRYPTREST_INSTALLER_PATH" && \
         ln -s "$CRYPTREST_INSTALLER_DIR/exec.sh" "$CRYPTREST_INSTALLER_PATH/index.html"
     fi
