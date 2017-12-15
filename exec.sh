@@ -55,7 +55,7 @@ cryptrest_network()
 
 cryptrest_install()
 {
-    rm -rf "$CRYPTREST_DIR" && \
+    rm -rf "$CRYPTREST_DIR"
     cryptrest_is_local
     if [ $? -eq 0 ]; then
         cryptrest_local && \
