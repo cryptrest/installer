@@ -39,7 +39,7 @@ cryptrest_is_local()
 cryptrest_init()
 {
     rm -f "$CRYPTREST_ENV_FILE" && \
-    rm -f "$CRYPTREST_BIN_DIR/cryptrest-init" && \
+    rm -f "$CRYPTREST_BIN_DIR/cryptrest-in"* && \
     rm -rf "$CRYPTREST_WWW_INSTALLER_DIR" && \
     mkdir -p "$CRYPTREST_DIR" && \
     chmod 700 "$CRYPTREST_DIR" && \
@@ -114,8 +114,9 @@ cryptrest_define()
     chmod 444 "$CRYPTREST_WWW_INSTALLER_HTML_FILE" && \
     chmod 400 "$CRYPTREST_ENV_FILE" && \
     chmod 500 "$CRYPTREST_INSTALLER_DIR/bin.sh" && \
-    cp "$CURRENT_DIR/init.sh" "$CRYPTREST_BIN_DIR/cryptrest-init" && \
-    chmod 500 "$CRYPTREST_BIN_DIR/cryptrest-init"
+    ln -s "$CRYPTREST_INSTALLER_DIR/bin.sh" "$CRYPTREST_BIN_DIR/cryptrest-installer" && \
+    chmod 500 "$CRYPTREST_BIN_DIR/cryptrest-init" && \
+    ln -s "$CRYPTREST_INSTALLER_DIR/init.sh" "$CRYPTREST_BIN_DIR/cryptrest-init"
     if [ $? -eq 0 ]; then
         echo "$CRYPTREST_TITLE ENV added in following profile file(s):"
 
