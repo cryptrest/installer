@@ -6,8 +6,6 @@ CRYPTREST_GO_DIR="$CRYPTREST_ENV_DIR/$CRYPTREST_GO"
 CRYPTREST_GO_PATH="$CRYPTREST_SRC_DIR/go"
 CRYPTREST_GO_TMP_DIR="$CRYPTREST_TMP_DIR/$CRYPTREST_GO"
 
-#CRYPTREST_HOME_SHELL_PROFILE_FILES=".bash_profile .bashrc .mkshrc .profile .zlogin .zshrc"
-
 case "$(uname -m)" in
     x86_64 | amd64 )
         CRYPTREST_GO_ARCH='amd64'
@@ -109,19 +107,6 @@ golang_define()
     echo ''
     echo "GOPATH, GOROOT, GOOS, GOARCH and in PATH was added in '$CRYPTREST_ENV_FILE'"
     echo ''
-
-#    for shell_profile_file in $CRYPTREST_HOME_SHELL_PROFILE_FILES; do
-#        if [ -f "${HOME}/${shell_profile_file}" ]; then
-#            echo "" >> "${HOME}/${shell_profile_file}"
-#            echo "export GOROOT=\"\${HOME}/.${CRYPTREST_GO}\"  # Add GOROOT" >> "${HOME}/${shell_profile_file}"
-#            echo "export GOPATH=\"\${HOME}/go\"  # Add GOPATH" >> "${HOME}/${shell_profile_file}"
-#            echo "export PATH=\"\${PATH}:\${GOROOT}/bin\"  # Add Golang to PATH" >> "${HOME}/${shell_profile_file}"
-#
-#            . "${HOME}/${shell_profile_file}"
-#
-#            echo "    '${HOME}/${shell_profile_file}'"
-#        fi
-#    done
 }
 
 

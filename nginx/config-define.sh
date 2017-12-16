@@ -11,7 +11,8 @@ nginx_links_define()
     rm -f "/etc/nginx/sites-available/$conf_file_name" && \
     ln -s "$conf_file" "/etc/nginx/sites-available/$conf_file_name" && \
     rm -f "/etc/nginx/sites-enabled/$conf_file_name" && \
-    ln -s "/etc/nginx/sites-available/$conf_file_name" "/etc/nginx/sites-enabled/$conf_file_name"
+    ln -s "/etc/nginx/sites-available/$conf_file_name" "/etc/nginx/sites-enabled/$conf_file_name" && \
+    nginx -t -c "/etc/nginx/sites-enabled/$conf_file_name"
 }
 
 nginx_config_define()
@@ -29,8 +30,6 @@ nginx_config_define()
     sed -i "s#\[SERVER_CIPHERS\]#$SERVER_CIPHERS#g" "$conf_file" && \
     sed -i "s#\[LETSENCRYPT_DIR\]#$LETSENCRYPT_DIR#g" "$conf_file" && \
     sed -i "s#\[PUBLIC_KEY_PINS\]#$PUBLIC_KEY_PINS#g" "$conf_file"
-
-    nginx -t
 }
 
 nginx_configs_define()
@@ -40,7 +39,6 @@ nginx_configs_define()
     local conf_file=''
 
     echo ''
-    nginx -t
 
     for domain in $CRYPTREST_DOMAINS; do
         domain_prefix="$(echo "$domain" | sed "s/$CRYPTREST_DOMAIN//")"

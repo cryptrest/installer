@@ -20,6 +20,7 @@ CRYPTREST_WWW_INSTALLER_HTML_FILE="$CRYPTREST_WWW_INSTALLER_DIR/index.html"
 
 CRYPTREST_MODULES='go letsencrypt nginx'
 CRYPTREST_IS_LOCAL=1
+CRYPTREST_HOME_SHELL_PROFILE_FILES=".bashrc .mkshrc .zshrc"
 
 
 cryptrest_is_local()
@@ -117,9 +118,23 @@ cryptrest_install()
 
 cryptrest_define()
 {
+    local profile_file=''
+
     chmod 444 "$CRYPTREST_WWW_INSTALLER_HTML_FILE" && \
     chmod 400 "$CRYPTREST_ENV_FILE" && \
     chmod 500 "$CRYPTREST_INSTALLER_DIR/bin.sh"
+
+    for shell_profile_file in $CRYPTREST_HOME_SHELL_PROFILE_FILES; do
+        profile_file="$HOME/$shell_profile_file"
+
+        if [ -f "$profile_file" ]; then
+            echo '' >> "$profile_file"
+            echo "# $CRYPTREST_TITLE" >> "$profile_file"
+            echo ". \$HOME/.cryptrest/.env" >> "$profile_file"
+
+            echo "    '$profile_file"
+        fi
+    done
 }
 
 
