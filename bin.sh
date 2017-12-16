@@ -39,6 +39,7 @@ cryptrest_is_local()
 cryptrest_init()
 {
     rm -f "$CRYPTREST_ENV_FILE" && \
+    rm -f "$CRYPTREST_BIN_DIR/cryptrest-init" && \
     rm -rf "$CRYPTREST_WWW_INSTALLER_DIR" && \
     mkdir -p "$CRYPTREST_DIR" && \
     chmod 700 "$CRYPTREST_DIR" && \
