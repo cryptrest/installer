@@ -13,7 +13,7 @@ server {
     listen [DOMAIN]:443 ssl http2;
     server_name [DOMAIN];
 
-    root [CRYPTREST_WWW]/api;
+    root [ROOT_WWW]/api;
 
     ssl on;
     ssl_certificate [LETSENCRYPT_DIR]/[CRYPTREST_DOMAIN]/fullchain.pem;

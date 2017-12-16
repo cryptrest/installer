@@ -5,6 +5,7 @@ CURRENT_DIR="${CURRENT_DIR:=$(cd $(dirname $0) && pwd -P)}"
 CRYPTREST_GIT_BRANCH="${CRYPTREST_GIT_BRANCH:=master}"
 CRYPTREST_GIT_URL="https://github.com/cryptrest/installer/archive/$CRYPTREST_GIT_BRANCH.tar.gz"
 
+CRYPTREST_TITLE='CryptREST'
 CRYPTREST_DIR="$HOME/.cryptrest"
 CRYPTREST_ENV_FILE="$CRYPTREST_DIR/.env"
 CRYPTREST_ENV_DIR="$CRYPTREST_DIR/env"
@@ -58,15 +59,15 @@ cryptrest_init()
     chmod 700 "$CRYPTREST_INSTALLER_DIR" && \
     echo '' > "$CRYPTREST_ENV_FILE" && \
     chmod 600 "$CRYPTREST_ENV_FILE" && \
-    echo "# Crypt REST\nexport CRYPTREST_DIR=\"$HOME/.cryptrest\"\nexport PATH=\"\$PATH:\$CRYPTREST_DIR/bin\"\n" > "$CRYPTREST_ENV_FILE"
+    echo "# $CRYPTREST_TITLE\nexport CRYPTREST_DIR=\"$HOME/.cryptrest\"\nexport PATH=\"\$PATH:\$CRYPTREST_DIR/bin\"\n" > "$CRYPTREST_ENV_FILE"
 
     echo ''
-    echo 'Crypt REST structure: init'
+    echo "$CRYPTREST_TITLE structure: init"
 }
 
 cryptrest_local()
 {
-    echo 'Crypt REST mode: local'
+    echo "$CRYPTREST_TITLE mode: local"
     echo ''
 
     for i in $CRYPTREST_MODULES; do
@@ -79,7 +80,7 @@ cryptrest_download()
     cd "$CRYPTREST_DIR" && \
     curl -SL "$CRYPTREST_GIT_URL" | tar -xz
     if [ $? -ne 0 ]; then
-        echo 'Some errors with download'
+        echo "$CRYPTREST_TITLE: Some errors with download"
         rm -rf "$CRYPTREST_DIR"
 
         exit 1
@@ -88,7 +89,7 @@ cryptrest_download()
 
 cryptrest_network()
 {
-    echo 'Crypt REST mode: network'
+    echo "$CRYPTREST_TITLE mode: network"
     echo ''
 
     cryptrest_download && \
