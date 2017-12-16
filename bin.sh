@@ -76,6 +76,7 @@ cryptrest_local()
 
     for i in $CRYPTREST_MODULES; do
         . "$CURRENT_DIR/$i/install.sh"
+        [ $? -ne 0 ] && break
     done
 }
 

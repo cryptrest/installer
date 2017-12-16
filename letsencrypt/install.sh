@@ -14,7 +14,8 @@ letsencrypt_prepare()
     rm -rf "$CRYPTREST_LETSENCRYPT_CERTBOT_DIR" && \
     rm -rf "$CRYPTREST_LETSENCRYPT_ETC_DIR/" && \
     [ -d "$CRYPTREST_BIN_DIR/" ] && \
-    rm -f "$CRYPTREST_BIN_DIR/letsencrypt"*
+    rm -f "$CRYPTREST_BIN_DIR/letsencrypt"* && \
+    rm -f "$CRYPTREST_BIN_DIR/cryptrest-init"
 }
 
 letsencrypt_download()
