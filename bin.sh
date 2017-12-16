@@ -58,7 +58,7 @@ cryptrest_init()
     chmod 700 "$CRYPTREST_INSTALLER_DIR" && \
     echo '' > "$CRYPTREST_ENV_FILE" && \
     chmod 600 "$CRYPTREST_ENV_FILE" && \
-    echo "# Crypt REST\nexport CRYPTREST_DIR=\"$HOME/.cryptrest\"\nexport PATH=\"\$PATH:$CRYPTREST_BIN_DIR\"\n" > "$CRYPTREST_ENV_FILE"
+    echo "# Crypt REST\nexport CRYPTREST_DIR=\"$HOME/.cryptrest\"\nexport PATH=\"\$PATH:\$CRYPTREST_DIR/bin\"\n" > "$CRYPTREST_ENV_FILE"
 
     echo ''
     echo 'Crypt REST structure: init'

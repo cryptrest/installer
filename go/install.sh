@@ -98,17 +98,17 @@ golang_install()
 
 golang_define()
 {
-    echo ''
-    echo "GOPATH, GOROOT, GOOS, GOARCH and in PATH was added in '$CRYPTREST_ENV_FILE'"
-    echo ''
-
     echo '# Golang' >> "$CRYPTREST_ENV_FILE"
-    echo "export GOROOT=\"$CRYPTREST_GO_DIR\"" >> "$CRYPTREST_ENV_FILE"
-    echo "export GOPATH=\"$CRYPTREST_GO_PATH\"" >> "$CRYPTREST_ENV_FILE"
+    echo "export GOROOT=\"\$CRYPTREST_DIR/$(basename $CRYPTREST_ENV_DIR)/$CRYPTREST_GO\"" >> "$CRYPTREST_ENV_FILE"
+    echo "export GOPATH=\"\$CRYPTREST_DIR/$(basename $CRYPTREST_SRC_DIR)/go\"" >> "$CRYPTREST_ENV_FILE"
     echo "export PATH=\"\$PATH:\$GOROOT/bin\"" >> "$CRYPTREST_ENV_FILE"
     echo "export GOARCH=\"$CRYPTREST_GO_ARCH\"" >> "$CRYPTREST_ENV_FILE"
     echo "export GOOS=\"$CRYPTREST_GO_OS\"" >> "$CRYPTREST_ENV_FILE"
     echo '' >> "$CRYPTREST_ENV_FILE"
+
+    echo ''
+    echo "GOPATH, GOROOT, GOOS, GOARCH and in PATH was added in '$CRYPTREST_ENV_FILE'"
+    echo ''
 
 #    for shell_profile_file in $CRYPTREST_HOME_SHELL_PROFILE_FILES; do
 #        if [ -f "${HOME}/${shell_profile_file}" ]; then
