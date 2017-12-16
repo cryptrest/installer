@@ -14,8 +14,7 @@ letsencrypt_prepare()
     rm -rf "$CRYPTREST_LETSENCRYPT_CERTBOT_DIR" && \
     rm -rf "$CRYPTREST_LETSENCRYPT_ETC_DIR/" && \
     [ -d "$CRYPTREST_BIN_DIR/" ] && \
-    rm -f "$CRYPTREST_BIN_DIR/letsencrypt"* && \
-    rm -f "$CRYPTREST_BIN_DIR/cryptrest-init"
+    rm -f "$CRYPTREST_BIN_DIR/letsencrypt"*
 }
 
 letsencrypt_download()
@@ -47,7 +46,6 @@ letsencrypt_define()
     chmod 400 "$CRYPTREST_LETSENCRYPT_DIR/"*.sh && \
     rm -f "$CRYPTREST_LETSENCRYPT_DIR/install"* && \
     chmod 500 "$CRYPTREST_LETSENCRYPT_DIR/renew"* && \
-    ln -s "$CRYPTREST_LETSENCRYPT_DIR/renew.sh" "$CRYPTREST_BIN_DIR/cryptrest-init" && \
     ln -s "$CRYPTREST_LETSENCRYPT_CERTBOT_DIR/certbot-auto" "$CRYPTREST_BIN_DIR/letsencrypt"
 }
 

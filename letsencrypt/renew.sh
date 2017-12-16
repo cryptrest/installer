@@ -17,9 +17,9 @@ CRYPTREST_DOMAINS="$CRYPTREST_DOMAIN api.$CRYPTREST_DOMAIN installer.$CRYPTREST_
 . "$CRYPTREST_ENV_NGINX_DIR/config-define.sh"
 
 
+letsencrypt_hd_param_define && \
 letsencrypt_ecdsa_define && \
 letsencrypt_public_key_pins_define && \
-letsencrypt_hd_param_define && \
 nginx -v && \
 nginx_configs_define && \
 letsencrypt certonly --standalone --email $DOMAIN@gmail.com --renew-by-default --rsa-key-size 4096 -d $DOMAIN -d www.$DOMAIN -d api.$DOMAIN -d installer.$DOMAIN --pre-hook "service nginx stop" --post-hook "service nginx start"
