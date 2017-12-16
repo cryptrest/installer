@@ -59,7 +59,10 @@ cryptrest_init()
     chmod 700 "$CRYPTREST_INSTALLER_DIR" && \
     echo '' > "$CRYPTREST_ENV_FILE" && \
     chmod 600 "$CRYPTREST_ENV_FILE" && \
-    echo "# $CRYPTREST_TITLE\nexport CRYPTREST_DIR=\"$HOME/.cryptrest\"\nexport PATH=\"\$PATH:\$CRYPTREST_DIR/bin\"\n" > "$CRYPTREST_ENV_FILE"
+    echo "# $CRYPTREST_TITLE" > "$CRYPTREST_ENV_FILE"
+    echo "export CRYPTREST_DIR=\"$HOME/.cryptrest\"" >> "$CRYPTREST_ENV_FILE"
+    echo "export PATH=\"\$PATH:\$CRYPTREST_DIR/bin\"" >> "$CRYPTREST_ENV_FILE"
+    echo '' >> "$CRYPTREST_ENV_FILE"
 
     echo ''
     echo "$CRYPTREST_TITLE structure: init"
