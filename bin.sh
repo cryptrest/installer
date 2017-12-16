@@ -101,12 +101,11 @@ cryptrest_install()
     cryptrest_is_local
     if [ $? -eq 0 ]; then
         cryptrest_local && \
-        cp "$CURRENT_DIR/bin.sh" "$CRYPTREST_INSTALLER_DIR/bin.sh" && \
-        rm -f "$CRYPTREST_WWW_INSTALLER_HTML_FILE" && \
-        cp "$CURRENT_DIR/bin.sh" "$CRYPTREST_WWW_INSTALLER_HTML_FILE"
+        cp "$CURRENT_DIR/bin.sh" "$CRYPTREST_WWW_INSTALLER_HTML_FILE" && \
+        [ "$CURRENT_DIR" != "$CRYPTREST_INSTALLER_DIR" ] && \
+        cp "$CURRENT_DIR/bin.sh" "$CRYPTREST_INSTALLER_DIR/bin.sh"
     else
         cryptrest_network && \
-        rm -f "$CRYPTREST_WWW_INSTALLER_HTML_FILE" && \
         cp "$CRYPTREST_INSTALLER_DIR/bin.sh" "$CRYPTREST_WWW_INSTALLER_HTML_FILE"
     fi
 }
