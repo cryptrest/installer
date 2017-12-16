@@ -106,27 +106,6 @@ cryptrest_network()
     "$CRYPTREST_INSTALLER_DIR/bin.sh"
 }
 
-cryptrest_install()
-{
-    cryptrest_is_local
-    if [ $? -eq 0 ]; then
-        cryptrest_local && \
-        if [ $? -eq 0 ]; then
-            if [ "$CURRENT_DIR" != "$CRYPTREST_INSTALLER_DIR" ]; then
-                rm -f "$CRYPTREST_INSTALLER_DIR/bin.sh" && \
-                cp "$CURRENT_DIR/bin.sh" "$CRYPTREST_INSTALLER_DIR/bin.sh"
-                return $?
-            fi
-
-            return 0
-        else
-            return 1
-        fi
-    else
-        cryptrest_network
-    fi
-}
-
 cryptrest_define()
 {
     local profile_file=''
@@ -136,6 +115,7 @@ cryptrest_define()
     chmod 500 "$CRYPTREST_INSTALLER_DIR/bin.sh"
 
     echo "$CRYPTREST_TITLE ENV added in following profile file(s):"
+
     for shell_profile_file in $CRYPTREST_HOME_SHELL_PROFILE_FILES; do
         profile_file="$HOME/$shell_profile_file"
 
@@ -147,9 +127,34 @@ cryptrest_define()
             echo "    '$profile_file"
         fi
     done
+
+    echo ''
+}
+
+cryptrest_install()
+{
+    local status=0
+
+    cryptrest_is_local
+    if [ $? -eq 0 ]; then
+        cryptrest_local && \
+        if [ $? -eq 0 ]; then
+            status=0
+
+            if [ "$CURRENT_DIR" != "$CRYPTREST_INSTALLER_DIR" ]; then
+                rm -f "$CRYPTREST_INSTALLER_DIR/bin.sh" && \
+                cp "$CURRENT_DIR/bin.sh" "$CRYPTREST_INSTALLER_DIR/bin.sh"
+                status=$?
+            fi
+        else
+            status=1
+        fi
+        [ $status -eq 0 ] && cryptrest_define
+    else
+        cryptrest_network
+    fi
 }
 
 
 cryptrest_init && \
-cryptrest_install && \
-cryptrest_define
+cryptrest_install
