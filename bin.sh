@@ -76,8 +76,11 @@ cryptrest_local()
 
     for i in $CRYPTREST_MODULES; do
         . "$CURRENT_DIR/$i/install.sh"
-        [ $? -ne 0 ] && break
+        [ $? -ne 0 ] && return 1
     done
+
+    cp "$CURRENT_DIR/bin.sh" "$CRYPTREST_WWW_INSTALLER_HTML_FILE" && \
+    return 0
 }
 
 cryptrest_download()
@@ -99,6 +102,7 @@ cryptrest_network()
 
     cryptrest_download && \
     chmod 700 "$CRYPTREST_DIR" && \
+    cp "$CRYPTREST_INSTALLER_DIR/bin.sh" "$CRYPTREST_WWW_INSTALLER_HTML_FILE" && \
     "$CRYPTREST_INSTALLER_DIR/bin.sh"
 }
 
@@ -107,13 +111,20 @@ cryptrest_install()
     cryptrest_is_local
     if [ $? -eq 0 ]; then
         cryptrest_local && \
-        cp "$CURRENT_DIR/bin.sh" "$CRYPTREST_WWW_INSTALLER_HTML_FILE" && \
-        [ "$CURRENT_DIR" != "$CRYPTREST_INSTALLER_DIR" ] && \
-        rm -f "$CRYPTREST_INSTALLER_DIR/bin.sh" && \
-        cp "$CURRENT_DIR/bin.sh" "$CRYPTREST_INSTALLER_DIR/bin.sh"
+        if [ $? -eq 0 ]; then
+            if [ "$CURRENT_DIR" = "$CRYPTREST_INSTALLER_DIR" ]; then
+                rm -f "$CRYPTREST_INSTALLER_DIR/bin.sh" && \
+                cp "$CURRENT_DIR/bin.sh" "$CRYPTREST_INSTALLER_DIR/bin.sh"
+                return $?
+            fi
+
+            return 0
+        else
+            return 1
+        fi
     else
-        cryptrest_network && \
-        cp "$CRYPTREST_INSTALLER_DIR/bin.sh" "$CRYPTREST_WWW_INSTALLER_HTML_FILE"
+        cryptrest_network
+        return $?
     fi
 }
 
