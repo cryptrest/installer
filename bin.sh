@@ -112,7 +112,7 @@ cryptrest_install()
     if [ $? -eq 0 ]; then
         cryptrest_local && \
         if [ $? -eq 0 ]; then
-            if [ "$CURRENT_DIR" = "$CRYPTREST_INSTALLER_DIR" ]; then
+            if [ "$CURRENT_DIR" != "$CRYPTREST_INSTALLER_DIR" ]; then
                 rm -f "$CRYPTREST_INSTALLER_DIR/bin.sh" && \
                 cp "$CURRENT_DIR/bin.sh" "$CRYPTREST_INSTALLER_DIR/bin.sh"
                 return $?
