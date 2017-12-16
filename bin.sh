@@ -124,7 +124,6 @@ cryptrest_install()
         fi
     else
         cryptrest_network
-        return $?
     fi
 }
 
@@ -136,6 +135,7 @@ cryptrest_define()
     chmod 400 "$CRYPTREST_ENV_FILE" && \
     chmod 500 "$CRYPTREST_INSTALLER_DIR/bin.sh"
 
+    echo "$CRYPTREST_TITLE ENV added in following profile file(s):"
     for shell_profile_file in $CRYPTREST_HOME_SHELL_PROFILE_FILES; do
         profile_file="$HOME/$shell_profile_file"
 
