@@ -115,7 +115,7 @@ cryptrest_define()
     chmod 400 "$CRYPTREST_ENV_FILE" && \
     chmod 500 "$CRYPTREST_INSTALLER_DIR/bin.sh" && \
     ln -s "$CRYPTREST_INSTALLER_DIR/bin.sh" "$CRYPTREST_BIN_DIR/cryptrest-installer" && \
-    chmod 500 "$CRYPTREST_BIN_DIR/cryptrest-init" && \
+    chmod 500 "$CRYPTREST_INSTALLER_DIR/init" && \
     ln -s "$CRYPTREST_INSTALLER_DIR/init.sh" "$CRYPTREST_BIN_DIR/cryptrest-init"
     if [ $? -eq 0 ]; then
         echo "$CRYPTREST_TITLE ENV added in following profile file(s):"
