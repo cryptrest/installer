@@ -103,6 +103,7 @@ cryptrest_install()
         cryptrest_local && \
         cp "$CURRENT_DIR/bin.sh" "$CRYPTREST_WWW_INSTALLER_HTML_FILE" && \
         [ "$CURRENT_DIR" != "$CRYPTREST_INSTALLER_DIR" ] && \
+        rm -f "$CRYPTREST_INSTALLER_DIR/bin.sh" && \
         cp "$CURRENT_DIR/bin.sh" "$CRYPTREST_INSTALLER_DIR/bin.sh"
     else
         cryptrest_network && \
