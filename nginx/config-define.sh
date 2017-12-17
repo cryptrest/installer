@@ -48,7 +48,7 @@ nginx_configs_define()
 
         if [ -f "$template_file" ]; then
             nginx_config_define "$domain" "$conf_file" "$template_file" && \
-            nginx_links_define "$domain" "$conf_file" && \
+            nginx_links_define "$conf_file" && \
             echo "NGinx config and links has been defined for '$domain'"
         fi
     done
