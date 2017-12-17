@@ -13,6 +13,7 @@ fi
 
 CURRENT_DIR="$(cd $(dirname $0) && pwd -P)"
 
+CRYPTREST_MODULES="${CRYPTREST_MODULES:=nginx letsencrypt}"
 CRYPTREST_DOMAIN="${CRYPTREST_DOMAIN:=crypt.rest}"
 CRYPTREST_DOMAINS="${CRYPTREST_DOMAINS:=$CRYPTREST_DOMAIN api.$CRYPTREST_DOMAIN installer.$CRYPTREST_DOMAIN}"
 CRYPTREST_EMAIL="${CRYPTREST_EMAIL:=$CRYPTREST_DOMAIN@gmail.com}"
@@ -40,22 +41,13 @@ CRYPTREST_LIB_INSTALLER_VERSION_FILE="$CRYPTREST_LIB_INSTALLER_DIR/VERSION"
 CRYPTREST_WWW_INSTALLER_DIR="$CRYPTREST_WWW_DIR/installer"
 CRYPTREST_WWW_INSTALLER_HTML_FILE="$CRYPTREST_WWW_INSTALLER_DIR/index.html"
 
-CRYPTREST_MODULES='_common nginx letsencrypt go'
+CRYPTREST_MAIN_MODULES='_common go'
+CRYPTREST_MAIN_MODULES_DIR="$CURRENT_DIR"
+CRYPTREST_MODULES_ARGS="$*"
+CRYPTREST_MODULES_DIR="$CRYPTREST_MAIN_MODULES_DIR/modules"
 CRYPTREST_IS_LOCAL=1
 CRYPTREST_HOME_SHELL_PROFILE_FILES=".bashrc .mkshrc .zshrc"
 
-
-cryptrest_is_local()
-{
-    for i in $CRYPTREST_MODULES; do
-        if [ -d "$CURRENT_DIR/$i" ] && [ -f "$CURRENT_DIR/$i/install.sh" ]; then
-            CRYPTREST_IS_LOCAL=0
-            break
-        fi
-    done
-
-    return $CRYPTREST_IS_LOCAL
-}
 
 cryptrest_init()
 {
@@ -111,17 +103,45 @@ cryptrest_init()
     echo "$CRYPTREST_TITLE structure: init"
 }
 
+cryptrest_modules()
+{
+    [ ! -z "$CRYPTREST_MODULES_ARGS" ] && CRYPTREST_MODULES=''
+
+    for i in $CRYPTREST_MODULES_ARGS; do
+        if [ -d "$CRYPTREST_MODULES_DIR/$i" ] && [ -f "$CRYPTREST_MODULES_DIR/$i/install.sh" ]; then
+            CRYPTREST_MODULES="$CRYPTREST_MODULES $i"
+        fi
+    done
+}
+
+cryptrest_is_local()
+{
+    for i in $CRYPTREST_MAIN_MODULES; do
+        if [ -d "$CRYPTREST_MAIN_MODULES_DIR/$i" ] && [ -f "$CRYPTREST_MAIN_MODULES_DIR/$i/install.sh" ]; then
+            CRYPTREST_IS_LOCAL=0
+            break
+        fi
+    done
+
+    return $CRYPTREST_IS_LOCAL
+}
+
 cryptrest_local()
 {
     echo "$CRYPTREST_TITLE mode: local"
     echo ''
 
-    for i in $CRYPTREST_MODULES; do
-        . "$CURRENT_DIR/$i/install.sh"
+    for i in $CRYPTREST_MAIN_MODULES; do
+        . "$CRYPTREST_MAIN_MODULES_DIR/$i/install.sh"
         [ $? -ne 0 ] && return 1
     done
 
-    cp "$CURRENT_DIR/bin.sh" "$CRYPTREST_WWW_INSTALLER_HTML_FILE" && \
+    for i in $CRYPTREST_MODULES; do
+        . "$CRYPTREST_MODULES_DIR/$i/install.sh"
+        [ $? -ne 0 ] && return 1
+    done
+
+    cp "$CRYPTREST_MAIN_MODULES_DIR/bin.sh" "$CRYPTREST_WWW_INSTALLER_HTML_FILE" && \
     return 0
 }
 
@@ -188,15 +208,15 @@ cryptrest_install()
 
     cryptrest_is_local
     if [ $? -eq 0 ]; then
-        cryptrest_local && \
+        cryptrest_local
         if [ $? -eq 0 ]; then
             status=0
 
             if [ "$CURRENT_DIR" != "$CRYPTREST_LIB_INSTALLER_DIR" ]; then
                 rm -f "$CRYPTREST_LIB_INSTALLER_DIR/bin.sh" && \
-                cp "$CURRENT_DIR/bin.sh" "$CRYPTREST_LIB_INSTALLER_DIR/bin.sh" && \
-                cp "$CURRENT_DIR/VERSION" "$CRYPTREST_LIB_INSTALLER_VERSION_FILE" && \
-                cp "$CURRENT_DIR/README"* "$CRYPTREST_LIB_INSTALLER_DIR/" && \
+                cp "$CRYPTREST_MAIN_MODULES_DIR/bin.sh" "$CRYPTREST_LIB_INSTALLER_DIR/bin.sh" && \
+                cp "$CRYPTREST_MAIN_MODULES_DIR/VERSION" "$CRYPTREST_LIB_INSTALLER_VERSION_FILE" && \
+                cp "$CRYPTREST_MAIN_MODULES_DIR/README"* "$CRYPTREST_LIB_INSTALLER_DIR/" && \
                 status=$?
             fi
         else
@@ -209,5 +229,6 @@ cryptrest_install()
 }
 
 
+cryptrest_modules && \
 cryptrest_init && \
 cryptrest_install
