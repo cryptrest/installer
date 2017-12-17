@@ -8,7 +8,7 @@ CRYPTREST_GIT_URL="https://github.com/cryptrest/installer/archive/$CRYPTREST_GIT
 CRYPTREST_TITLE='CryptREST'
 CRYPTREST_DIR="$HOME/.cryptrest"
 CRYPTREST_ENV_FILE="$CRYPTREST_DIR/.env"
-CRYPTREST_ENV_DIR="$CRYPTREST_DIR/env"
+CRYPTREST_OPT_DIR="$CRYPTREST_DIR/opt"
 CRYPTREST_BIN_DIR="$CRYPTREST_DIR/bin"
 CRYPTREST_BIN_INIT_FILE="$CRYPTREST_BIN_DIR/cryptrest-init"
 CRYPTREST_SRC_DIR="$CRYPTREST_DIR/src"
@@ -20,7 +20,7 @@ CRYPTREST_INSTALLER_FILE="$CRYPTREST_INSTALLER_DIR/bin.sh"
 CRYPTREST_WWW_INSTALLER_DIR="$CRYPTREST_WWW_DIR/installer"
 CRYPTREST_WWW_INSTALLER_HTML_FILE="$CRYPTREST_WWW_INSTALLER_DIR/index.html"
 
-CRYPTREST_MODULES='go letsencrypt nginx'
+CRYPTREST_MODULES='nginx go letsencrypt'
 CRYPTREST_IS_LOCAL=1
 CRYPTREST_HOME_SHELL_PROFILE_FILES=".bashrc .mkshrc .zshrc"
 
@@ -45,7 +45,7 @@ cryptrest_init_file()
     echo '' >> "$CRYPTREST_BIN_INIT_FILE"
     echo ". \"\$CURRENT_DIR/../.env\"" >> "$CRYPTREST_BIN_INIT_FILE"
     echo '' >> "$CRYPTREST_BIN_INIT_FILE"
-    echo "\"\$CRYPTREST_DIR/env/letsencrypt/renew.sh\"" >> "$CRYPTREST_BIN_INIT_FILE"
+    echo "\"\$CRYPTREST_DIR/opt/letsencrypt/renew.sh\"" >> "$CRYPTREST_BIN_INIT_FILE"
 
     chmod 500 "$CRYPTREST_BIN_INIT_FILE"
 }
@@ -57,8 +57,8 @@ cryptrest_init()
     rm -rf "$CRYPTREST_WWW_INSTALLER_DIR" && \
     mkdir -p "$CRYPTREST_DIR" && \
     chmod 700 "$CRYPTREST_DIR" && \
-    mkdir -p "$CRYPTREST_ENV_DIR" && \
-    chmod 700 "$CRYPTREST_ENV_DIR" && \
+    mkdir -p "$CRYPTREST_OPT_DIR" && \
+    chmod 700 "$CRYPTREST_OPT_DIR" && \
     mkdir -p "$CRYPTREST_SRC_DIR" && \
     chmod 700 "$CRYPTREST_SRC_DIR" && \
     mkdir -p "$CRYPTREST_BIN_DIR" && \
@@ -132,6 +132,8 @@ cryptrest_define()
     ln -s "$CRYPTREST_INSTALLER_FILE" "$CRYPTREST_BIN_DIR/cryptrest-installer" && \
 
     if [ $? -eq 0 ]; then
+        echo ''
+        echo ''
         echo "$CRYPTREST_TITLE ENV added in following profile file(s):"
 
         for shell_profile_file in $CRYPTREST_HOME_SHELL_PROFILE_FILES; do
@@ -146,6 +148,8 @@ cryptrest_define()
             fi
         done
 
+        echo ''
+        echo "$CRYPTREST_TITLE installation successfully completed!"
         echo ''
     fi
 }
