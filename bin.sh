@@ -13,6 +13,7 @@ CRYPTREST_USER="$USER"
 CRYPTREST_SSL_KEY_SIZE="${CRYPTREST_SSL_KEY_SIZE:=4096}"
 CRYPTREST_DIR="$HOME/.cryptrest"
 CRYPTREST_ENV_FILE="$CRYPTREST_DIR/.env"
+CRYPTREST_LIB_DIR="$CRYPTREST_DIR/lib"
 CRYPTREST_OPT_DIR="$CRYPTREST_DIR/opt"
 CRYPTREST_BIN_DIR="$CRYPTREST_DIR/bin"
 CRYPTREST_SRC_DIR="$CRYPTREST_DIR/src"
@@ -20,8 +21,9 @@ CRYPTREST_ETC_DIR="$CRYPTREST_DIR/etc"
 CRYPTREST_LOG_DIR="$CRYPTREST_DIR/log"
 CRYPTREST_WWW_DIR="$CRYPTREST_DIR/www"
 CRYPTREST_TMP_DIR="${TMPDIR:=/tmp}/cryptrest"
-CRYPTREST_INSTALLER_DIR="$CRYPTREST_DIR/installer-$CRYPTREST_GIT_BRANCH"
-CRYPTREST_INSTALLER_FILE="$CRYPTREST_INSTALLER_DIR/bin.sh"
+CRYPTREST_LIB_INSTALLER_DIR="$CRYPTREST_LIB_DIR/installer-$CRYPTREST_GIT_BRANCH"
+CRYPTREST_LIB_INSTALLER_FILE="$CRYPTREST_LIB_INSTALLER_DIR/bin.sh"
+CRYPTREST_LIB_INSTALLER_VERSION_FILE="$CRYPTREST_LIB_INSTALLER_DIR/VERSION"
 CRYPTREST_WWW_INSTALLER_DIR="$CRYPTREST_WWW_DIR/installer"
 CRYPTREST_WWW_INSTALLER_HTML_FILE="$CRYPTREST_WWW_INSTALLER_DIR/index.html"
 
@@ -56,6 +58,8 @@ cryptrest_init()
     rm -f "$CRYPTREST_BIN_DIR/cryptrest-in"* && \
     mkdir -p "$CRYPTREST_DIR" && \
     chmod 755 "$CRYPTREST_DIR" && \
+    mkdir -p "$CRYPTREST_LIB_DIR" && \
+    chmod 700 "$CRYPTREST_LIB_DIR" && \
     mkdir -p "$CRYPTREST_OPT_DIR" && \
     chmod 700 "$CRYPTREST_OPT_DIR" && \
     mkdir -p "$CRYPTREST_SRC_DIR" && \
@@ -72,8 +76,8 @@ cryptrest_init()
     chmod 700 "$CRYPTREST_WWW_INSTALLER_DIR" && \
     mkdir -p "$CRYPTREST_TMP_DIR" && \
     chmod 700 "$CRYPTREST_TMP_DIR" && \
-    mkdir -p "$CRYPTREST_INSTALLER_DIR" && \
-    chmod 700 "$CRYPTREST_INSTALLER_DIR" && \
+    mkdir -p "$CRYPTREST_LIB_INSTALLER_DIR" && \
+    chmod 700 "$CRYPTREST_LIB_INSTALLER_DIR" && \
     echo '' > "$CRYPTREST_ENV_FILE" && \
     chmod 600 "$CRYPTREST_ENV_FILE" && \
     echo "# $CRYPTREST_TITLE" > "$CRYPTREST_ENV_FILE"
@@ -124,8 +128,8 @@ cryptrest_network()
 
     cryptrest_download && \
     chmod 700 "$CRYPTREST_DIR" && \
-    cp "$CRYPTREST_INSTALLER_FILE" "$CRYPTREST_WWW_INSTALLER_HTML_FILE" && \
-    "$CRYPTREST_INSTALLER_FILE"
+    cp "$CRYPTREST_LIB_INSTALLER_FILE" "$CRYPTREST_WWW_INSTALLER_HTML_FILE" && \
+    "$CRYPTREST_LIB_INSTALLER_FILE"
 }
 
 cryptrest_define()
@@ -137,8 +141,8 @@ cryptrest_define()
     chmod 555 "$CRYPTREST_WWW_INSTALLER_DIR" && \
     chmod 555 "$CRYPTREST_WWW_DIR" && \
     chmod 400 "$CRYPTREST_ENV_FILE" && \
-    chmod 500 "$CRYPTREST_INSTALLER_FILE" && \
-    ln -s "$CRYPTREST_INSTALLER_FILE" "$CRYPTREST_BIN_DIR/cryptrest-installer" && \
+    chmod 500 "$CRYPTREST_LIB_INSTALLER_FILE" && \
+    ln -s "$CRYPTREST_LIB_INSTALLER_FILE" "$CRYPTREST_BIN_DIR/cryptrest-installer" && \
 
     if [ $? -eq 0 ]; then
         echo ''
@@ -172,9 +176,11 @@ cryptrest_install()
         if [ $? -eq 0 ]; then
             status=0
 
-            if [ "$CURRENT_DIR" != "$CRYPTREST_INSTALLER_DIR" ]; then
-                rm -f "$CRYPTREST_INSTALLER_DIR/bin.sh" && \
-                cp "$CURRENT_DIR/bin.sh" "$CRYPTREST_INSTALLER_DIR/bin.sh"
+            if [ "$CURRENT_DIR" != "$CRYPTREST_LIB_INSTALLER_DIR" ]; then
+                rm -f "$CRYPTREST_LIB_INSTALLER_DIR/bin.sh" && \
+                cp "$CURRENT_DIR/bin.sh" "$CRYPTREST_LIB_INSTALLER_DIR/bin.sh" && \
+                cp "$CURRENT_DIR/VERSION" "$CRYPTREST_LIB_INSTALLER_VERSION_FILE" && \
+                cp "$CURRENT_DIR/README"* "$CRYPTREST_LIB_INSTALLER_DIR/" && \
                 status=$?
             fi
         else
