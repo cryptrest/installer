@@ -56,7 +56,7 @@ nginx_install()
     mkdir -p "$CRYPTREST_NGINX_ETC_DIR" && \
     chmod 700 "$CRYPTREST_NGINX_ETC_DIR" && \
     mkdir -p "$CRYPTREST_NGINX_LOG_DIR" && \
-    chmod 755 "$CRYPTREST_NGINX_LOG_DIR" && \
+    chmod 700 "$CRYPTREST_NGINX_LOG_DIR" && \
     mkdir -p "$CRYPTREST_NGINX_OPT_DIR" && \
     chmod 700 "$CRYPTREST_NGINX_OPT_DIR"
 }
@@ -70,7 +70,7 @@ nginx_define()
     rm -f "$CRYPTREST_NGINX_OPT_DIR/install"* && \
     for domain in $CRYPTREST_DOMAINS; do
         mkdir -p "$CRYPTREST_NGINX_LOG_DIR/$domain" && \
-        chmod 755 "$CRYPTREST_NGINX_LOG_DIR/$domain"
+        chmod 700 "$CRYPTREST_NGINX_LOG_DIR/$domain"
     done
 
     echo "# $CRYPTREST_NGINX_TITLE" >> "$CRYPTREST_ENV_FILE"

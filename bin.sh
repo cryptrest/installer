@@ -65,7 +65,7 @@ cryptrest_init()
     mkdir -p "$CRYPTREST_ETC_DIR" && \
     chmod 700 "$CRYPTREST_ETC_DIR" && \
     mkdir -p "$CRYPTREST_LOG_DIR" && \
-    chmod 755 "$CRYPTREST_LOG_DIR" && \
+    chmod 700 "$CRYPTREST_LOG_DIR" && \
     mkdir -p "$CRYPTREST_WWW_DIR" && \
     chmod 700 "$CRYPTREST_WWW_DIR" && \
     mkdir -p "$CRYPTREST_WWW_INSTALLER_DIR" && \
