@@ -2,6 +2,7 @@
 
 CRYPTREST_NGINX_DIR="$CRYPTREST_OPT_DIR/nginx"
 CRYPTREST_NGINX_ETC_DIR="$CRYPTREST_ETC_DIR/nginx"
+CRYPTREST_NGINX_TITLE='NGinx'
 
 
 case "$(uname -m)" in
@@ -35,7 +36,7 @@ case "$(uname -s)" in
         CRYPTREST_NGINX_CMD_STOP='service nginx stop'
     ;;
     * )
-        echo "ERROR: Current OS does not supported for NGinx"
+        echo "ERROR: Current OS does not supported for $CRYPTREST_NGINX_TITLE"
 
         exit 1
     ;;
@@ -64,16 +65,20 @@ nginx_define()
     chmod 400 "$CRYPTREST_NGINX_DIR/"*.sh && \
     rm -f "$CRYPTREST_NGINX_DIR/install"* && \
 
-    echo "# NGinx" >> "$CRYPTREST_ENV_FILE"
-    echo "export CRYPTREST_NGINX_CMD_START=\"$CRYPTREST_NGINX_CMD_START\"" >> "$CRYPTREST_ENV_FILE"
-    echo "export CRYPTREST_NGINX_CMD_STOP=\"$CRYPTREST_NGINX_CMD_STOP\"" >> "$CRYPTREST_ENV_FILE"
-    echo "export CRYPTREST_NGINX_OS=\"$CRYPTREST_NGINX_OS\"" >> "$CRYPTREST_ENV_FILE"
+    echo "# $CRYPTREST_NGINX_TITLE" >> "$CRYPTREST_ENV_FILE"
+    echo "CRYPTREST_NGINX_CMD_START=\"$CRYPTREST_NGINX_CMD_START\"" >> "$CRYPTREST_ENV_FILE"
+    echo "CRYPTREST_NGINX_CMD_STOP=\"$CRYPTREST_NGINX_CMD_STOP\"" >> "$CRYPTREST_ENV_FILE"
+    echo "CRYPTREST_NGINX_ARCH=\"$CRYPTREST_NGINX_ARCH\"" >> "$CRYPTREST_ENV_FILE"
+    echo "CRYPTREST_NGINX_OS=\"$CRYPTREST_NGINX_OS\"" >> "$CRYPTREST_ENV_FILE"
     echo '' >> "$CRYPTREST_ENV_FILE"
+
+    echo "CRYPTREST_NGINX_* variables added in '$CRYPTREST_ENV_FILE'"
+    echo ''
 }
 
 
 echo ''
-echo 'NGinx: init'
+echo "$CRYPTREST_NGINX_TITLE: init"
 echo ''
 
 nginx_prepare && \

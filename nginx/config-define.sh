@@ -28,7 +28,7 @@ nginx_config_define()
     sed -i "s/\[CRYPTREST_DOMAIN\]/$CRYPTREST_DOMAIN/g" "$conf_file" && \
     sed -i "s#\[ROOT_WWW\]#$CRYPTREST_WWW_DIR#g" "$conf_file" && \
     sed -i "s#\[SERVER_CIPHERS\]#$SERVER_CIPHERS#g" "$conf_file" && \
-    sed -i "s#\[LETSENCRYPT_DIR\]#$LETSENCRYPT_DIR#g" "$conf_file" && \
+    sed -i "s#\[LETSENCRYPT_DIR\]#$CRYPTREST_LETSENCRYPT_ETC_SYS_DIR#g" "$conf_file" && \
     sed -i "s#\[PUBLIC_KEY_PINS\]#$PUBLIC_KEY_PINS#g" "$conf_file"
 }
 
@@ -47,7 +47,7 @@ nginx_configs_define()
 
         if [ -f "$template_file" ]; then
             nginx_config_define "$domain" "$conf_file" "$template_file" && \
-            nginx_links_define "$domain" "$conf_file" && \
+#            nginx_links_define "$domain" "$conf_file" && \
             echo "NGinx config and links has been defined for '$domain'"
         fi
     done

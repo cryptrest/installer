@@ -3,16 +3,12 @@
 PUBLIC_KEY_PINS=''
 SERVER_CIPHERS="$(openssl ciphers)"
 
-LETSENCRYPT_URL='https://letsencrypt.org/certs/'
-LETSENCRYPT_PEMS='lets-encrypt-x4-cross-signed.pem lets-encrypt-x3-cross-signed.pem isrgrootx1.pem'
-LETSENCRYPT_DIR='/etc/letsencrypt/live'
-LETSENCRYPT_BITS='256'
-
-CRYPTREST_LETSENCRYPT_DHPARAM_KEY_FILE="${LETSENCRYPT_DIR}/$CRYPTREST_DOMAIN/dhparam.pem"
-CRYPTREST_LETSENCRYPT_PRIVATE_KEY_FILE="${LETSENCRYPT_DIR}/$CRYPTREST_DOMAIN/privkey.pem"
-CRYPTREST_LETSENCRYPT_ECDSA_KEY_FILE="${LETSENCRYPT_DIR}/$CRYPTREST_DOMAIN/ecdsa.key"
-CRYPTREST_LETSENCRYPT_ECDSA_CSR_FILE="${LETSENCRYPT_DIR}/$CRYPTREST_DOMAIN/ecdsa.csr"
+CRYPTREST_LETSENCRYPT_DHPARAM_KEY_FILE="$CRYPTREST_LETSENCRYPT_ETC_SYS_DIR/$CRYPTREST_DOMAIN/dhparam.pem"
+CRYPTREST_LETSENCRYPT_PRIVATE_KEY_FILE="$CRYPTREST_LETSENCRYPT_ETC_SYS_DIR/$CRYPTREST_DOMAIN/privkey.pem"
+CRYPTREST_LETSENCRYPT_ECDSA_KEY_FILE="$CRYPTREST_LETSENCRYPT_ETC_SYS_DIR/$CRYPTREST_DOMAIN/ecdsa.key"
+CRYPTREST_LETSENCRYPT_ECDSA_CSR_FILE="$CRYPTREST_LETSENCRYPT_ETC_SYS_DIR/$CRYPTREST_DOMAIN/ecdsa.csr"
 CRYPTREST_LETSENCRYPT_CSR_CONF_FILE="$CRYPTREST_ETC_LETSENCRYPT_DIR/csr-$CRYPTREST_DOMAIN.conf"
+
 
 # HD Param
 letsencrypt_hd_param_define()
@@ -34,11 +30,11 @@ letsencrypt_public_key_pins_define()
 {
     local hash=''
 
-    for bit in $LETSENCRYPT_BITS; do
+    for bit in $CRYPTREST_LETSENCRYPT_BITS; do
         # Let's Encrypt
-        for pem in $LETSENCRYPT_PEMS; do
-            hash="$(curl -s "${LETSENCRYPT_URL}${pem}" | openssl x509 -pubkey | openssl pkey -pubin -outform der | openssl dgst -sha${bit} -binary | base64)"
-            PUBLIC_KEY_PINS="${PUBLIC_KEY_PINS}pin-sha${bit}=\"${hash}\"; "
+        for pem in $CRYPTREST_LETSENCRYPT_PEM_FILES; do
+            hash="$(curl -s "$CRYPTREST_LETSENCRYPT_URL$pem" | openssl x509 -pubkey | openssl pkey -pubin -outform der | openssl dgst -sha${bit} -binary | base64)"
+            PUBLIC_KEY_PINS="${PUBLIC_KEY_PINS}pin-sha$bit=\"$hash\"; "
         done
 
         # RSA

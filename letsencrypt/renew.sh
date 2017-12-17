@@ -21,6 +21,6 @@ CRYPTREST_DOMAINS="$CRYPTREST_DOMAIN api.$CRYPTREST_DOMAIN installer.$CRYPTREST_
 #letsencrypt_ecdsa_define && \
 #letsencrypt_public_key_pins_define && \
 #nginx -v && \
-#nginx_configs_define && \
+nginx_configs_define && \
 echo "letsencrypt certonly --standalone --email $DOMAIN@gmail.com --renew-by-default --rsa-key-size 4096 -d $DOMAIN -d www.$DOMAIN -d api.$DOMAIN -d installer.$DOMAIN --pre-hook \"$CRYPTREST_NGINX_CMD_STOP\" --post-hook \"$CRYPTREST_NGINX_CMD_START\""
 #letsencrypt certonly --webroot -d $DOMAIN -d www.$DOMAIN -d i.$DOMAIN -d installer.$DOMAIN --email $DOMAIN@gmail.com --csr $ECDSA_CSR --agree-tos

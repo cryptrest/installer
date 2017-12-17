@@ -103,9 +103,10 @@ golang_define()
     echo "export GOARCH=\"$CRYPTREST_GO_ARCH\"" >> "$CRYPTREST_ENV_FILE"
     echo "export GOOS=\"$CRYPTREST_GO_OS\"" >> "$CRYPTREST_ENV_FILE"
     echo '' >> "$CRYPTREST_ENV_FILE"
+    echo '' >> "$CRYPTREST_ENV_FILE"
 
     echo ''
-    echo "GOPATH, GOROOT, GOOS, GOARCH and in PATH was added in '$CRYPTREST_ENV_FILE'"
+    echo "GOPATH, GOROOT, GOOS, GOARCH and in PATH added in '$CRYPTREST_ENV_FILE'"
     echo ''
 }
 

@@ -20,7 +20,7 @@ CRYPTREST_INSTALLER_FILE="$CRYPTREST_INSTALLER_DIR/bin.sh"
 CRYPTREST_WWW_INSTALLER_DIR="$CRYPTREST_WWW_DIR/installer"
 CRYPTREST_WWW_INSTALLER_HTML_FILE="$CRYPTREST_WWW_INSTALLER_DIR/index.html"
 
-CRYPTREST_MODULES='nginx go letsencrypt'
+CRYPTREST_MODULES='nginx letsencrypt go'
 CRYPTREST_IS_LOCAL=1
 CRYPTREST_HOME_SHELL_PROFILE_FILES=".bashrc .mkshrc .zshrc"
 
@@ -45,7 +45,7 @@ cryptrest_init_file()
     echo '' >> "$CRYPTREST_BIN_INIT_FILE"
     echo ". \"\$CURRENT_DIR/../.env\"" >> "$CRYPTREST_BIN_INIT_FILE"
     echo '' >> "$CRYPTREST_BIN_INIT_FILE"
-    echo "\"\$CRYPTREST_DIR/opt/letsencrypt/renew.sh\"" >> "$CRYPTREST_BIN_INIT_FILE"
+    echo ". \"\$CRYPTREST_DIR/opt/letsencrypt/renew.sh\"" >> "$CRYPTREST_BIN_INIT_FILE"
 
     chmod 500 "$CRYPTREST_BIN_INIT_FILE"
 }
@@ -132,7 +132,6 @@ cryptrest_define()
     ln -s "$CRYPTREST_INSTALLER_FILE" "$CRYPTREST_BIN_DIR/cryptrest-installer" && \
 
     if [ $? -eq 0 ]; then
-        echo ''
         echo ''
         echo "$CRYPTREST_TITLE ENV added in following profile file(s):"
 
