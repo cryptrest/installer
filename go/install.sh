@@ -5,6 +5,7 @@ CRYPTREST_GO="go$CRYPTREST_GO_VERSION"
 CRYPTREST_GO_DIR="$CRYPTREST_OPT_DIR/$CRYPTREST_GO"
 CRYPTREST_GO_PATH="$CRYPTREST_SRC_DIR/go"
 CRYPTREST_GO_TMP_DIR="$CRYPTREST_TMP_DIR/$CRYPTREST_GO"
+CRYPTREST_GO_TITLE='Golang'
 
 case "$(uname -m)" in
     x86_64 | amd64 )
@@ -14,7 +15,7 @@ case "$(uname -m)" in
         CRYPTREST_GO_ARCH='386'
     ;;
     * )
-        echo "ERROR: Current OS architecture has not been supported for Golang"
+        echo "ERROR: Current OS architecture has not been supported for $CRYPTREST_GO_TITLE"
 
         exit 1
     ;;
@@ -31,7 +32,7 @@ case "$(uname -s)" in
         CRYPTREST_GO_OS="freebsd"
     ;;
     * )
-        echo "ERROR: Current OS does not supported for Golang"
+        echo "ERROR: Current OS does not supported for $CRYPTREST_GO_TITLE"
 
         exit 1
     ;;
@@ -41,25 +42,25 @@ CRYPTREST_GO_URL_SRC="https://go.googlesource.com/go/+archive/$CRYPTREST_GO.tar.
 CRYPTREST_GO_URL="https://redirector.gvt1.com/edgedl/go/$CRYPTREST_GO.$CRYPTREST_GO_OS-$CRYPTREST_GO_ARCH.tar.gz"
 
 
-golang_src_download()
+go_src_download()
 {
     mkdir -p "$CRYPTREST_GO_DIR" && \
     cd "$CRYPTREST_GO_DIR" && \
     curl -SL "$CRYPTREST_GO_URL_SRC" | tar -xz
     if [ $? -ne 0 ]; then
-        echo "Some error with download"
+        echo "$CRYPTREST_GO_TITLE: Some error with download"
         rm -rf "$CRYPTREST_GO_DIR"
 
         exit 1
     fi
 }
 
-golang_build()
+go_build()
 {
     cd "$CRYPTREST_GO_DIR/src" && ./all.bash
 }
 
-golang_prepare()
+go_prepare()
 {
     rm -rf "$CRYPTREST_GO_TMP_DIR" && \
     rm -rf "$CRYPTREST_GO_DIR" && \
@@ -67,20 +68,20 @@ golang_prepare()
     rm -f "$CRYPTREST_BIN_DIR/go"*
 }
 
-golang_download()
+go_download()
 {
     mkdir -p "$CRYPTREST_GO_TMP_DIR" && \
     cd "$CRYPTREST_GO_TMP_DIR" && \
     curl -SL "$CRYPTREST_GO_URL" | tar -xz
     if [ $? -ne 0 ]; then
-        echo "Some error with download"
+        echo "$CRYPTREST_GO_TITLE: Some error with download"
         rm -rf "$CRYPTREST_GO_TMP_DIR"
 
         exit 1
     fi
 }
 
-golang_install()
+go_install()
 {
     mv "$CRYPTREST_GO_TMP_DIR/go" "$CRYPTREST_GO_DIR" && \
     rm -rf "$CRYPTREST_GO_TMP_DIR" && \
@@ -94,9 +95,9 @@ golang_install()
     done
 }
 
-golang_define()
+go_define()
 {
-    echo '# Golang' >> "$CRYPTREST_ENV_FILE"
+    echo "# $CRYPTREST_GO_TITLE" >> "$CRYPTREST_ENV_FILE"
     echo "export GOROOT=\"\$CRYPTREST_DIR/$(basename $CRYPTREST_OPT_DIR)/$CRYPTREST_GO\"" >> "$CRYPTREST_ENV_FILE"
     echo "export GOPATH=\"\$CRYPTREST_DIR/$(basename $CRYPTREST_SRC_DIR)/go\"" >> "$CRYPTREST_ENV_FILE"
     echo "export PATH=\"\$PATH:\$GOROOT/bin\"" >> "$CRYPTREST_ENV_FILE"
@@ -112,12 +113,12 @@ golang_define()
 
 
 echo ''
-echo "Golang version: $CRYPTREST_GO_VERSION"
-echo "Golang source URL: $CRYPTREST_GO_URL"
-echo "Golang URL: $CRYPTREST_GO_URL"
+echo "$CRYPTREST_GO_TITLE version: $CRYPTREST_GO_VERSION"
+echo "$CRYPTREST_GO_TITLE source URL: $CRYPTREST_GO_URL"
+echo "$CRYPTREST_GO_TITLE URL: $CRYPTREST_GO_URL"
 echo ''
 
-golang_prepare && \
-golang_download && \
-golang_install && \
-golang_define
+go_prepare && \
+go_download && \
+go_install && \
+go_define

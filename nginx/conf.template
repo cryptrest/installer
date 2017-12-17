@@ -96,6 +96,14 @@ server {
         proxy_set_header X-Forwarded-Proto $scheme;
     }
 
-    error_page 500 502 503 504 /50X.html;
-    error_page 400 402 403 404 /40X.html;
+    error_page 400 /assets/400.html;
+    error_page 401 /assets/401.html;
+    error_page 402 /assets/402.html;
+    error_page 403 /assets/403.html;
+    error_page 404 /assets/404.html;
+    error_page 500 /assets/500.html;
+    error_page 501 /assets/501.html;
+    error_page 502 /assets/502.html;
+    error_page 503 /assets/503.html;
+    error_page 504 /assets/504.html;
 }

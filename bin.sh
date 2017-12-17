@@ -10,7 +10,6 @@ CRYPTREST_DIR="$HOME/.cryptrest"
 CRYPTREST_ENV_FILE="$CRYPTREST_DIR/.env"
 CRYPTREST_OPT_DIR="$CRYPTREST_DIR/opt"
 CRYPTREST_BIN_DIR="$CRYPTREST_DIR/bin"
-CRYPTREST_BIN_INIT_FILE="$CRYPTREST_BIN_DIR/cryptrest-init"
 CRYPTREST_SRC_DIR="$CRYPTREST_DIR/src"
 CRYPTREST_ETC_DIR="$CRYPTREST_DIR/etc"
 CRYPTREST_WWW_DIR="$CRYPTREST_DIR/www"
@@ -20,7 +19,7 @@ CRYPTREST_INSTALLER_FILE="$CRYPTREST_INSTALLER_DIR/bin.sh"
 CRYPTREST_WWW_INSTALLER_DIR="$CRYPTREST_WWW_DIR/installer"
 CRYPTREST_WWW_INSTALLER_HTML_FILE="$CRYPTREST_WWW_INSTALLER_DIR/index.html"
 
-CRYPTREST_MODULES='nginx letsencrypt go'
+CRYPTREST_MODULES='.common nginx letsencrypt go'
 CRYPTREST_IS_LOCAL=1
 CRYPTREST_HOME_SHELL_PROFILE_FILES=".bashrc .mkshrc .zshrc"
 
@@ -37,24 +36,15 @@ cryptrest_is_local()
     return $CRYPTREST_IS_LOCAL
 }
 
-cryptrest_init_file()
-{
-    echo '#!/bin/sh' > "$CRYPTREST_BIN_INIT_FILE"
-    echo '' >> "$CRYPTREST_BIN_INIT_FILE"
-    echo "CURRENT_DIR=\"\${CURRENT_DIR:=\$(cd \$(dirname \$0) && pwd -P)}\"" >> "$CRYPTREST_BIN_INIT_FILE"
-    echo '' >> "$CRYPTREST_BIN_INIT_FILE"
-    echo ". \"\$CURRENT_DIR/../.env\"" >> "$CRYPTREST_BIN_INIT_FILE"
-    echo '' >> "$CRYPTREST_BIN_INIT_FILE"
-    echo ". \"\$CRYPTREST_DIR/opt/letsencrypt/renew.sh\"" >> "$CRYPTREST_BIN_INIT_FILE"
-
-    chmod 500 "$CRYPTREST_BIN_INIT_FILE"
-}
-
 cryptrest_init()
 {
+    if [ -d ""$CRYPTREST_WWW_INSTALLER_DIR"" ]; then
+        chmod 700 "$CRYPTREST_WWW_INSTALLER_DIR" && \
+        rm -rf "$CRYPTREST_WWW_INSTALLER_DIR"
+    fi
+
     rm -f "$CRYPTREST_ENV_FILE" && \
     rm -f "$CRYPTREST_BIN_DIR/cryptrest-in"* && \
-    rm -rf "$CRYPTREST_WWW_INSTALLER_DIR" && \
     mkdir -p "$CRYPTREST_DIR" && \
     chmod 700 "$CRYPTREST_DIR" && \
     mkdir -p "$CRYPTREST_OPT_DIR" && \
@@ -125,8 +115,9 @@ cryptrest_define()
 {
     local profile_file=''
 
-    cryptrest_init_file && \
     chmod 444 "$CRYPTREST_WWW_INSTALLER_HTML_FILE" && \
+    ln -s "$CRYPTREST__COMMON_ETC_ASSETS_DIR/" "$CRYPTREST_WWW_INSTALLER_DIR/" && \
+    chmod 555 "$CRYPTREST_WWW_INSTALLER_DIR" && \
     chmod 400 "$CRYPTREST_ENV_FILE" && \
     chmod 500 "$CRYPTREST_INSTALLER_FILE" && \
     ln -s "$CRYPTREST_INSTALLER_FILE" "$CRYPTREST_BIN_DIR/cryptrest-installer" && \

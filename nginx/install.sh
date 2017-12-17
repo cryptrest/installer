@@ -1,6 +1,6 @@
 #!/bin/sh
 
-CRYPTREST_NGINX_DIR="$CRYPTREST_OPT_DIR/nginx"
+CRYPTREST_NGINX_OPT_DIR="$CRYPTREST_OPT_DIR/nginx"
 CRYPTREST_NGINX_ETC_DIR="$CRYPTREST_ETC_DIR/nginx"
 CRYPTREST_NGINX_TITLE='NGinx'
 
@@ -46,24 +46,24 @@ esac
 nginx_prepare()
 {
     rm -rf "$CRYPTREST_NGINX_ETC_DIR" && \
-    rm -rf "$CRYPTREST_NGINX_DIR"
+    rm -rf "$CRYPTREST_NGINX_OPT_DIR"
 }
 
 nginx_install()
 {
     mkdir -p "$CRYPTREST_NGINX_ETC_DIR" && \
     chmod 700 "$CRYPTREST_NGINX_ETC_DIR" && \
-    mkdir -p "$CRYPTREST_NGINX_DIR" && \
-    chmod 700 "$CRYPTREST_NGINX_DIR"
+    mkdir -p "$CRYPTREST_NGINX_OPT_DIR" && \
+    chmod 700 "$CRYPTREST_NGINX_OPT_DIR"
 }
 
 nginx_define()
 {
     cp "$CURRENT_DIR/nginx/"*conf.template "$CRYPTREST_NGINX_ETC_DIR/" && \
     chmod 400 "$CRYPTREST_NGINX_ETC_DIR/"* && \
-    cp "$CURRENT_DIR/nginx/"*.sh "$CRYPTREST_NGINX_DIR/" && \
-    chmod 400 "$CRYPTREST_NGINX_DIR/"*.sh && \
-    rm -f "$CRYPTREST_NGINX_DIR/install"* && \
+    cp "$CURRENT_DIR/nginx/"*.sh "$CRYPTREST_NGINX_OPT_DIR/" && \
+    chmod 400 "$CRYPTREST_NGINX_OPT_DIR/"*.sh && \
+    rm -f "$CRYPTREST_NGINX_OPT_DIR/install"* && \
 
     echo "# $CRYPTREST_NGINX_TITLE" >> "$CRYPTREST_ENV_FILE"
     echo "CRYPTREST_NGINX_CMD_START=\"$CRYPTREST_NGINX_CMD_START\"" >> "$CRYPTREST_ENV_FILE"
