@@ -63,7 +63,6 @@ nginx_install()
 
 nginx_define()
 {
-echo $CRYPTREST_DOMAINS
     cp "$CURRENT_DIR/nginx/"*conf.template "$CRYPTREST_NGINX_ETC_DIR/" && \
     chmod 400 "$CRYPTREST_NGINX_ETC_DIR/"* && \
     cp "$CURRENT_DIR/nginx/"*.sh "$CRYPTREST_NGINX_OPT_DIR/" && \
