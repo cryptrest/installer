@@ -15,8 +15,8 @@ server {
 
     root [ROOT_WWW]/api;
 
-    error_log [LOG_WWW]/[DOMAIN].error.log;
-    access_log [LOG_WWW]/[DOMAIN].access.log;
+    error_log [LOG_WWW]/[DOMAIN]/error.log;
+    access_log [LOG_WWW]/[DOMAIN]/access.log;
 
     ssl on;
     ssl_certificate [LETSENCRYPT_DIR]/[CRYPTREST_DOMAIN]/fullchain.pem;

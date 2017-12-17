@@ -68,6 +68,10 @@ nginx_define()
     cp "$CURRENT_DIR/nginx/"*.sh "$CRYPTREST_NGINX_OPT_DIR/" && \
     chmod 400 "$CRYPTREST_NGINX_OPT_DIR/"*.sh && \
     rm -f "$CRYPTREST_NGINX_OPT_DIR/install"* && \
+    for domain in $CRYPTREST_DOMAINS; do
+        mkdir -p "$CRYPTREST_NGINX_LOG_DIR$domain" && \
+        chmod 755 "$CRYPTREST_NGINX_LOG_DIR$domain"
+    done
 
     echo "# $CRYPTREST_NGINX_TITLE" >> "$CRYPTREST_ENV_FILE"
     echo "CRYPTREST_NGINX_CMD_START=\"$CRYPTREST_NGINX_CMD_START\"" >> "$CRYPTREST_ENV_FILE"
