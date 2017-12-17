@@ -2,11 +2,13 @@
 
 CURRENT_DIR="$(cd $(dirname $0) && pwd -P)"
 
+    echo ''
 if [ -f "$CURRENT_DIR/.env" ]; then
     . "$CURRENT_DIR/.env"
 
-    echo ''
-    echo 'CryptREST: config file loaded'
+    echo 'CryptREST config file: loaded'
+else
+    echo 'CryptREST config file: not loaded'
 fi
 
 CURRENT_DIR="$(cd $(dirname $0) && pwd -P)"
@@ -29,6 +31,8 @@ CRYPTREST_SRC_DIR="$CRYPTREST_DIR/src"
 CRYPTREST_ETC_DIR="$CRYPTREST_DIR/etc"
 CRYPTREST_LOG_DIR="$CRYPTREST_DIR/log"
 CRYPTREST_WWW_DIR="$CRYPTREST_DIR/www"
+CRYPTREST_SSL_DIR="$CRYPTREST_DIR/ssl"
+CRYPTREST_SSL_CRYPTREST_DIR="$CRYPTREST_SSL_DIR/cryptrest"
 CRYPTREST_TMP_DIR="${TMPDIR:=/tmp}/cryptrest"
 CRYPTREST_LIB_INSTALLER_DIR="$CRYPTREST_LIB_DIR/installer-$CRYPTREST_GIT_BRANCH"
 CRYPTREST_LIB_INSTALLER_FILE="$CRYPTREST_LIB_INSTALLER_DIR/bin.sh"
@@ -83,6 +87,10 @@ cryptrest_init()
     chmod 700 "$CRYPTREST_WWW_DIR" && \
     mkdir -p "$CRYPTREST_WWW_INSTALLER_DIR" && \
     chmod 700 "$CRYPTREST_WWW_INSTALLER_DIR" && \
+    mkdir -p "$CRYPTREST_SSL_DIR" && \
+    chmod 700 "$CRYPTREST_SSL_DIR" && \
+    mkdir -p "$CRYPTREST_SSL_CRYPTREST_DIR" && \
+    chmod 700 "$CRYPTREST_SSL_CRYPTREST_DIR" && \
     mkdir -p "$CRYPTREST_TMP_DIR" && \
     chmod 700 "$CRYPTREST_TMP_DIR" && \
     mkdir -p "$CRYPTREST_LIB_INSTALLER_DIR" && \
@@ -100,7 +108,6 @@ cryptrest_init()
     echo "CRYPTREST_SSL_KEY_SIZE=\"$CRYPTREST_SSL_KEY_SIZE\"" >> "$CRYPTREST_ENV_FILE"
     echo '' >> "$CRYPTREST_ENV_FILE"
 
-    echo ''
     echo "$CRYPTREST_TITLE structure: init"
 }
 
@@ -170,7 +177,7 @@ cryptrest_define()
         done
 
         echo ''
-        echo "$CRYPTREST_TITLE installation successfully completed!"
+        echo "$CRYPTREST_TITLE (version: $(cat "$CRYPTREST_LIB_INSTALLER_VERSION_FILE")): installation successfully completed!"
         echo ''
     fi
 }
