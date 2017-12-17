@@ -10,9 +10,11 @@ CRYPTREST__COMMON_TITLE='CryptREST Common'
 
 nginx_prepare()
 {
+    if [ -d "$CRYPTREST__COMMON_WWW_DIR" ]; then
+        chmod 700 "$CRYPTREST__COMMON_WWW_DIR"
+    fi
     if [ -d "$CRYPTREST__COMMON_WWW_ERRORS_DIR" ]; then
-        chmod 700 "$CRYPTREST__COMMON_WWW_ERRORS_DIR" && \
-        rm -rf "$CRYPTREST__COMMON_WWW_ERRORS_DIR"
+        chmod 700 "$CRYPTREST__COMMON_WWW_ERRORS_DIR"
     fi
 
     rm -rf "$CRYPTREST__COMMON_WWW_DIR" && \
@@ -34,6 +36,7 @@ nginx_define()
     chmod 700 "$CRYPTREST__COMMON_WWW_ERRORS_DIR" && \
     chmod 444 "$CRYPTREST__COMMON_WWW_ERRORS_DIR/"*.html && \
     chmod 555 "$CRYPTREST__COMMON_WWW_ERRORS_DIR" && \
+    chmod 555 "$CRYPTREST__COMMON_WWW_DIR" && \
     cp "$CURRENT_DIR/.common/opt/"*.sh "$CRYPTREST__COMMON_OPT_DIR/" && \
     chmod 400 "$CRYPTREST__COMMON_OPT_DIR/"*.sh && \
     rm -f "$CRYPTREST__COMMON_OPT_DIR/install"* && \

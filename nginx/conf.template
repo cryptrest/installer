@@ -21,6 +21,9 @@ server {
 
     root [ROOT_WWW]/site;
 
+    error_log [LOG_WWW]/[DOMAIN].error.log;
+    access_log [LOG_WWW]/[DOMAIN].access.log;
+
     ssl on;
     ssl_certificate [LETSENCRYPT_DIR]/[CRYPTREST_DOMAIN]/fullchain.pem;
     ssl_certificate_key [LETSENCRYPT_DIR]/[CRYPTREST_DOMAIN]/privkey.pem;

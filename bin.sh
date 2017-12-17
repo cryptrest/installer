@@ -17,6 +17,7 @@ CRYPTREST_OPT_DIR="$CRYPTREST_DIR/opt"
 CRYPTREST_BIN_DIR="$CRYPTREST_DIR/bin"
 CRYPTREST_SRC_DIR="$CRYPTREST_DIR/src"
 CRYPTREST_ETC_DIR="$CRYPTREST_DIR/etc"
+CRYPTREST_LOG_DIR="$CRYPTREST_DIR/log"
 CRYPTREST_WWW_DIR="$CRYPTREST_DIR/www"
 CRYPTREST_TMP_DIR="${TMPDIR:=/tmp}/cryptrest"
 CRYPTREST_INSTALLER_DIR="$CRYPTREST_DIR/installer-$CRYPTREST_GIT_BRANCH"
@@ -43,6 +44,9 @@ cryptrest_is_local()
 
 cryptrest_init()
 {
+    if [ -d ""$CRYPTREST_WWW_DIR"" ]; then
+        chmod 700 "$CRYPTREST_WWW_DIR"
+    fi
     if [ -d ""$CRYPTREST_WWW_INSTALLER_DIR"" ]; then
         chmod 700 "$CRYPTREST_WWW_INSTALLER_DIR" && \
         rm -rf "$CRYPTREST_WWW_INSTALLER_DIR"
@@ -51,7 +55,7 @@ cryptrest_init()
     rm -f "$CRYPTREST_ENV_FILE" && \
     rm -f "$CRYPTREST_BIN_DIR/cryptrest-in"* && \
     mkdir -p "$CRYPTREST_DIR" && \
-    chmod 700 "$CRYPTREST_DIR" && \
+    chmod 755 "$CRYPTREST_DIR" && \
     mkdir -p "$CRYPTREST_OPT_DIR" && \
     chmod 700 "$CRYPTREST_OPT_DIR" && \
     mkdir -p "$CRYPTREST_SRC_DIR" && \
@@ -60,6 +64,8 @@ cryptrest_init()
     chmod 700 "$CRYPTREST_BIN_DIR" && \
     mkdir -p "$CRYPTREST_ETC_DIR" && \
     chmod 700 "$CRYPTREST_ETC_DIR" && \
+    mkdir -p "$CRYPTREST_LOG_DIR" && \
+    chmod 755 "$CRYPTREST_LOG_DIR" && \
     mkdir -p "$CRYPTREST_WWW_DIR" && \
     chmod 700 "$CRYPTREST_WWW_DIR" && \
     mkdir -p "$CRYPTREST_WWW_INSTALLER_DIR" && \
@@ -129,6 +135,7 @@ cryptrest_define()
     chmod 444 "$CRYPTREST_WWW_INSTALLER_HTML_FILE" && \
     ln -s "$CRYPTREST__COMMON_WWW_ERRORS_DIR/" "$CRYPTREST_WWW_INSTALLER_DIR/" && \
     chmod 555 "$CRYPTREST_WWW_INSTALLER_DIR" && \
+    chmod 555 "$CRYPTREST_WWW_DIR" && \
     chmod 400 "$CRYPTREST_ENV_FILE" && \
     chmod 500 "$CRYPTREST_INSTALLER_FILE" && \
     ln -s "$CRYPTREST_INSTALLER_FILE" "$CRYPTREST_BIN_DIR/cryptrest-installer" && \
