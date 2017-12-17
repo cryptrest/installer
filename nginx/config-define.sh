@@ -28,7 +28,7 @@ nginx_config_define()
     sed -i "s/\[DOMAIN\]/$domain/g" "$conf_file" && \
     sed -i "s/\[CRYPTREST_DOMAIN\]/$CRYPTREST_DOMAIN/g" "$conf_file" && \
     sed -i "s#\[ROOT_WWW\]#$CRYPTREST_WWW_DIR#g" "$conf_file" && \
-    sed -i "s#\[LOG_WWW\]#$CRYPTREST_WWW_LOG_NGINX_DIR#g" "$conf_file" && \
+    sed -i "s#\[LOG_WWW\]#$CRYPTREST_LOG_NGINX_DIR#g" "$conf_file" && \
     sed -i "s#\[SERVER_CIPHERS\]#$SERVER_CIPHERS#g" "$conf_file" && \
     sed -i "s#\[LETSENCRYPT_DIR\]#$CRYPTREST_LETSENCRYPT_ETC_SYS_DIR#g" "$conf_file" && \
     sed -i "s#\[PUBLIC_KEY_PINS\]#$PUBLIC_KEY_PINS#g" "$conf_file"
