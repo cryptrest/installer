@@ -73,6 +73,7 @@ cryptrest_init()
     echo "# $CRYPTREST_TITLE" > "$CRYPTREST_ENV_FILE"
     echo "export CRYPTREST_DIR=\"$HOME/.cryptrest\"" >> "$CRYPTREST_ENV_FILE"
     echo "export PATH=\"\$PATH:\$CRYPTREST_DIR/bin\"" >> "$CRYPTREST_ENV_FILE"
+    echo '' >> "$CRYPTREST_ENV_FILE"
     echo "CRYPTREST_USER=\"$CRYPTREST_USER\"" >> "$CRYPTREST_ENV_FILE"
     echo "CRYPTREST_DOMAIN=\"$CRYPTREST_DOMAIN\"" >> "$CRYPTREST_ENV_FILE"
     echo "CRYPTREST_DOMAINS=\"$CRYPTREST_DOMAINS\"" >> "$CRYPTREST_ENV_FILE"
@@ -126,7 +127,7 @@ cryptrest_define()
     local profile_file=''
 
     chmod 444 "$CRYPTREST_WWW_INSTALLER_HTML_FILE" && \
-    ln -s "$CRYPTREST__COMMON_ETC_ASSETS_DIR/" "$CRYPTREST_WWW_INSTALLER_DIR/" && \
+    ln -s "$CRYPTREST__COMMON_WWW_ERRORS_DIR/" "$CRYPTREST_WWW_INSTALLER_DIR/" && \
     chmod 555 "$CRYPTREST_WWW_INSTALLER_DIR" && \
     chmod 400 "$CRYPTREST_ENV_FILE" && \
     chmod 500 "$CRYPTREST_INSTALLER_FILE" && \
