@@ -128,7 +128,7 @@ cryptrest_is_local()
     return $CRYPTREST_IS_LOCAL
 }
 
-cryptrest_local()
+cryptrest_local_install()
 {
     echo "$CRYPTREST_TITLE mode: local"
     echo ''
@@ -159,7 +159,7 @@ cryptrest_download()
     fi
 }
 
-cryptrest_network()
+cryptrest_network_install()
 {
     echo "$CRYPTREST_TITLE mode: network"
     echo ''
@@ -210,7 +210,7 @@ cryptrest_install()
 
     cryptrest_is_local
     if [ $? -eq 0 ]; then
-        cryptrest_local
+        cryptrest_local_install
         if [ $? -eq 0 ]; then
             status=0
 
@@ -226,7 +226,7 @@ cryptrest_install()
         fi
         [ $status -eq 0 ] && cryptrest_define
     else
-        cryptrest_network
+        cryptrest_network_install
     fi
 }
 
