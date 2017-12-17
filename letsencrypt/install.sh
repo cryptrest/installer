@@ -79,9 +79,9 @@ letsencrypt_install()
 
 letsencrypt_define()
 {
-    cp "$CURRENT_DIR/letsencrypt/"*.conf "$CRYPTREST_LETSENCRYPT_ETC_DIR/" && \
+    cp "$CURRENT_DIR/letsencrypt/etc/"*.conf "$CRYPTREST_LETSENCRYPT_ETC_DIR/" && \
     chmod 400 "$CRYPTREST_LETSENCRYPT_ETC_DIR/"* && \
-    cp "$CURRENT_DIR/letsencrypt/"*.sh "$CRYPTREST_LETSENCRYPT_DIR/" && \
+    cp "$CURRENT_DIR/letsencrypt/opt/"*.sh "$CRYPTREST_LETSENCRYPT_DIR/" && \
     chmod 400 "$CRYPTREST_LETSENCRYPT_DIR/"*.sh && \
     rm -f "$CRYPTREST_LETSENCRYPT_DIR/install"* && \
     ln -s "$CRYPTREST_LETSENCRYPT_CERTBOT_DIR/certbot-auto" "$CRYPTREST_BIN_DIR/letsencrypt" && \
