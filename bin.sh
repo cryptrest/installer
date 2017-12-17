@@ -110,6 +110,8 @@ cryptrest_modules()
     for i in $CRYPTREST_MODULES_ARGS; do
         if [ -d "$CRYPTREST_MODULES_DIR/$i" ] && [ -f "$CRYPTREST_MODULES_DIR/$i/install.sh" ]; then
             CRYPTREST_MODULES="$CRYPTREST_MODULES $i"
+        else
+            echo "$CRYPTREST_TITLE WARNING: module '$i' does not exist"
         fi
     done
 }
