@@ -2,7 +2,12 @@
 
 CURRENT_DIR="$(cd $(dirname $0) && pwd -P)"
 
-[ -f "$CURRENT_DIR/.env" ] && "$CURRENT_DIR/.env"
+if [ -f "$CURRENT_DIR/.env" ]; then
+    . "$CURRENT_DIR/.env"
+
+    echo ''
+    echo 'CryptREST: config file loaded'
+fi
 
 CURRENT_DIR="$(cd $(dirname $0) && pwd -P)"
 
