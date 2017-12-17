@@ -38,7 +38,7 @@ nginx_define()
     chmod 400 "$CRYPTREST__COMMON_OPT_DIR/"*.sh && \
     rm -f "$CRYPTREST__COMMON_OPT_DIR/install"* && \
     ln -s "$CRYPTREST__COMMON_OPT_DIR/init.sh" "$CRYPTREST_BIN_INIT_FILE" && \
-    chmod 500 "$CRYPTREST_BIN_INIT_FILE"
+    chmod 500 "$CRYPTREST_BIN_INIT_FILE" && \
 
     echo "$CRYPTREST__COMMON_TITLE: init"
     echo ''
