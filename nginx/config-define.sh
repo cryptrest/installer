@@ -22,6 +22,7 @@ nginx_config_define()
     local template_file="$3"
 
     cp -f "$template_file" "$conf_file" && \
+    chown "$CRYPTREST_USER.$CRYPTREST_USER" "$conf_file" && \
     chmod 400 "$conf_file"
 
     sed -i "s/\[DOMAIN\]/$domain/g" "$conf_file" && \
@@ -47,7 +48,7 @@ nginx_configs_define()
 
         if [ -f "$template_file" ]; then
             nginx_config_define "$domain" "$conf_file" "$template_file" && \
-#            nginx_links_define "$domain" "$conf_file" && \
+            nginx_links_define "$domain" "$conf_file" && \
             echo "NGinx config and links has been defined for '$domain'"
         fi
     done
