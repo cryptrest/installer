@@ -12,7 +12,7 @@ nginx_links_define()
     ln -s "$conf_file" "/etc/nginx/sites-available/$conf_file_name" && \
     rm -f "/etc/nginx/sites-enabled/$conf_file_name" && \
     ln -s "/etc/nginx/sites-available/$conf_file_name" "/etc/nginx/sites-enabled/$conf_file_name" && \
-    nginx -t -c "/etc/nginx/sites-enabled/$conf_file_name"
+    nginx -t
 }
 
 nginx_config_define()
