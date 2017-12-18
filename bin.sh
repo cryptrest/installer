@@ -93,7 +93,7 @@ cryptrest_init()
     chmod 600 "$CRYPTREST_ENV_FILE" && \
     echo "# $CRYPTREST_TITLE" > "$CRYPTREST_ENV_FILE"
     echo "export CRYPTREST_DIR=\"$HOME/.cryptrest\"" >> "$CRYPTREST_ENV_FILE"
-    echo "export PATH=\"\$PATH:\$CRYPTREST_DIR/bin\"" >> "$CRYPTREST_ENV_FILE"
+    echo "export PATH=\"\$CRYPTREST_DIR/bin:\$PATH\"" >> "$CRYPTREST_ENV_FILE"
     echo '' >> "$CRYPTREST_ENV_FILE"
     echo "CRYPTREST_USER=\"$CRYPTREST_USER\"" >> "$CRYPTREST_ENV_FILE"
     echo "CRYPTREST_DOMAIN=\"$CRYPTREST_DOMAIN\"" >> "$CRYPTREST_ENV_FILE"

@@ -30,11 +30,11 @@ case "$(uname -s)" in
         CRYPTREST_LETSENCRYPT_ETC_SYS_DIR='/etc/letsencrypt/live'
     ;;
     Darwin )
-        CRYPTREST_NGINX_OS='darwin'
+        CRYPTREST_LETSENCRYPT_OS='darwin'
         CRYPTREST_LETSENCRYPT_ETC_SYS_DIR='/usr/local/etc/letsencrypt/live'
     ;;
     FreeBSD )
-        CRYPTREST_NGINX_OS="freebsd"
+        CRYPTREST_LETSENCRYPT_OS="freebsd"
         CRYPTREST_LETSENCRYPT_ETC_SYS_DIR='/usr/local/etc/letsencrypt/live'
     ;;
     * )
