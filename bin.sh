@@ -153,7 +153,8 @@ cryptrest_local_install()
 
 cryptrest_download()
 {
-    cd "$CRYPTREST_DIR" && \
+    cd "$CRYPTREST_LIB_DIR" && \
+    chmod 700 "$CRYPTREST_LIB_DIR" && \
     curl -SL "$CRYPTREST_GIT_URL" | tar -xz
     if [ $? -ne 0 ]; then
         echo "$CRYPTREST_TITLE: Some errors with download"
