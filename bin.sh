@@ -13,7 +13,7 @@ fi
 
 CURRENT_DIR="$(cd $(dirname $0) && pwd -P)"
 
-# CRYPTREST_MODULES='nginx letsencrypt'
+# CRYPTREST_MODULES='nginx openssl letsencrypt'
 CRYPTREST_MODULES="${CRYPTREST_MODULES:=}"
 CRYPTREST_DOMAIN="${CRYPTREST_DOMAIN:=crypt.rest}"
 CRYPTREST_DOMAINS="${CRYPTREST_DOMAINS:=$CRYPTREST_DOMAIN api.$CRYPTREST_DOMAIN installer.$CRYPTREST_DOMAIN}"
@@ -170,7 +170,6 @@ cryptrest_network_install()
     echo ''
 
     cryptrest_download && \
-    chmod 700 "$CRYPTREST_DIR" && \
     cp "$CRYPTREST_LIB_INSTALLER_FILE" "$CRYPTREST_WWW_INSTALLER_HTML_FILE" && \
     "$CRYPTREST_LIB_INSTALLER_FILE" $CRYPTREST_MODULES_ARGS
 }
