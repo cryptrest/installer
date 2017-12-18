@@ -170,6 +170,7 @@ cryptrest_network_install()
     echo ''
 
     cryptrest_download && \
+    cryptrest_modules && \
     chmod 700 "$CRYPTREST_DIR" && \
     cp "$CRYPTREST_LIB_INSTALLER_FILE" "$CRYPTREST_WWW_INSTALLER_HTML_FILE" && \
     "$CRYPTREST_LIB_INSTALLER_FILE" $CRYPTREST_MODULES
