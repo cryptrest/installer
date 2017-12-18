@@ -115,7 +115,7 @@ cryptrest_modules()
 {
     local modules=''
 
-    if [ -z "$CRYPTREST_MODULES_ARGS" ]
+    if [ -z "$CRYPTREST_MODULES_ARGS" ]; then
         modules="$CRYPTREST_MODULES"
     else
         modules="$CRYPTREST_MODULES_ARGS"
