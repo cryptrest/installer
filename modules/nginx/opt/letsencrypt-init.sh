@@ -39,5 +39,5 @@ openssl_public_key_pins_define && \
 letsencrypt_public_key_pins_define && \
 nginx -v && \
 nginx_configs_define && \
-"$CRYPTREST_DIR/bin/letsencrypt" certonly --standalone --email "$CRYPTREST_EMAIL" --renew-by-default --rsa-key-size "$CRYPTREST_SSL_KEY_SIZE"$CRYPTREST_LETSENCRYPT_DOMAINS --pre-hook "$CRYPTREST_NGINX_CMD_STOP" --post-hook "$CRYPTREST_NGINX_CMD_START"
+"$CRYPTREST_DIR/bin/cryptrest-letsencrypt" certonly --standalone --email "$CRYPTREST_EMAIL" --renew-by-default --rsa-key-size "$CRYPTREST_SSL_KEY_SIZE"$CRYPTREST_LETSENCRYPT_DOMAINS --pre-hook "$CRYPTREST_NGINX_CMD_STOP" --post-hook "$CRYPTREST_NGINX_CMD_START"
 #letsencrypt certonly --webroot -d $DOMAIN -d www.$DOMAIN -d i.$DOMAIN -d installer.$DOMAIN --email $DOMAIN@gmail.com --csr $ECDSA_CSR --agree-tos

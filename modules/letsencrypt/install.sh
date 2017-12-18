@@ -4,6 +4,7 @@ CRYPTREST_LETSENCRYPT_GIT_BRANCH="${CRYPTREST_LETSENCRYPT_GIT_BRANCH:=master}"
 CRYPTREST_LETSENCRYPT_GIT_URL="https://github.com/letsencrypt/letsencrypt/archive/$CRYPTREST_LETSENCRYPT_GIT_BRANCH.tar.gz"
 CRYPTREST_LETSENCRYPT_OPT_DIR="$CRYPTREST_OPT_DIR/letsencrypt"
 CRYPTREST_LETSENCRYPT_CERTBOT_DIR="$CRYPTREST_LETSENCRYPT_OPT_DIR/certbot-$CRYPTREST_LETSENCRYPT_GIT_BRANCH"
+CRYPTREST_LETSENCRYPT_BIN_FILE="$CRYPTREST_BIN_DIR/cryptrest-letsencrypt"
 
 CRYPTREST_LETSENCRYPT_URL='https://letsencrypt.org/certs/'
 CRYPTREST_LETSENCRYPT_PEM_FILES='lets-encrypt-x4-cross-signed.pem lets-encrypt-x3-cross-signed.pem isrgrootx1.pem'
@@ -49,7 +50,7 @@ letsencrypt_prepare()
     rm -rf "$CRYPTREST_LETSENCRYPT_OPT_DIR" && \
     rm -rf "$CRYPTREST_LETSENCRYPT_CERTBOT_DIR" && \
     [ -d "$CRYPTREST_BIN_DIR/" ] && \
-    rm -f "$CRYPTREST_BIN_DIR/letsencrypt"*
+    rm -f "$CRYPTREST_LETSENCRYPT_BIN_FILE"*
 }
 
 letsencrypt_download()
@@ -75,7 +76,8 @@ letsencrypt_define()
 {
     cp "$CRYPTREST_MODULES_DIR/letsencrypt/opt/"*.sh "$CRYPTREST_LETSENCRYPT_OPT_DIR/" && \
     chmod 400 "$CRYPTREST_LETSENCRYPT_OPT_DIR/"*.sh && \
-    ln -s "$CRYPTREST_LETSENCRYPT_CERTBOT_DIR/certbot-auto" "$CRYPTREST_BIN_DIR/letsencrypt" && \
+    ln -s "$CRYPTREST_LETSENCRYPT_CERTBOT_DIR/certbot-auto" "$CRYPTREST_LETSENCRYPT_BIN_FILE" && \
+    chmod 500 "$CRYPTREST_LETSENCRYPT_BIN_FILE" && \
 
     echo "# $CRYPTREST_LETSENCRYPT_TITLE" >> "$CRYPTREST_ENV_FILE"
     echo "CRYPTREST_LETSENCRYPT_ETC_SYS_DIR=\"$CRYPTREST_LETSENCRYPT_ETC_SYS_DIR\"" >> "$CRYPTREST_ENV_FILE"

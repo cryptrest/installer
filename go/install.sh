@@ -5,6 +5,7 @@ CRYPTREST_GO="go$CRYPTREST_GO_VERSION"
 CRYPTREST_GO_DIR="$CRYPTREST_OPT_DIR/$CRYPTREST_GO"
 CRYPTREST_GO_PATH="$CRYPTREST_SRC_DIR/go"
 CRYPTREST_GO_TMP_DIR="$CRYPTREST_TMP_DIR/$CRYPTREST_GO"
+CRYPTREST_GO_BIN_FILE="$CRYPTREST_BIN_DIR/cryptrest-go"
 CRYPTREST_GO_TITLE='Golang'
 
 case "$(uname -m)" in
@@ -65,7 +66,8 @@ go_prepare()
     rm -rf "$CRYPTREST_GO_TMP_DIR" && \
     rm -rf "$CRYPTREST_GO_DIR" && \
     [ -d "$CRYPTREST_BIN_DIR/" ] && \
-    rm -f "$CRYPTREST_BIN_DIR/go"*
+    rm -f "$CRYPTREST_BIN_DIR/go"* && \
+    rm -f "$CRYPTREST_GO_BIN_FILE"*
 }
 
 go_download()
@@ -97,6 +99,8 @@ go_install()
 
 go_define()
 {
+    ln -s "$CRYPTREST_GO_DIR/bin/go" "$CRYPTREST_GO_BIN_FILE" && \
+    chmod 500 "$CRYPTREST_GO_BIN_FILE" && \
     echo "# $CRYPTREST_GO_TITLE" >> "$CRYPTREST_ENV_FILE"
     echo "export GOROOT=\"\$CRYPTREST_DIR/$(basename $CRYPTREST_OPT_DIR)/$CRYPTREST_GO\"" >> "$CRYPTREST_ENV_FILE"
     echo "export GOPATH=\"\$CRYPTREST_DIR/$(basename $CRYPTREST_SRC_DIR)/go\"" >> "$CRYPTREST_ENV_FILE"
