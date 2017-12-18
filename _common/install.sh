@@ -5,7 +5,6 @@ CRYPTREST__COMMON_WWW_ERRORS_DIR="$CRYPTREST__COMMON_WWW_DIR/errors"
 CRYPTREST__COMMON_TITLE='CryptREST Common'
 
 
-
 nginx_prepare()
 {
     if [ -d "$CRYPTREST__COMMON_WWW_DIR" ]; then

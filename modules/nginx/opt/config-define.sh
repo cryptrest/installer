@@ -1,6 +1,6 @@
 #!/bin/sh
 
-CONF_TEMPLATE_FILE_EXT='conf.template'
+CRYPTREST_NGINX_CONF_TEMPLATE_FILE_EXT='conf.template'
 
 
 nginx_links_define()
@@ -12,6 +12,7 @@ nginx_links_define()
     ln -s "$conf_file" "/etc/nginx/sites-available/$conf_file_name" && \
     rm -f "/etc/nginx/sites-enabled/$conf_file_name" && \
     ln -s "/etc/nginx/sites-available/$conf_file_name" "/etc/nginx/sites-enabled/$conf_file_name" && \
+
     nginx -t
 }
 
@@ -44,7 +45,7 @@ nginx_configs_define()
 
     for domain in $CRYPTREST_DOMAINS; do
         domain_prefix="$(echo "$domain" | sed "s/$CRYPTREST_DOMAIN//")"
-        template_file="$CRYPTREST_ETC_NGINX_DIR/$domain_prefix$CONF_TEMPLATE_FILE_EXT"
+        template_file="$CRYPTREST_ETC_NGINX_DIR/$domain_prefix$CRYPTREST_NGINX_CONF_TEMPLATE_FILE_EXT"
         conf_file="$CRYPTREST_ETC_NGINX_DIR/$domain_prefix$CRYPTREST_DOMAIN.conf"
 
         if [ -f "$template_file" ]; then
