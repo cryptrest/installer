@@ -6,27 +6,38 @@ CURRENT_DIR="${CURRENT_DIR:=$(cd $(dirname $0) && pwd -P)}"
 
 CRYPTREST_DIR="${CRYPTREST_DIR:=$(cd $(dirname $0)/../ && pwd -P)}"
 CRYPTREST_PUBLIC_KEY_PINS=''
+
 CRYPTREST_WWW_DIR="$CRYPTREST_DIR/www"
 CRYPTREST_SSL_DIR="$CRYPTREST_DIR/ssl"
-CRYPTREST_SSL_OPENSSL_DIR="$CRYPTREST_SSL_DIR/openssl"
-CRYPTREST_SSL_OPENSSL_DOMAIN_DIR="$CRYPTREST_SSL_OPENSSL_DIR/$CRYPTREST_DOMAIN"
-CRYPTREST_LOG_NGINX_DIR="$CRYPTREST_DIR/log/nginx"
 CRYPTREST_ETC_DIR="$CRYPTREST_DIR/etc"
-CRYPTREST_ETC_NGINX_DIR="$CRYPTREST_ETC_DIR/nginx"
-CRYPTREST_ETC_OPENSSL_DIR="$CRYPTREST_ETC_DIR/openssl"
 CRYPTREST_OPT_DIR="$CRYPTREST_DIR/opt"
-CRYPTREST_OPT_NGINX_DIR="$CRYPTREST_OPT_DIR/nginx"
-CRYPTREST_OPT_OPENSSL_DIR="$CRYPTREST_OPT_DIR/openssl"
 
-CRYPTREST_SSL_DOMAIN_DIR="$CRYPTREST_SSL_OPENSSL_DOMAIN_DIR"
+CRYPTREST_OPENSSL_ETC_DIR="$CRYPTREST_ETC_DIR/openssl"
+CRYPTREST_OPENSSL_OPT_DIR="$CRYPTREST_OPT_DIR/openssl"
+CRYPTREST_OPENSSL_SSL_DIR="$CRYPTREST_SSL_DIR/openssl"
+CRYPTREST_OPENSSL_SSL_DOMAIN_DIR="$CRYPTREST_OPENSSL_SSL_DIR/$CRYPTREST_DOMAIN"
+
+CRYPTREST_NGINX_LOG_DIR="$CRYPTREST_DIR/log/nginx"
+CRYPTREST_NGINX_ETC_DIR="$CRYPTREST_ETC_DIR/nginx"
+CRYPTREST_NGINX_OPT_DIR="$CRYPTREST_OPT_DIR/nginx"
+
+CRYPTREST_SSL_DOMAIN_DIR="$CRYPTREST_OPENSSL_SSL_DOMAIN_DIR"
 
 
-. "$CRYPTREST_OPT_OPENSSL_DIR/certs-define.sh"
-. "$CRYPTREST_OPT_NGINX_DIR/config-define.sh"
+. "$CRYPTREST_OPENSSL_OPT_DIR/certs-define.sh"
+. "$CRYPTREST_NGINX_OPT_DIR/config-define.sh"
 
 
-#openssl_ecdsa_define && \
-openssl_hd_param_define && \
-openssl_public_key_pins_define && \
-nginx -v && \
-nginx_configs_define
+openssl_init_prepare()
+{
+    openssl_domain_dir_define && \
+    #openssl_ecdsa_define && \
+    openssl_hd_param_define && \
+    openssl_ciphers_define && \
+    openssl_public_key_pins_define && \
+    nginx -v && \
+    nginx_configs_define
+}
+
+
+openssl_init_prepare

@@ -2,7 +2,7 @@
 
 CURRENT_DIR="$(cd $(dirname $0) && pwd -P)"
 
-    echo ''
+echo ''
 if [ -f "$CURRENT_DIR/.env" ]; then
     . "$CURRENT_DIR/.env"
 
@@ -16,7 +16,7 @@ CURRENT_DIR="$(cd $(dirname $0) && pwd -P)"
 # CRYPTREST_MODULES='nginx openssl letsencrypt'
 CRYPTREST_MODULES="${CRYPTREST_MODULES:=}"
 CRYPTREST_DOMAIN="${CRYPTREST_DOMAIN:=crypt.rest}"
-CRYPTREST_DOMAINS="${CRYPTREST_DOMAINS:=$CRYPTREST_DOMAIN api.$CRYPTREST_DOMAIN installer.$CRYPTREST_DOMAIN}"
+CRYPTREST_DOMAINS="${CRYPTREST_DOMAINS:=$CRYPTREST_DOMAIN www.$CRYPTREST_DOMAIN gui.$CRYPTREST_DOMAIN api.$CRYPTREST_DOMAIN installer.$CRYPTREST_DOMAIN}"
 CRYPTREST_EMAIL="${CRYPTREST_EMAIL:=$CRYPTREST_DOMAIN@gmail.com}"
 CRYPTREST_SSL_KEY_SIZE="${CRYPTREST_SSL_KEY_SIZE:=4096}"
 CRYPTREST_SSL_BITS="${CRYPTREST_SSL_BITS:=256}"
@@ -34,6 +34,7 @@ CRYPTREST_SRC_DIR="$CRYPTREST_DIR/src"
 CRYPTREST_ETC_DIR="$CRYPTREST_DIR/etc"
 CRYPTREST_LOG_DIR="$CRYPTREST_DIR/log"
 CRYPTREST_WWW_DIR="$CRYPTREST_DIR/www"
+CRYPTREST_VAR_DIR="$CRYPTREST_DIR/var"
 CRYPTREST_SSL_DIR="$CRYPTREST_DIR/ssl"
 CRYPTREST_SSL_CRYPTREST_DIR="$CRYPTREST_SSL_DIR/cryptrest"
 CRYPTREST_TMP_DIR="${TMPDIR:=/tmp}/cryptrest"
@@ -65,8 +66,8 @@ cryptrest_init()
     rm -f "$CRYPTREST_BIN_DIR/cryptrest-in"* && \
     mkdir -p "$CRYPTREST_DIR" && \
     chmod 755 "$CRYPTREST_DIR" && \
-    mkdir -p "$CRYPTREST_LIB_DIR" && \
-    chmod 700 "$CRYPTREST_LIB_DIR" && \
+    mkdir -p "$CRYPTREST_VAR_DIR" && \
+    chmod 700 "$CRYPTREST_VAR_DIR" && \
     mkdir -p "$CRYPTREST_OPT_DIR" && \
     chmod 700 "$CRYPTREST_OPT_DIR" && \
     mkdir -p "$CRYPTREST_SRC_DIR" && \
@@ -87,6 +88,8 @@ cryptrest_init()
     chmod 700 "$CRYPTREST_SSL_CRYPTREST_DIR" && \
     mkdir -p "$CRYPTREST_TMP_DIR" && \
     chmod 700 "$CRYPTREST_TMP_DIR" && \
+    mkdir -p "$CRYPTREST_LIB_DIR" && \
+    chmod 700 "$CRYPTREST_LIB_DIR" && \
     mkdir -p "$CRYPTREST_LIB_INSTALLER_DIR" && \
     chmod 700 "$CRYPTREST_LIB_INSTALLER_DIR" && \
     echo '' > "$CRYPTREST_ENV_FILE" && \

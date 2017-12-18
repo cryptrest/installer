@@ -74,10 +74,6 @@ nginx_define()
     ln -s "$CRYPTREST_NGINX_OPT_DIR/openssl-init.sh" "$CRYPTREST_NGINX_BIN_OPENSSL_INIT_FILE" && \
     ln -s "$CRYPTREST_NGINX_OPT_DIR/init.sh" "$CRYPTREST_NGINX_BIN_INIT_FILE" && \
     chmod 500 "$CRYPTREST_NGINX_OPT_DIR/"*init.sh && \
-    for domain in $CRYPTREST_DOMAINS; do
-        mkdir -p "$CRYPTREST_NGINX_LOG_DIR/$domain" && \
-        chmod 700 "$CRYPTREST_NGINX_LOG_DIR/$domain"
-    done
 
     echo "# $CRYPTREST_NGINX_TITLE" >> "$CRYPTREST_ENV_FILE"
     echo "CRYPTREST_NGINX_CMD_START=\"$CRYPTREST_NGINX_CMD_START\"" >> "$CRYPTREST_ENV_FILE"
