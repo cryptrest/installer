@@ -3,12 +3,13 @@
 CURRENT_DIR="$(cd $(dirname $0) && pwd -P)"
 
 echo ''
+printf 'CryptREST config file: '
 if [ -f "$CURRENT_DIR/.env" ]; then
     . "$CURRENT_DIR/.env"
 
-    echo 'CryptREST config file: loaded'
+    echo 'loaded'
 else
-    echo 'CryptREST config file: not loaded'
+    echo 'not loaded'
 fi
 
 CURRENT_DIR="$(cd $(dirname $0) && pwd -P)"
