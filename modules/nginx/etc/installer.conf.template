@@ -15,10 +15,10 @@ server {
     access_log [LOG_WWW]/[DOMAIN]/access.log;
 
     ssl on;
-    ssl_certificate [LETSENCRYPT_DIR]/[CRYPTREST_DOMAIN]/fullchain.pem;
-    ssl_certificate_key [LETSENCRYPT_DIR]/[CRYPTREST_DOMAIN]/privkey.pem;
-    ssl_trusted_certificate [LETSENCRYPT_DIR]/[CRYPTREST_DOMAIN]/cert.pem;
-    ssl_dhparam [LETSENCRYPT_DIR]/[CRYPTREST_DOMAIN]/dhparam.pem;
+    ssl_certificate [SSL_DOMAIN_DIR]/fullchain.pem;
+    ssl_certificate_key [SSL_DOMAIN_DIR]/privkey.pem;
+    ssl_trusted_certificate [SSL_DOMAIN_DIR]/cert.pem;
+    ssl_dhparam [OPENSSL_DOMAIN_DIR]/dhparam.pem;
 
     ssl_protocols TLSv1.2 TLSv1.1 TLSv1; # TLSv1.3;
     ssl_prefer_server_ciphers on;

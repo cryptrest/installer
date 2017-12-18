@@ -5,6 +5,8 @@ CRYPTREST_NGINX_ETC_DIR="$CRYPTREST_ETC_DIR/nginx"
 CRYPTREST_NGINX_LOG_DIR="$CRYPTREST_LOG_DIR/nginx"
 CRYPTREST_NGINX_TITLE='NGinx'
 CRYPTREST_BIN_NGINX_LETSENCRYPT_INIT_FILE="$CRYPTREST_BIN_DIR/cryptrest-nginx-letsencrypt-init"
+CRYPTREST_BIN_NGINX_OPENSSL_INIT_FILE="$CRYPTREST_BIN_DIR/cryptrest-nginx-openssl-init"
+CRYPTREST_BIN_NGINX_INIT_FILE="$CRYPTREST_BIN_DIR/cryptrest-nginx-init"
 
 case "$(uname -m)" in
     x86_64 | amd64 )
@@ -46,7 +48,7 @@ esac
 
 nginx_prepare()
 {
-    rm -f "$CRYPTREST_BIN_NGINX_LETSENCRYPT_INIT_FILE" && \
+    rm -f "$CRYPTREST_BIN_DIR/cryptrest-nginx"* && \
     rm -rf "$CRYPTREST_NGINX_ETC_DIR" && \
     rm -rf "$CRYPTREST_NGINX_LOG_DIR" && \
     rm -rf "$CRYPTREST_NGINX_OPT_DIR"
@@ -68,9 +70,10 @@ nginx_define()
     chmod 400 "$CRYPTREST_NGINX_ETC_DIR/"* && \
     cp "$CRYPTREST_MODULES_DIR/nginx/opt/"*.sh "$CRYPTREST_NGINX_OPT_DIR/" && \
     chmod 400 "$CRYPTREST_NGINX_OPT_DIR/"*.sh && \
-    rm -f "$CRYPTREST_NGINX_OPT_DIR/install"* && \
     ln -s "$CRYPTREST_NGINX_OPT_DIR/letsencrypt-init.sh" "$CRYPTREST_BIN_NGINX_LETSENCRYPT_INIT_FILE" && \
-    chmod 500 "$CRYPTREST_BIN_NGINX_LETSENCRYPT_INIT_FILE" && \
+    ln -s "$CRYPTREST_NGINX_OPT_DIR/openssl-init.sh" "$CRYPTREST_BIN_NGINX_OPENSSL_INIT_FILE" && \
+    ln -s "$CRYPTREST_NGINX_OPT_DIR/init.sh" "$CRYPTREST_BIN_NGINX_INIT_FILE" && \
+    chmod 500 "$CRYPTREST_NGINX_OPT_DIR/"*init.sh && \
     for domain in $CRYPTREST_DOMAINS; do
         mkdir -p "$CRYPTREST_NGINX_LOG_DIR/$domain" && \
         chmod 700 "$CRYPTREST_NGINX_LOG_DIR/$domain"
@@ -81,6 +84,7 @@ nginx_define()
     echo "CRYPTREST_NGINX_CMD_STOP=\"$CRYPTREST_NGINX_CMD_STOP\"" >> "$CRYPTREST_ENV_FILE"
     echo "CRYPTREST_NGINX_ARCH=\"$CRYPTREST_NGINX_ARCH\"" >> "$CRYPTREST_ENV_FILE"
     echo "CRYPTREST_NGINX_OS=\"$CRYPTREST_NGINX_OS\"" >> "$CRYPTREST_ENV_FILE"
+    echo '' >> "$CRYPTREST_ENV_FILE"
     echo '' >> "$CRYPTREST_ENV_FILE"
 
     echo "CRYPTREST_NGINX_* variables added in '$CRYPTREST_ENV_FILE'"
