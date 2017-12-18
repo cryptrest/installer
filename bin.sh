@@ -113,13 +113,21 @@ cryptrest_init()
 
 cryptrest_modules()
 {
-    [ ! -z "$CRYPTREST_MODULES_ARGS" ] && CRYPTREST_MODULES=''
+    local modules=''
 
-    for i in $CRYPTREST_MODULES_ARGS; do
-        if [ -d "$CRYPTREST_MODULES_DIR/$i" ] && [ -f "$CRYPTREST_MODULES_DIR/$i/install.sh" ]; then
-            CRYPTREST_MODULES="$CRYPTREST_MODULES $i"
+    if [ -z "$CRYPTREST_MODULES_ARGS" ]
+        modules="$CRYPTREST_MODULES"
+    else
+        modules="$CRYPTREST_MODULES_ARGS"
+    fi
+
+    CRYPTREST_MODULES=''
+
+    for m in $modules; do
+        if [ -d "$CRYPTREST_MODULES_DIR/$m" ] && [ -f "$CRYPTREST_MODULES_DIR/$m/install.sh" ]; then
+            CRYPTREST_MODULES="$CRYPTREST_MODULES $m"
         else
-            echo "$CRYPTREST_TITLE WARNING: module '$i' does not exist"
+            echo "$CRYPTREST_TITLE WARNING: module '$m' does not exist"
         fi
     done
 }
