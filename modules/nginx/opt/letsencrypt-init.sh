@@ -47,7 +47,7 @@ letsencrypt_init_run()
 {
     local domains=''
 
-    for domain in $CRYPTREST_DOMAINS; do
+    for domain in $CRYPTREST_SSL_DOMAINS; do
         domains="$domains -d $domain"
     done
 

@@ -2,10 +2,14 @@
 
 CURRENT_DIR="$(cd $(dirname $0) && pwd -P)"
 
+CRYPTREST_ENV_FILE="$CURRENT_DIR/../.env"
+[ ! -f "$CRYPTREST_ENV_FILE" ] && CRYPTREST_ENV_FILE="$CURRENT_DIR/../../../.env"
+[ ! -f "$CRYPTREST_ENV_FILE" ] && CRYPTREST_ENV_FILE="$CURRENT_DIR/.env"
+
 echo ''
 printf 'CryptREST config file: '
-if [ -f "$CURRENT_DIR/.env" ]; then
-    . "$CURRENT_DIR/.env"
+if [ -f "$CRYPTREST_ENV_FILE" ]; then
+    . "$CRYPTREST_ENV_FILE"
 
     echo 'loaded'
 else

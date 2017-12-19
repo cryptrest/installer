@@ -2,10 +2,14 @@
 
 CURRENT_DIR="$(cd $(dirname $0) && pwd -P)"
 
+CRYPTREST_ENV_FILE="$CURRENT_DIR/../.env"
+[ ! -f "$CRYPTREST_ENV_FILE" ] && CRYPTREST_ENV_FILE="$CURRENT_DIR/../../.env"
+[ ! -f "$CRYPTREST_ENV_FILE" ] && CRYPTREST_ENV_FILE="$CURRENT_DIR/.env"
+
 echo ''
 printf 'CryptREST config file: '
-if [ -f "$CURRENT_DIR/.env" ]; then
-    . "$CURRENT_DIR/.env"
+if [ -f "$CRYPTREST_ENV_FILE" ]; then
+    . "$CRYPTREST_ENV_FILE"
 
     echo 'loaded'
 else
@@ -17,6 +21,7 @@ CURRENT_DIR="$(cd $(dirname $0) && pwd -P)"
 CRYPTREST_DOMAIN="${CRYPTREST_DOMAIN:=crypt.rest}"
 CRYPTREST_DOMAINS="${CRYPTREST_DOMAINS:=$CRYPTREST_DOMAIN www.$CRYPTREST_DOMAIN gui.$CRYPTREST_DOMAIN api.$CRYPTREST_DOMAIN installer.$CRYPTREST_DOMAIN}"
 CRYPTREST_EMAIL="${CRYPTREST_EMAIL:=$CRYPTREST_DOMAIN@gmail.com}"
+CRYPTREST_SSL_DOMAINS="${CRYPTREST_SSL_DOMAINS:=$CRYPTREST_DOMAIN *.$CRYPTREST_DOMAIN}"
 CRYPTREST_SSL_KEY_SIZE="${CRYPTREST_SSL_KEY_SIZE:=4096}"
 CRYPTREST_SSL_BITS="${CRYPTREST_SSL_BITS:=256}"
 CRYPTREST_GIT_BRANCH="${CRYPTREST_GIT_BRANCH:=master}"
@@ -111,9 +116,10 @@ cryptrest_init()
     echo "export PATH=\"\$CRYPTREST_DIR/bin:\$PATH\"" >> "$CRYPTREST_ENV_FILE"
     echo '' >> "$CRYPTREST_ENV_FILE"
     echo "CRYPTREST_USER=\"$CRYPTREST_USER\"" >> "$CRYPTREST_ENV_FILE"
+    echo "CRYPTREST_EMAIL=\"$CRYPTREST_EMAIL\"" >> "$CRYPTREST_ENV_FILE"
     echo "CRYPTREST_DOMAIN=\"$CRYPTREST_DOMAIN\"" >> "$CRYPTREST_ENV_FILE"
     echo "CRYPTREST_DOMAINS=\"$CRYPTREST_DOMAINS\"" >> "$CRYPTREST_ENV_FILE"
-    echo "CRYPTREST_EMAIL=\"$CRYPTREST_EMAIL\"" >> "$CRYPTREST_ENV_FILE"
+    echo "CRYPTREST_SSL_DOMAINS=\"$CRYPTREST_SSL_DOMAINS\"" >> "$CRYPTREST_ENV_FILE"
     echo "CRYPTREST_SSL_KEY_SIZE=\"$CRYPTREST_SSL_KEY_SIZE\"" >> "$CRYPTREST_ENV_FILE"
     echo "CRYPTREST_SSL_BITS=\"$CRYPTREST_SSL_BITS\"" >> "$CRYPTREST_ENV_FILE"
     echo '' >> "$CRYPTREST_ENV_FILE"
@@ -138,11 +144,11 @@ cryptrest_local_install()
 {
     echo "$CRYPTREST_TITLE mode: local"
     echo ''
-
+    (
     for i in $CRYPTREST_MAIN_MODULES; do
         . "$CRYPTREST_MAIN_MODULES_DIR/$i/install.sh"
         [ $? -ne 0 ] && return 1
-    done
+    done) && \
 
     cp "$CRYPTREST_MAIN_MODULES_DIR/bin.sh" "$CRYPTREST_WWW_INSTALLER_HTML_FILE" && \
     return 0
@@ -185,24 +191,23 @@ cryptrest_bin_installer_define()
     chmod 700 "$CRYPTREST_LIB_INSTALLER_BIN_DIR" && \
     rm -f "$CRYPTREST_BIN_INSTALLER_FILE"* && \
 
-    if [ -d "$CRYPTREST_MAIN_MODULES_BIN_DIR" ]; then
-        for f in $(ls "$CRYPTREST_MAIN_MODULES_BIN_DIR/"*.sh); do
-            file_name="$(basename -s .sh "$f")"
-            html_dir="$CRYPTREST_WWW_INSTALLER_DIR/$file_name"
-            html_file="$html_dir/index.html"
-            bin_file="$CRYPTREST_LIB_INSTALLER_BIN_DIR/$(basename "$f")"
+    for f in $(ls "$CRYPTREST_MAIN_MODULES_BIN_DIR/"*.sh); do
+        file_name="$(basename -s .sh "$f")"
+        html_dir="$CRYPTREST_WWW_INSTALLER_DIR/$file_name"
+        html_file="$html_dir/index.html"
+        bin_file="$CRYPTREST_LIB_INSTALLER_BIN_DIR/$(basename "$f")"
 
-            if [ "$f" != "$bin_file" ]; then
-                cp "$f" "$bin_file" && \
-                chmod 500 "$bin_file"
-            fi
-            mkdir -p "$html_dir" && \
-            cp "$bin_file" "$html_file" && \
-            chmod 444 "$html_file" && \
-            chmod 555 "$html_dir" && \
-            ln -s "$bin_file" "$CRYPTREST_BIN_INSTALLER_FILE-$file_name"
-        done
-    fi
+        if [ "$f" != "$bin_file" ]; then
+            cp "$f" "$bin_file" && \
+            chmod 500 "$bin_file"
+        fi
+
+        mkdir -p "$html_dir" && \
+        cp "$bin_file" "$html_file" && \
+        chmod 444 "$html_file" && \
+        chmod 555 "$html_dir" && \
+        ln -s "$bin_file" "$CRYPTREST_BIN_INSTALLER_FILE-$file_name"
+    done
 }
 
 cryptrest_define()
@@ -233,7 +238,7 @@ cryptrest_define_env_file()
                 echo "# $CRYPTREST_TITLE" >> "$profile_file"
                 echo ". \$HOME/.cryptrest/.env" >> "$profile_file"
 
-               echo "    '$profile_file"
+                echo "    '$profile_file"
             fi
         done
 
