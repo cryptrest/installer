@@ -144,11 +144,12 @@ cryptrest_local_install()
 {
     echo "$CRYPTREST_TITLE mode: local"
     echo ''
-    (
+
     for i in $CRYPTREST_MAIN_MODULES; do
         . "$CRYPTREST_MAIN_MODULES_DIR/$i/install.sh"
+
         [ $? -ne 0 ] && return 1
-    done) && \
+    done
 
     cp "$CRYPTREST_MAIN_MODULES_DIR/bin.sh" "$CRYPTREST_WWW_INSTALLER_HTML_FILE" && \
     return 0
