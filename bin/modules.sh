@@ -14,6 +14,8 @@ fi
 
 CURRENT_DIR="$(cd $(dirname $0) && pwd -P)"
 
+# CRYPTREST_MODULES='nginx openssl letsencrypt'
+CRYPTREST_MODULES="${CRYPTREST_MODULES:=}"
 CRYPTREST_DOMAIN="${CRYPTREST_DOMAIN:=crypt.rest}"
 CRYPTREST_DOMAINS="${CRYPTREST_DOMAINS:=$CRYPTREST_DOMAIN www.$CRYPTREST_DOMAIN gui.$CRYPTREST_DOMAIN api.$CRYPTREST_DOMAIN installer.$CRYPTREST_DOMAIN}"
 CRYPTREST_EMAIL="${CRYPTREST_EMAIL:=$CRYPTREST_DOMAIN@gmail.com}"
@@ -37,10 +39,7 @@ CRYPTREST_VAR_DIR="$CRYPTREST_DIR/var"
 CRYPTREST_SSL_DIR="$CRYPTREST_DIR/ssl"
 CRYPTREST_SSL_CRYPTREST_DIR="$CRYPTREST_SSL_DIR/cryptrest"
 CRYPTREST_TMP_DIR="${TMPDIR:=/tmp}/cryptrest"
-
-CRYPTREST_BIN_INSTALLER_FILE="$CRYPTREST_BIN_DIR/cryptrest-installer"
 CRYPTREST_LIB_INSTALLER_DIR="$CRYPTREST_LIB_DIR/installer-$CRYPTREST_GIT_BRANCH"
-CRYPTREST_LIB_INSTALLER_BIN_DIR="$CRYPTREST_LIB_INSTALLER_DIR/bin"
 CRYPTREST_LIB_INSTALLER_FILE="$CRYPTREST_LIB_INSTALLER_DIR/bin.sh"
 CRYPTREST_LIB_INSTALLER_VERSION_FILE="$CRYPTREST_LIB_INSTALLER_DIR/VERSION"
 CRYPTREST_WWW_INSTALLER_DIR="$CRYPTREST_WWW_DIR/installer"
@@ -48,33 +47,26 @@ CRYPTREST_WWW_INSTALLER_HTML_FILE="$CRYPTREST_WWW_INSTALLER_DIR/index.html"
 
 CRYPTREST_MAIN_MODULES='_common'
 CRYPTREST_MAIN_MODULES_DIR="$CURRENT_DIR"
-CRYPTREST_MAIN_MODULES_BIN_DIR="$CRYPTREST_MAIN_MODULES_DIR/bin"
+CRYPTREST_MODULES_ARGS="$*"
+CRYPTREST_MODULES_DIR="$CRYPTREST_MAIN_MODULES_DIR/modules"
+CRYPTREST_LIBS_ARGS="$*"
+CRYPTREST_LIBS_DIR="$CURRENT_DIR/libs"
 CRYPTREST_IS_LOCAL=1
 CRYPTREST_HOME_SHELL_PROFILE_FILES=".bashrc .mkshrc .zshrc .cshrc .kshrc"
 
 
-cryptrest_prepare()
+cryptrest_init()
 {
-(   if [ -d ""$CRYPTREST_WWW_DIR"" ]; then
+    if [ -d ""$CRYPTREST_WWW_DIR"" ]; then
         chmod 700 "$CRYPTREST_WWW_DIR"
     fi
     if [ -d ""$CRYPTREST_WWW_INSTALLER_DIR"" ]; then
         chmod 700 "$CRYPTREST_WWW_INSTALLER_DIR" && \
-        for d in $(ls "$CRYPTREST_WWW_INSTALLER_DIR/"); do
-            [ -d "$CRYPTREST_WWW_INSTALLER_DIR/$d" ] && \
-            chmod -R 700 "$CRYPTREST_WWW_INSTALLER_DIR/$d" && \
-            rm -rf "$CRYPTREST_WWW_INSTALLER_DIR/$d"
-        done
         rm -rf "$CRYPTREST_WWW_INSTALLER_DIR"
-    fi) && \
+    fi
 
     rm -f "$CRYPTREST_ENV_FILE" && \
-    rm -f "$CRYPTREST_BIN_INSTALLER_FILE"*
-}
-
-cryptrest_init()
-{
-    cryptrest_prepare && \
+    rm -f "$CRYPTREST_BIN_DIR/cryptrest-in"* && \
     mkdir -p "$CRYPTREST_DIR" && \
     chmod 755 "$CRYPTREST_DIR" && \
     mkdir -p "$CRYPTREST_VAR_DIR" && \
@@ -104,8 +96,7 @@ cryptrest_init()
     mkdir -p "$CRYPTREST_LIB_INSTALLER_DIR" && \
     chmod 700 "$CRYPTREST_LIB_INSTALLER_DIR" && \
     echo '' > "$CRYPTREST_ENV_FILE" && \
-    chmod 600 "$CRYPTREST_ENV_FILE" && (
-
+    chmod 600 "$CRYPTREST_ENV_FILE" && \
     echo "# $CRYPTREST_TITLE" > "$CRYPTREST_ENV_FILE"
     echo "export CRYPTREST_DIR=\"$HOME/.cryptrest\"" >> "$CRYPTREST_ENV_FILE"
     echo "export PATH=\"\$CRYPTREST_DIR/bin:\$PATH\"" >> "$CRYPTREST_ENV_FILE"
@@ -119,7 +110,28 @@ cryptrest_init()
     echo '' >> "$CRYPTREST_ENV_FILE"
     echo '' >> "$CRYPTREST_ENV_FILE"
 
-    echo "$CRYPTREST_TITLE structure: init")
+    echo "$CRYPTREST_TITLE structure: init"
+}
+
+cryptrest_modules()
+{
+    local modules=''
+
+    if [ -z "$CRYPTREST_MODULES_ARGS" ]; then
+        modules="$CRYPTREST_MODULES"
+    else
+        modules="$CRYPTREST_MODULES_ARGS"
+    fi
+
+    CRYPTREST_MODULES=''
+
+    for m in $modules; do
+        if [ -d "$CRYPTREST_MODULES_DIR/$m" ] && [ -f "$CRYPTREST_MODULES_DIR/$m/install.sh" ]; then
+            CRYPTREST_MODULES="$CRYPTREST_MODULES $m"
+        else
+            echo "$CRYPTREST_TITLE WARNING: module '$m' does not exist"
+        fi
+    done
 }
 
 cryptrest_is_local()
@@ -141,6 +153,11 @@ cryptrest_local_install()
 
     for i in $CRYPTREST_MAIN_MODULES; do
         . "$CRYPTREST_MAIN_MODULES_DIR/$i/install.sh"
+        [ $? -ne 0 ] && return 1
+    done
+
+    for i in $CRYPTREST_MODULES; do
+        . "$CRYPTREST_MODULES_DIR/$i/install.sh"
         [ $? -ne 0 ] && return 1
     done
 
@@ -167,50 +184,20 @@ cryptrest_network_install()
 
     cryptrest_download && \
     cp "$CRYPTREST_LIB_INSTALLER_FILE" "$CRYPTREST_WWW_INSTALLER_HTML_FILE" && \
-    "$CRYPTREST_LIB_INSTALLER_FILE"
-}
-
-cryptrest_bin_installer_define()
-{
-    local html_file=''
-    local html_dir=''
-    local bin_file=''
-    local file_name=''
-
-    mkdir -p "$CRYPTREST_LIB_INSTALLER_BIN_DIR" && \
-    chmod 700 "$CRYPTREST_LIB_INSTALLER_BIN_DIR" && \
-    rm -f "$CRYPTREST_LIB_INSTALLER_BIN_DIR/"*.sh && \
-    for f in $(ls "$CRYPTREST_MAIN_MODULES_BIN_DIR/"*.sh); do
-        file_name="$(basename -s .sh "$f")"
-        html_dir="$CRYPTREST_WWW_INSTALLER_DIR/$file_name"
-        html_file="$html_dir/index.html"
-        bin_file="$CRYPTREST_LIB_INSTALLER_BIN_DIR/$(basename "$f")"
-
-        cp "$f" "$bin_file" && \
-        chmod 500 "$bin_file" && \
-        mkdir -p "$html_dir" && \
-        ln -s "$bin_file" "$CRYPTREST_BIN_INSTALLER_FILE-$file_name" && \
-        cp "$CRYPTREST_BIN_INSTALLER_FILE-$file_name" "$html_file" && \
-        chmod 444 "$html_file" && \
-        chmod 555 "$html_dir"
-    done
+    CRYPTREST_MODULES="$CRYPTREST_MODULES" "$CRYPTREST_LIB_INSTALLER_FILE" $CRYPTREST_MODULES_ARGS
 }
 
 cryptrest_define()
 {
-    cryptrest_bin_installer_define && \
+    local profile_file=''
+
     chmod 444 "$CRYPTREST_WWW_INSTALLER_HTML_FILE" && \
     ln -s "$CRYPTREST__COMMON_WWW_ERRORS_DIR/" "$CRYPTREST_WWW_INSTALLER_DIR/" && \
+    chmod 555 "$CRYPTREST_WWW_INSTALLER_DIR" && \
+    chmod 555 "$CRYPTREST_WWW_DIR" && \
     chmod 400 "$CRYPTREST_ENV_FILE" && \
     chmod 500 "$CRYPTREST_LIB_INSTALLER_FILE" && \
-    ln -s "$CRYPTREST_LIB_INSTALLER_FILE" "$CRYPTREST_BIN_INSTALLER_FILE" && \
-    chmod 555 "$CRYPTREST_WWW_INSTALLER_DIR" && \
-    chmod 555 "$CRYPTREST_WWW_DIR"
-}
-
-cryptrest_define_env_file()
-{
-    local profile_file=''
+    ln -s "$CRYPTREST_LIB_INSTALLER_FILE" "$CRYPTREST_BIN_DIR/cryptrest-installer" && \
 
     if [ $? -eq 0 ]; then
         echo ''
@@ -254,14 +241,13 @@ cryptrest_install()
         else
             status=1
         fi
-        [ $status -eq 0 ] && \
-        cryptrest_define && \
-        cryptrest_define_env_file
+        [ $status -eq 0 ] && cryptrest_define
     else
         cryptrest_network_install
     fi
 }
 
 
+cryptrest_modules && \
 cryptrest_init && \
 cryptrest_install
