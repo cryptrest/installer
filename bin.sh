@@ -144,7 +144,7 @@ cryptrest_local_install()
         [ $? -ne 0 ] && return 1
     done
 
-    cryptrest_bin_installer_define && \
+#    cryptrest_bin_installer_define && \
     cp "$CRYPTREST_MAIN_MODULES_DIR/bin.sh" "$CRYPTREST_WWW_INSTALLER_HTML_FILE" && \
     return 0
 }
@@ -204,6 +204,7 @@ cryptrest_bin_installer_define()
 
 cryptrest_define()
 {
+    cryptrest_bin_installer_define && \
     chmod 444 "$CRYPTREST_WWW_INSTALLER_HTML_FILE" && \
     ln -s "$CRYPTREST__COMMON_WWW_ERRORS_DIR/" "$CRYPTREST_WWW_INSTALLER_DIR/" && \
     chmod 400 "$CRYPTREST_ENV_FILE" && \
