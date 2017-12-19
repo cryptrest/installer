@@ -188,7 +188,7 @@ cryptrest_bin_installer_define()
         html_file="$html_dir/index.html"
         bin_file="$CRYPTREST_LIB_INSTALLER_BIN_DIR/$(basename "$f")"
 
-        [ "$f" != "$bin_file" ] && \
+        if [ "$f" != "$bin_file" ]; then
         cp "$f" "$bin_file" && \
         chmod 500 "$bin_file" && \
         mkdir -p "$html_dir" && \
@@ -196,6 +196,7 @@ cryptrest_bin_installer_define()
         cp "$CRYPTREST_BIN_INSTALLER_FILE-$file_name" "$html_file" && \
         chmod 444 "$html_file" && \
         chmod 555 "$html_dir"
+        fi
     done
 }
 
