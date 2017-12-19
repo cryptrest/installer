@@ -144,7 +144,6 @@ cryptrest_local_install()
         [ $? -ne 0 ] && return 1
     done
 
-#    cryptrest_bin_installer_define && \
     cp "$CRYPTREST_MAIN_MODULES_DIR/bin.sh" "$CRYPTREST_WWW_INSTALLER_HTML_FILE" && \
     return 0
 }
@@ -186,22 +185,24 @@ cryptrest_bin_installer_define()
     chmod 700 "$CRYPTREST_LIB_INSTALLER_BIN_DIR" && \
     rm -f "$CRYPTREST_BIN_INSTALLER_FILE"* && \
 
-    for f in $(ls "$CRYPTREST_MAIN_MODULES_BIN_DIR/"*.sh); do
-        file_name="$(basename -s .sh "$f")"
-        html_dir="$CRYPTREST_WWW_INSTALLER_DIR/$file_name"
-        html_file="$html_dir/index.html"
-        bin_file="$CRYPTREST_LIB_INSTALLER_BIN_DIR/$(basename "$f")"
+    if [ -d "$CRYPTREST_MAIN_MODULES_BIN_DIR" ]; then
+        for f in $(ls "$CRYPTREST_MAIN_MODULES_BIN_DIR/"*.sh); do
+            file_name="$(basename -s .sh "$f")"
+            html_dir="$CRYPTREST_WWW_INSTALLER_DIR/$file_name"
+            html_file="$html_dir/index.html"
+            bin_file="$CRYPTREST_LIB_INSTALLER_BIN_DIR/$(basename "$f")"
 
-        if [ "$f" != "$bin_file" ]; then
-            cp "$f" "$bin_file" && \
-            chmod 500 "$bin_file"
-        fi
-        mkdir -p "$html_dir" && \
-        cp "$bin_file" "$html_file" && \
-        chmod 444 "$html_file" && \
-        chmod 555 "$html_dir" && \
-        ln -s "$bin_file" "$CRYPTREST_BIN_INSTALLER_FILE-$file_name"
-    done
+            if [ "$f" != "$bin_file" ]; then
+                cp "$f" "$bin_file" && \
+                chmod 500 "$bin_file"
+            fi
+            mkdir -p "$html_dir" && \
+            cp "$bin_file" "$html_file" && \
+            chmod 444 "$html_file" && \
+            chmod 555 "$html_dir" && \
+            ln -s "$bin_file" "$CRYPTREST_BIN_INSTALLER_FILE-$file_name"
+        done
+    fi
 }
 
 cryptrest_define()
