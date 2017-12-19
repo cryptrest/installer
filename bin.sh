@@ -194,13 +194,13 @@ cryptrest_bin_installer_define()
 
         if [ "$f" != "$bin_file" ]; then
             cp "$f" "$bin_file" && \
-            chmod 500 "$bin_file"
-            mkdir -p "$html_dir"
+            chmod 500 "$bin_file" && \
+            mkdir -p "$html_dir" && \
             cp "$bin_file" "$html_file" && \
             chmod 444 "$html_file" && \
             chmod 555 "$html_dir"
-            ln -s "$bin_file" "$CRYPTREST_BIN_INSTALLER_FILE-$file_name"
         fi
+        ln -s "$bin_file" "$CRYPTREST_BIN_INSTALLER_FILE-$file_name"
     done
 }
 
