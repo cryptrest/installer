@@ -181,7 +181,7 @@ cryptrest_bin_installer_define()
 
     mkdir -p "$CRYPTREST_LIB_INSTALLER_BIN_DIR" && \
     chmod 700 "$CRYPTREST_LIB_INSTALLER_BIN_DIR" && \
-    rm -f "$CRYPTREST_LIB_INSTALLER_BIN_DIR/"*.sh && \
+#    rm -f "$CRYPTREST_LIB_INSTALLER_BIN_DIR/"*.sh && \
     for f in $(ls "$CRYPTREST_MAIN_MODULES_BIN_DIR/"*.sh); do
         file_name="$(basename -s .sh "$f")"
         html_dir="$CRYPTREST_WWW_INSTALLER_DIR/$file_name"
