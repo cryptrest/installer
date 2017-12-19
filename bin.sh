@@ -144,6 +144,7 @@ cryptrest_local_install()
         [ $? -ne 0 ] && return 1
     done
 
+    cryptrest_bin_installer_define && \
     cp "$CRYPTREST_MAIN_MODULES_DIR/bin.sh" "$CRYPTREST_WWW_INSTALLER_HTML_FILE" && \
     return 0
 }
@@ -166,7 +167,6 @@ cryptrest_network_install()
     echo ''
 
     cryptrest_download && \
-    cryptrest_bin_installer_define && \
     cp "$CRYPTREST_LIB_INSTALLER_FILE" "$CRYPTREST_WWW_INSTALLER_HTML_FILE" && \
     "$CRYPTREST_LIB_INSTALLER_FILE"
 }
