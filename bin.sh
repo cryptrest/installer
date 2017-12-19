@@ -63,6 +63,7 @@ cryptrest_prepare()
 (   if [ -d ""$CRYPTREST_WWW_DIR"" ]; then
         chmod 700 "$CRYPTREST_WWW_DIR"
     fi
+
     if [ -d ""$CRYPTREST_WWW_INSTALLER_DIR"" ]; then
         chmod 700 "$CRYPTREST_WWW_INSTALLER_DIR" && \
         for d in $(ls "$CRYPTREST_WWW_INSTALLER_DIR/"); do
@@ -70,6 +71,7 @@ cryptrest_prepare()
             chmod -R 700 "$CRYPTREST_WWW_INSTALLER_DIR/$d" && \
             rm -rf "$CRYPTREST_WWW_INSTALLER_DIR/$d"
         done
+
         rm -rf "$CRYPTREST_WWW_INSTALLER_DIR"
     fi) && \
 
@@ -133,6 +135,7 @@ cryptrest_is_local()
     for i in $CRYPTREST_MAIN_MODULES; do
         if [ -d "$CRYPTREST_MAIN_MODULES_DIR/$i" ] && [ -f "$CRYPTREST_MAIN_MODULES_DIR/$i/install.sh" ]; then
             CRYPTREST_IS_LOCAL=0
+
             break
         fi
     done
@@ -188,6 +191,7 @@ cryptrest_bin_installer_define()
     [ -d "$CRYPTREST_LIB_INSTALLER_BIN_DIR" ] && \
     [ ! -z "$(ls "$CRYPTREST_LIB_INSTALLER_BIN_DIR")" ] && \
     chmod 700 "$CRYPTREST_LIB_INSTALLER_BIN_DIR/"*.sh
+
     mkdir -p "$CRYPTREST_LIB_INSTALLER_BIN_DIR" && \
     chmod 700 "$CRYPTREST_LIB_INSTALLER_BIN_DIR" && \
     rm -f "$CRYPTREST_BIN_INSTALLER_FILE"* && \
@@ -223,6 +227,19 @@ cryptrest_define()
     chmod 555 "$CRYPTREST_WWW_DIR"
 }
 
+cryptrest_version_define()
+{
+    local version=''
+    local message=''
+
+    if [ -f "$CRYPTREST_LIB_INSTALLER_VERSION_FILE" ]; then
+        version="$(cat "$CRYPTREST_LIB_INSTALLER_VERSION_FILE")"
+        message=" (version: $version)"
+    fi
+
+    echo "$message"
+}
+
 cryptrest_define_env_file()
 {
     local profile_file=''
@@ -244,7 +261,7 @@ cryptrest_define_env_file()
         done
 
         echo ''
-        echo "$CRYPTREST_TITLE (version: $(cat "$CRYPTREST_LIB_INSTALLER_VERSION_FILE")): installation successfully completed!"
+        echo "$CRYPTREST_TITLE$(cryptrest_version_define): installation successfully completed!"
         echo ''
     fi
 }
