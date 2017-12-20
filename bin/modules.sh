@@ -3,8 +3,15 @@
 CURRENT_DIR="$(cd $(dirname $0) && pwd -P)"
 
 CRYPTREST_ENV_FILE="$CURRENT_DIR/../.env"
-[ ! -f "$CRYPTREST_ENV_FILE" ] && CRYPTREST_ENV_FILE="$CURRENT_DIR/../../../.env"
-[ ! -f "$CRYPTREST_ENV_FILE" ] && CRYPTREST_ENV_FILE="$CURRENT_DIR/.env"
+CRYPTREST_MAIN_MODULES_DIR="$CURRENT_DIR/.."
+if [ ! -f "$CRYPTREST_ENV_FILE" ]; then
+    CRYPTREST_ENV_FILE="$CURRENT_DIR/../../../.env"
+    CRYPTREST_MAIN_MODULES_DIR="$CURRENT_DIR/../../.."
+fi
+if [ ! -f "$CRYPTREST_ENV_FILE" ]; then
+    CRYPTREST_ENV_FILE="$CURRENT_DIR/.env"
+    CRYPTREST_MAIN_MODULES_DIR="$CURRENT_DIR"
+fi
 
 echo ''
 printf 'CryptREST config file: '
