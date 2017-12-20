@@ -188,7 +188,7 @@ cryptrest_network_install()
 
     cryptrest_download && \
     cp "$CRYPTREST_LIB_INSTALLER_FILE" "$CRYPTREST_WWW_INSTALLER_HTML_FILE" && \
-    cryptrest_bin_installer_define && \
+#    cryptrest_bin_installer_define && \
     "$CRYPTREST_LIB_INSTALLER_FILE"
 }
 
