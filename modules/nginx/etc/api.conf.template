@@ -31,12 +31,13 @@ server {
     ssl_session_cache shared:SSL:10m;
     ssl_session_timeout 10m;
     ssl_session_tickets on;
-    ssl_session_ticket_key [OPENSSL_DOMAIN_DIR]/ticket.key;
+    ssl_session_ticket_key [OPENSSL_DOMAIN_DIR]/session_ticket.key;
 
     ssl_ecdh_curve secp384r1; # sect283k1:sect283r1:sect409k1:sect409r1:sect571k1:sect571r1:secp256k1:secp256r1:secp384r1:secp521r1:brainpoolP256r1:brainpoolP384r1:brainpoolP512r1
     ssl_stapling on;
     ssl_stapling_verify on;
     ssl_buffer_size 16k;
+    ssl_verify_client on;
 
 #    set_cookie_flag HttpOnly secure;
 
