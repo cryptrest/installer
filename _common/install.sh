@@ -25,7 +25,7 @@ nginx_install()
 
 nginx_define()
 {
-    cp -r "$CURRENT_DIR/_common/www/"* "$CRYPTREST__COMMON_WWW_DIR/" && \
+    cp -r "$CRYPTREST_CURRENT_DIR/_common/www/"* "$CRYPTREST__COMMON_WWW_DIR/" && \
     chmod 400 "$CRYPTREST__COMMON_WWW_DIR/"* && \
     chmod 700 "$CRYPTREST__COMMON_WWW_ERRORS_DIR" && \
     chmod 444 "$CRYPTREST__COMMON_WWW_ERRORS_DIR/"*.html && \

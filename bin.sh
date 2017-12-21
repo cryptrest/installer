@@ -1,28 +1,28 @@
 #!/bin/sh
 
-CURRENT_DIR="$(cd $(dirname $0) && pwd -P)"
+CRYPTREST_CURRENT_DIR="$(cd $(dirname $0) && pwd -P)"
 
-CRYPTREST_ENV_FILE="$CURRENT_DIR/.env"
-CRYPTREST_MAIN_LIBS_DIR="$CURRENT_DIR"
-if [ ! -f "$CRYPTREST_ENV_FILE" ]; then
-    CRYPTREST_ENV_FILE="$CURRENT_DIR/../.env"
-    CRYPTREST_MAIN_LIBS_DIR="$CURRENT_DIR/.."
-elif [ ! -f "$CRYPTREST_ENV_FILE" ]; then
-    CRYPTREST_ENV_FILE="$CURRENT_DIR/../../.env"
-    CRYPTREST_MAIN_LIBS_DIR="$CURRENT_DIR/../.."
+CRYPTREST_CURRENT_ENV_FILE="$CRYPTREST_CURRENT_DIR/.env"
+CRYPTREST_MAIN_LIBS_DIR="$CRYPTREST_CURRENT_DIR"
+if [ ! -f "$CRYPTREST_CURRENT_ENV_FILE" ]; then
+    CRYPTREST_CURRENT_ENV_FILE="$CRYPTREST_CURRENT_DIR/../.env"
+    CRYPTREST_MAIN_LIBS_DIR="$CRYPTREST_CURRENT_DIR/.."
+elif [ ! -f "$CRYPTREST_CURRENT_ENV_FILE" ]; then
+    CRYPTREST_CURRENT_ENV_FILE="$CRYPTREST_CURRENT_DIR/../../.env"
+    CRYPTREST_MAIN_LIBS_DIR="$CRYPTREST_CURRENT_DIR/../.."
 fi
 
 echo ''
 printf 'CryptREST config file: '
-if [ -f "$CRYPTREST_ENV_FILE" ]; then
-    . "$CRYPTREST_ENV_FILE"
+if [ -f "$CRYPTREST_CURRENT_ENV_FILE" ]; then
+    . "$CRYPTREST_CURRENT_ENV_FILE"
 
     echo 'loaded'
 else
     echo 'not loaded'
 fi
 
-CURRENT_DIR="$(cd $(dirname $0) && pwd -P)"
+CRYPTREST_CURRENT_DIR="$(cd $(dirname $0) && pwd -P)"
 
 CRYPTREST_DOMAIN="${CRYPTREST_DOMAIN:=crypt.rest}"
 CRYPTREST_EMAIL="${CRYPTREST_EMAIL:=$CRYPTREST_DOMAIN@gmail.com}"
@@ -33,7 +33,7 @@ CRYPTREST_INSTALLER_GIT_BRANCH="${CRYPTREST_INSTALLER_GIT_BRANCH:=master}"
 CRYPTREST_MAIN_LIBS='_common'
 CRYPTREST_MAIN_LIBS_BIN_DIR="$CRYPTREST_MAIN_LIBS_DIR/bin"
 CRYPTREST_IS_LOCAL=1
-CRYPTREST_HOME_SHELL_PROFILE_FILES=".bashrc .mkshrc .zshrc .cshrc .kshrc"
+CRYPTREST_HOME_SHELL_PROFILE_FILES='.bashrc .mkshrc .zshrc .cshrc .kshrc'
 
 CRYPTREST_NAME='cryptrest'
 CRYPTREST_TITLE='CryptREST'
@@ -276,7 +276,7 @@ cryptrest_install()
         if [ $? -eq 0 ]; then
             status=0
 
-            if [ "$CURRENT_DIR" != "$CRYPTREST_INSTALLER_LIB_DIR" ]; then
+            if [ "$CRYPTREST_CURRENT_DIR" != "$CRYPTREST_INSTALLER_LIB_DIR" ]; then
                 rm -f "$CRYPTREST_INSTALLER_LIB_FILE" && \
                 cp "$CRYPTREST_MAIN_LIBS_DIR/bin.sh" "$CRYPTREST_INSTALLER_LIB_FILE" && \
                 cp "$CRYPTREST_MAIN_LIBS_DIR/VERSION" "$CRYPTREST_INSTALLER_LIB_VERSION_FILE" && \
@@ -287,6 +287,7 @@ cryptrest_install()
         else
             status=1
         fi
+
         [ $status -eq 0 ] && \
         cryptrest_define && \
         cryptrest_define_env_file
