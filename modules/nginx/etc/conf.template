@@ -43,9 +43,10 @@ server {
     ssl_stapling_verify on;
     ssl_buffer_size 16k;
 
-    set_cookie_flag HttpOnly secure;
+#    set_cookie_flag HttpOnly secure;
 
-    add_header X-Frame-Options "DENY";
+    add_header Cache-Control "public";
+    add_header X-Frame-Options "SAMEORIGIN";
     add_header X-Content-Type-Options "nosniff";
     add_header Strict-Transport-Security "max-age=31536000; includeSubDomains; preload";
     add_header Public-Key-Pins '[PUBLIC_KEY_PINS]max-age=31536000';
