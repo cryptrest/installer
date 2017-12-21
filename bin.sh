@@ -277,8 +277,8 @@ cryptrest_install()
             status=0
 
             if [ "$CURRENT_DIR" != "$CRYPTREST_INSTALLER_LIB_DIR" ]; then
-                rm -f "$CRYPTREST_INSTALLER_LIB_DIR/bin.sh" && \
-                cp "$CRYPTREST_MAIN_LIBS_DIR/bin.sh" "$CRYPTREST_INSTALLER_LIB_DIR/bin.sh" && \
+                rm -f "$CRYPTREST_INSTALLER_LIB_FILE" && \
+                cp "$CRYPTREST_MAIN_LIBS_DIR/bin.sh" "$CRYPTREST_INSTALLER_LIB_FILE" && \
                 cp "$CRYPTREST_MAIN_LIBS_DIR/VERSION" "$CRYPTREST_INSTALLER_LIB_VERSION_FILE" && \
                 cp "$CRYPTREST_MAIN_LIBS_DIR/README"* "$CRYPTREST_INSTALLER_LIB_DIR/" && \
 
