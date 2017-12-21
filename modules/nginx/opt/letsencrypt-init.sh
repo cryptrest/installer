@@ -34,6 +34,7 @@ CRYPTREST_SSL_DOMAIN_DIR="$CRYPTREST_LETSENCRYPT_ETC_SYS_DIR"
 letsencrypt_init_prepare()
 {
     openssl_domain_dir_define && \
+    openssl_session_ticket_key_define && \
     #openssl_ecdsa_define && \
     openssl_hd_param_define && \
     openssl_ciphers_define && \
