@@ -16,11 +16,13 @@ echo ''
 printf 'CryptREST config file: '
 if [ -f "$CRYPTREST_CURRENT_ENV_FILE" ]; then
     . "$CRYPTREST_CURRENT_ENV_FILE"
+    [ $? -ne 0 ] && return 1
 
     echo 'loaded'
 else
     echo 'not loaded'
 fi
+
 
 CRYPTREST_CURRENT_DIR="$(cd $(dirname $0) && pwd -P)"
 
