@@ -30,9 +30,9 @@ server {
     ssl_trusted_certificate [SSL_DOMAIN_DIR]/cert.pem;
     ssl_dhparam [OPENSSL_DOMAIN_DIR]/dhparam.pem;
 
-    ssl_protocols TLSv1.2 TLSv1.1 TLSv1; # TLSv1.3;
+    ssl_protocols TLSv1.3 TLSv1.2 TLSv1.1 TLSv1;
     ssl_prefer_server_ciphers on;
-    ssl_ciphers HIGH:!RC4:!aNULL:!eNULL:!LOW:!MD5:!DSS:!SSL:!CBC:!3DES:!CAMELLIA:!ADH:!EXP:!PSK:!SRP:!EXPORT:!IDEA:!SEED:[SERVER_CIPHERS];
+    ssl_ciphers HIGH:!RC4:!aNULL:!eNULL:!LOW:!MD5:!DSS:!SSL:!CBC:!3DES:!CAMELLIA:!ADH:!EXP:!PSK:!SRP:!EXPORT:!IDEA:!SEED[SERVER_CIPHERS];
 
     ssl_session_cache shared:SSL:10m;
     ssl_session_timeout 10m;

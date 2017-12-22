@@ -24,7 +24,22 @@ openssl_session_ticket_key_define()
 # Ciphers
 openssl_ciphers_define()
 {
-    CRYPTREST_OPENSSL_SERVER_CIPHERS="$(openssl ciphers)"
+    for k in $(openssl ciphers | tr ':' ' '); do
+        echo "$k" | grep '128' > /dev/null
+        [ $? -eq 0 ] && continue
+        echo "$k" | grep 'PSK' > /dev/null
+        [ $? -eq 0 ] && continue
+        echo "$k" | grep 'CBC' > /dev/null
+        [ $? -eq 0 ] && continue
+        echo "$k" | grep 'SRP' > /dev/null
+        [ $? -eq 0 ] && continue
+        echo "$k" | grep '^DHE' > /dev/null
+        [ $? -eq 0 ] && continue
+        echo "$k" | grep 'SHA$' > /dev/null
+        [ $? -eq 0 ] && continue
+
+        CRYPTREST_OPENSSL_SERVER_CIPHERS="$CRYPTREST_OPENSSL_SERVER_CIPHERS:$k"
+    done
 }
 
 # HD Param
