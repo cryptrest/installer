@@ -2,14 +2,13 @@
 
 CURRENT_DIR="$(cd $(dirname $0) && pwd -P)"
 
-CRYPTREST_ENV_FILE="$CURRENT_DIR/.env"
-CRYPTREST_MODULES_DIR="$CURRENT_DIR/modules"
+CRYPTREST_ENV_FILE="$CURRENT_DIR/../.env"
+CRYPTREST_MODULES_DIR="$CURRENT_DIR/../modules"
 if [ ! -f "$CRYPTREST_ENV_FILE" ]; then
-    CRYPTREST_ENV_FILE="$CURRENT_DIR/../.env"
-    CRYPTREST_MODULES_DIR="$(dirname $(readlink "$0"))/../modules"
+    CRYPTREST_ENV_FILE="$CURRENT_DIR/../../../.env"
 
     if [ ! -d "$CRYPTREST_MODULES_DIR" ]; then
-        CRYPTREST_MODULES_DIR="$CURRENT_DIR/../modules"
+        CRYPTREST_MODULES_DIR="$(dirname $(readlink "$0"))/../modules"
     fi
 fi
 
@@ -189,12 +188,13 @@ cryptrest_install()
         if [ $? -eq 0 ]; then
             status=0
 
-            if [ "$CURRENT_DIR" != "$CRYPTREST_INSTALLER_LIB_DIR" ]; then
-                rm -f "$CRYPTREST_MUDULES_LIB_BIN_FILE" && \
-                cp "$CRYPTREST_MODULES_DIR/../bin/modules.sh" "$CRYPTREST_MUDULES_LIB_BIN_FILE" && \
-                chmod 500 "$CRYPTREST_MUDULES_LIB_BIN_FILE" && \
-                status=$?
-            fi
+            [ -z "$CRYPTREST_INSTALLER_LIB_DIR" ] && rm -f "$CRYPTREST_MUDULES_LIB_BIN_FILE"
+#            if [ "$CURRENT_DIR" != "$CRYPTREST_INSTALLER_LIB_DIR" ]; then
+#                [ -f "$CRYPTREST_MUDULES_LIB_BIN_FILE" ] && rm -f "$CRYPTREST_MUDULES_LIB_BIN_FILE"
+                cp "$CRYPTREST_MODULES_DIR/../bin/modules.sh" "$CRYPTREST_MUDULES_LIB_BIN_FILE"
+#            fi
+            chmod 500 "$CRYPTREST_MUDULES_LIB_BIN_FILE" && \
+            status=$?
         else
             status=1
         fi
