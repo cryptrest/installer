@@ -39,15 +39,12 @@ CRYPTREST_OPT_DIR="$CRYPTREST_DIR/opt"
 CRYPTREST_OPENSSL_OPT_DIR="$CRYPTREST_OPT_DIR/openssl"
 CRYPTREST_OPENSSL_ETC_DIR="$CRYPTREST_ETC_DIR/openssl"
 CRYPTREST_OPENSSL_SSL_DIR="$CRYPTREST_SSL_DIR/openssl"
-CRYPTREST_OPENSSL_SSL_DOMAIN_DIR="$CRYPTREST_OPENSSL_SSL_DIR/$CRYPTREST_DOMAIN"
 
 CRYPTREST_NGINX_LOG_DIR="$CRYPTREST_DIR/log/nginx"
 CRYPTREST_NGINX_ETC_DIR="$CRYPTREST_ETC_DIR/nginx"
 CRYPTREST_NGINX_OPT_DIR="$CRYPTREST_OPT_DIR/nginx"
 
 CRYPTREST_LETSENCRYPT_OPT_DIR="$CRYPTREST_OPT_DIR/letsencrypt"
-
-CRYPTREST_SSL_DOMAIN_DIR="$CRYPTREST_LETSENCRYPT_ETC_SYS_DIR"
 
 
 . "$CRYPTREST_LETSENCRYPT_OPT_DIR/certs-define.sh"
@@ -57,6 +54,12 @@ CRYPTREST_SSL_DOMAIN_DIR="$CRYPTREST_LETSENCRYPT_ETC_SYS_DIR"
 
 letsencrypt_init_prepare()
 {
+    mkdir -p "$CRYPTREST_WWW_DOMAIN_DIR" && \
+    chmod 700 "$CRYPTREST_WWW_DOMAIN_DIR" && \
+    mkdir -p "$CRYPTREST_NGINX_LOG_DOMAIN_DIR" && \
+    chmod 700 "$CRYPTREST_NGINX_LOG_DOMAIN_DIR" && \
+    mkdir -p "$CRYPTREST_OPENSSL_SSL_DOMAIN_DIR" && \
+    chmod 700 "$CRYPTREST_OPENSSL_SSL_DOMAIN_DIR" && \
     openssl_domain_dir_define && \
     openssl_session_ticket_key_define && \
     #openssl_ecdsa_define && \
@@ -65,14 +68,15 @@ letsencrypt_init_prepare()
     openssl_public_key_pins_define && \
     letsencrypt_public_key_pins_define && \
     nginx -v && \
-    nginx_configs_define
+    nginx_configs_define && \
+    chmod 555 "$CRYPTREST_WWW_DOMAIN_DIR"
 }
 
-letsencrypt_init_run()
+letsencrypt_init_define()
 {
     local domains=''
 
-    for domain in $CRYPTREST_SSL_DOMAINS; do
+    for domain in $CRYPTREST_DOMAINS; do
         domains="$domains -d $domain"
     done
 
@@ -80,6 +84,22 @@ letsencrypt_init_run()
     #"$CRYPTREST_DIR/bin/cryptrest-letsencrypt" certonly --webroot $domains --email "$CRYPTREST_EMAIL" --csr $ECDSA_CSR --agree-tos
 }
 
+letsencrypt_init_run()
+{
+    local domains_dir="$CRYPTREST_ETC_DIR/.domains"
 
-letsencrypt_init_prepare && \
+    for d in $(ls "$domains_dir"); do
+        . "$domains_dir/$d"
+
+        CRYPTREST_OPENSSL_SSL_DOMAIN_DIR="$CRYPTREST_OPENSSL_SSL_DIR/$CRYPTREST_LIB_DOMAIN"
+        CRYPTREST_SSL_DOMAIN_DIR="$CRYPTREST_LETSENCRYPT_ETC_SYS_DIR/$CRYPTREST_LIB_DOMAIN"
+        CRYPTREST_NGINX_LOG_DOMAIN_DIR="$CRYPTREST_NGINX_LOG_DIR/$CRYPTREST_LIB_DOMAIN"
+        CRYPTREST_WWW_DOMAIN_DIR="$CRYPTREST_WWW_DIR/$CRYPTREST_LIB_DOMAIN"
+
+        letsencrypt_init_prepare && \
+        letsencrypt_init_define
+    done
+}
+
+
 letsencrypt_init_run

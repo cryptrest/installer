@@ -35,10 +35,10 @@ nginx_config_define()
     chmod 400 "$conf_file"
 
     sed -i "s/\[DOMAIN\]/$domain/g" "$conf_file" && \
-    sed -i "s#\[ROOT_WWW\]#$CRYPTREST_WWW_DIR#g" "$conf_file" && \
-    sed -i "s#\[LOG_WWW\]#$CRYPTREST_NGINX_LOG_DIR#g" "$conf_file" && \
+    sed -i "s#\[ROOT_WWW\]#$CRYPTREST_WWW_DOMAIN_DIR#g" "$conf_file" && \
+    sed -i "s#\[LOG_WWW\]#$CRYPTREST_NGINX_LOG_DOMAIN_DIR#g" "$conf_file" && \
     sed -i "s#\[SERVER_CIPHERS\]#$CRYPTREST_OPENSSL_SERVER_CIPHERS#g" "$conf_file" && \
-    sed -i "s#\[SSL_DOMAIN_DIR\]#$CRYPTREST_SSL_DOMAIN_DIR/$CRYPTREST_DOMAIN#g" "$conf_file" && \
+    sed -i "s#\[SSL_DOMAIN_DIR\]#$CRYPTREST_SSL_DOMAIN_DIR#g" "$conf_file" && \
     sed -i "s#\[OPENSSL_DOMAIN_DIR\]#$CRYPTREST_OPENSSL_SSL_DOMAIN_DIR#g" "$conf_file" && \
     sed -i "s#\[PUBLIC_KEY_PINS\]#$CRYPTREST_PUBLIC_KEY_PINS#g" "$conf_file"
 }

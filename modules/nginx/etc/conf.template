@@ -19,10 +19,10 @@ server {
     listen [DOMAIN]:443 ssl http2;
     server_name [DOMAIN];
 
-    root [ROOT_WWW]/site;
+    root [ROOT_WWW];
 
-    error_log [LOG_WWW]/[DOMAIN]/error.log;
-    access_log [LOG_WWW]/[DOMAIN]/access.log;
+    error_log [LOG_WWW]/error.log;
+    access_log [LOG_WWW]/access.log;
 
     ssl on;
     ssl_certificate [SSL_DOMAIN_DIR]/fullchain.pem;
