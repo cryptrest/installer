@@ -68,8 +68,6 @@ cryptrest_init()
     chmod 700 "$CRYPTREST_ETC_DIR" && \
     mkdir -p "$CRYPTREST_LOG_DIR" && \
     chmod 700 "$CRYPTREST_LOG_DIR" && \
-    mkdir -p "$CRYPTREST_WWW_DIR" && \
-    chmod 700 "$CRYPTREST_WWW_DIR" && \
     mkdir -p "$CRYPTREST_SSL_DIR" && \
     chmod 700 "$CRYPTREST_SSL_DIR" && \
     mkdir -p "$CRYPTREST_SSL_CRYPTREST_DIR" && \
@@ -78,8 +76,8 @@ cryptrest_init()
     chmod 700 "$CRYPTREST_TMP_DIR" && \
     mkdir -p "$CRYPTREST_LIB_DIR" && \
     chmod 700 "$CRYPTREST_LIB_DIR" && \
-    mkdir -p "$CRYPTREST_MUDULES_BIN_DIR" && \
-    chmod 700 "$CRYPTREST_MUDULES_BIN_DIR" && \
+    mkdir -p "$CRYPTREST_MUDULES_LIB_BIN_DIR" && \
+    chmod 700 "$CRYPTREST_MUDULES_LIB_BIN_DIR" && \
 
     [ -z "$CRYPTREST_MODULES_ARGS" ] && \
     [ -z "$CRYPTREST_MODULES" ] && \
