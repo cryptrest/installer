@@ -4,6 +4,8 @@ CRYPTREST_GO_VERSION="${CRYPTREST_GO_VERSION:=1.9.2}"
 CRYPTREST_GO="go$CRYPTREST_GO_VERSION"
 CRYPTREST_GO_TITLE='Golang'
 
+CRYPTREST_GO_ETC_DIR="$CRYPTREST_ETC_DIR/go"
+CRYPTREST_GO_ETC_ENV_FILE="$CRYPTREST_GO_ETC_DIR/.env"
 CRYPTREST_GO_SRC_DIR="$CRYPTREST_SRC_DIR/go"
 CRYPTREST_GO_TMP_DIR="$CRYPTREST_TMP_DIR/$CRYPTREST_GO"
 CRYPTREST_GO_BIN_FILE="$CRYPTREST_BIN_DIR/cryptrest-go"
@@ -65,6 +67,7 @@ CRYPTREST_GO_URL="https://redirector.gvt1.com/edgedl/go/$CRYPTREST_GO.$CRYPTREST
 
 go_prepare()
 {
+    rm -rf "$CRYPTREST_GO_ETC_DIR" && \
     rm -rf "$CRYPTREST_GO_TMP_DIR" && \
     rm -rf "$CRYPTREST_GO_OPT_DIR" && \
     rm -rf "$CRYPTREST_GO_SRC_DIR" && \
@@ -88,13 +91,15 @@ go_download()
 
 go_install()
 {
+    mkdir -p "$CRYPTREST_GO_ETC_DIR" && \
+    chmod 700 "$CRYPTREST_GO_ETC_DIR" && \
     mkdir -p "$CRYPTREST_GO_OPT_DIR" && \
     chmod 700 "$CRYPTREST_GO_OPT_DIR" && \
     mkdir -p "$CRYPTREST_GO_SRC_DIR" && \
     chmod 700 "$CRYPTREST_GO_SRC_DIR" && \
     mv "$CRYPTREST_GO_TMP_DIR/go" "$CRYPTREST_GO_OPT_VERSION_DIR" && \
     rm -rf "$CRYPTREST_GO_TMP_DIR" && \
-    cp "$CURRENT_DIR/go/opt/"*.sh "$CRYPTREST_GO_OPT_DIR/" && \
+    cp "$CRYPTREST_MODULES_DIR/go/opt/"*.sh "$CRYPTREST_GO_OPT_DIR/" && \
     chmod 400 "$CRYPTREST_GO_OPT_DIR/"*.sh && \
     ln -s "$CRYPTREST_GO_OPT_DIR/go.sh" "$CRYPTREST_GO_BIN_FILE" && \
     chmod 500 "$CRYPTREST_GO_BIN_FILE" && \
@@ -107,17 +112,16 @@ go_install()
 
 go_define()
 {
-    echo "# $CRYPTREST_GO_TITLE" >> "$CRYPTREST_ENV_FILE"
-    echo "export GOROOT=\"\$CRYPTREST_DIR/opt/go/$CRYPTREST_GO\"" >> "$CRYPTREST_ENV_FILE"
-    echo "export GOPATH=\"\$CRYPTREST_DIR/$(basename $CRYPTREST_SRC_DIR)/go\"" >> "$CRYPTREST_ENV_FILE"
-    echo "export PATH=\"\$GOROOT/bin:\$PATH\"" >> "$CRYPTREST_ENV_FILE"
-    echo "export GOARCH=\"$CRYPTREST_GO_ARCH\"" >> "$CRYPTREST_ENV_FILE"
-    echo "export GOOS=\"$CRYPTREST_GO_OS\"" >> "$CRYPTREST_ENV_FILE"
-    echo '' >> "$CRYPTREST_ENV_FILE"
-    echo '' >> "$CRYPTREST_ENV_FILE"
+    echo "# $CRYPTREST_GO_TITLE" > "$CRYPTREST_GO_ETC_ENV_FILE"
+    echo "export GOROOT=\"\$CRYPTREST_DIR/opt/go/$CRYPTREST_GO\"" >> "$CRYPTREST_GO_ETC_ENV_FILE"
+    echo "export GOPATH=\"\$CRYPTREST_DIR/$(basename $CRYPTREST_SRC_DIR)/go\"" >> "$CRYPTREST_GO_ETC_ENV_FILE"
+    echo "export PATH=\"\$GOROOT/bin:\$PATH\"" >> "$CRYPTREST_GO_ETC_ENV_FILE"
+    echo "export GOARCH=\"$CRYPTREST_GO_ARCH\"" >> "$CRYPTREST_GO_ETC_ENV_FILE"
+    echo "export GOOS=\"$CRYPTREST_GO_OS\"" >> "$CRYPTREST_GO_ETC_ENV_FILE"
+    chmod 400 "$CRYPTREST_GO_ETC_ENV_FILE" && \
 
     echo ''
-    echo "GOPATH, GOROOT, GOOS, GOARCH and in PATH added in '$CRYPTREST_ENV_FILE'"
+    echo "GOPATH, GOROOT, GOOS, GOARCH and in PATH added in '$CRYPTREST_GO_ETC_ENV_FILE'"
     echo ''
 }
 

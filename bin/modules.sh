@@ -80,16 +80,16 @@ cryptrest_init()
     mkdir -p "$CRYPTREST_MUDULES_LIB_BIN_DIR" && \
     chmod 700 "$CRYPTREST_MUDULES_LIB_BIN_DIR" && \
 
-    [ -z "$CRYPTREST_MODULES_ARGS" ] && \
-    [ -z "$CRYPTREST_MODULES" ] && \
-    CRYPTREST_MODULES_ARGS='go'
-
     echo "$CRYPTREST_TITLE structure: check"
 }
 
 cryptrest_modules()
 {
     local modules=''
+
+    [ -z "$CRYPTREST_MODULES_ARGS" ] && \
+    [ -z "$CRYPTREST_MODULES" ] && \
+    CRYPTREST_MODULES_ARGS='go'
 
     if [ -z "$CRYPTREST_MODULES_ARGS" ]; then
         modules="$CRYPTREST_MODULES"
@@ -129,7 +129,7 @@ cryptrest_local_install()
     echo ''
 
     for m in $CRYPTREST_MODULES; do
-        . "$CRYPTREST_MODULES_DIR/$i/install.sh"
+        . "$CRYPTREST_MODULES_DIR/$m/install.sh"
         [ $? -ne 0 ] && return 1
     done
 
@@ -191,7 +191,7 @@ cryptrest_install()
 
             if [ "$CURRENT_DIR" != "$CRYPTREST_INSTALLER_LIB_DIR" ]; then
                 rm -f "$CRYPTREST_MUDULES_LIB_BIN_FILE" && \
-                cp "$0" "$CRYPTREST_MUDULES_LIB_BIN_FILE" && \
+                cp "$CRYPTREST_MODULES_DIR/../bin/modules.sh" "$CRYPTREST_MUDULES_LIB_BIN_FILE" && \
                 chmod 500 "$CRYPTREST_MUDULES_LIB_BIN_FILE" && \
                 status=$?
             fi
