@@ -6,10 +6,10 @@ CRYPTREST_ENV_FILE="$CURRENT_DIR/.env"
 CRYPTREST_MODULES_DIR="$CURRENT_DIR/modules"
 if [ ! -f "$CRYPTREST_ENV_FILE" ]; then
     CRYPTREST_ENV_FILE="$CURRENT_DIR/../.env"
-    CRYPTREST_MODULES_DIR="$CURRENT_DIR/../modules"
+    CRYPTREST_MODULES_DIR="$(dirname $(readlink "$0"))/../modules"
 
     if [ ! -d "$CRYPTREST_MODULES_DIR" ]; then
-        CRYPTREST_MODULES_DIR="$(dirname $(readlink "$0"))/../modules"
+        CRYPTREST_MODULES_DIR="$CURRENT_DIR/../modules"
     fi
 fi
 
@@ -138,7 +138,7 @@ cryptrest_local_install()
 
 cryptrest_download()
 {
-    cd "$CRYPTREST_INSTALLER_LIB_BIN_DIR" && \
+    cd "$CRYPTREST_LIB_DIR" && \
     curl -SL "$CRYPTREST_INSTALLER_GIT_URL" | tar -xz
     if [ $? -ne 0 ]; then
         echo "$CRYPTREST_TITLE: Some errors with download"
