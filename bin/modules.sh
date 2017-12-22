@@ -1,15 +1,21 @@
 #!/bin/sh
 
-CURRENT_DIR="$(cd $(dirname $0) && pwd -P)"
+CURRENT_DIR="$(cd $(dirname "$0") && pwd -P)"
 
 CRYPTREST_ENV_FILE="$CURRENT_DIR/../.env"
 CRYPTREST_MODULES_DIR="$CURRENT_DIR/../modules"
 if [ ! -f "$CRYPTREST_ENV_FILE" ]; then
     CRYPTREST_ENV_FILE="$CURRENT_DIR/../../../.env"
+fi
+if [ ! -d "$CRYPTREST_MODULES_DIR" ]; then
+    CRYPTREST_MODULES_DIR="$(readlink "$0")"
 
-    if [ ! -d "$CRYPTREST_MODULES_DIR" ]; then
-        CRYPTREST_MODULES_DIR="$(dirname $(readlink "$0"))/../modules"
+    if [ -z "$CRYPTREST_MODULES_DIR" ]; then
+        CRYPTREST_MODULES_DIR="$(dirname "$0")"
+    else
+        CRYPTREST_MODULES_DIR="$(dirname "$CRYPTREST_MODULES_DIR")"
     fi
+    CRYPTREST_MODULES_DIR="$CRYPTREST_MODULES_DIR/../modules"
 fi
 
 echo ''
@@ -22,10 +28,10 @@ else
     echo 'not loaded'
 fi
 
-CURRENT_DIR="$(cd $(dirname $0) && pwd -P)"
 
+CURRENT_DIR="$(cd $(dirname "$0") && pwd -P)"
 
-# CRYPTREST_MODULES='nginx openssl letsencrypt'
+# CRYPTREST_MODULES='go nginx openssl letsencrypt'
 CRYPTREST_MODULES="${CRYPTREST_MODULES:=}"
 CRYPTREST_INSTALLER_GIT_BRANCH="${CRYPTREST_INSTALLER_GIT_BRANCH:=master}"
 
@@ -181,18 +187,20 @@ cryptrest_define()
 cryptrest_install()
 {
     local status=0
+    local modules_bin_dir=''
 
     cryptrest_is_local
     if [ $? -eq 0 ]; then
         cryptrest_local_install
         if [ $? -eq 0 ]; then
             status=0
+            modules_bin_dir="$(cd "$CRYPTREST_MODULES_DIR/../bin" && pwd -P)"
 
-            [ -z "$CRYPTREST_INSTALLER_LIB_DIR" ] && rm -f "$CRYPTREST_MUDULES_LIB_BIN_FILE"
-#            if [ "$CURRENT_DIR" != "$CRYPTREST_INSTALLER_LIB_DIR" ]; then
-#                [ -f "$CRYPTREST_MUDULES_LIB_BIN_FILE" ] && rm -f "$CRYPTREST_MUDULES_LIB_BIN_FILE"
-                cp "$CRYPTREST_MODULES_DIR/../bin/modules.sh" "$CRYPTREST_MUDULES_LIB_BIN_FILE"
-#            fi
+            if [ "$modules_bin_dir" != "$CRYPTREST_MUDULES_LIB_BIN_DIR" ]; then
+                rm -f "$CRYPTREST_MUDULES_LIB_BIN_FILE" && \
+                cp "$modules_bin_dir/modules.sh" "$CRYPTREST_MUDULES_LIB_BIN_FILE"
+            fi
+
             chmod 500 "$CRYPTREST_MUDULES_LIB_BIN_FILE" && \
             status=$?
         else
