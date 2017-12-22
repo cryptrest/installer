@@ -45,7 +45,7 @@ openssl_ciphers_define()
 # HD Param
 openssl_hd_param_define()
 {
-    openssl dhparam -out "$CRYPTREST_OPENSSL_DHPARAM_KEY_FILE" "$CRYPTREST_SSL_KEY_SIZE"
+    openssl dhparam -out "$CRYPTREST_OPENSSL_DHPARAM_KEY_FILE" "$CRYPTREST_SSL_BIT_KEY_SIZE"
 }
 
 # ECDSA
