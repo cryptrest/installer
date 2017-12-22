@@ -25,7 +25,11 @@ openssl_session_ticket_key_define()
 openssl_ciphers_define()
 {
     for k in $(openssl ciphers | tr ':' ' '); do
-        echo "$k" | grep '128' > /dev/null
+        echo "$k" | grep 'MD5' > /dev/null
+        [ $? -eq 0 ] && continue
+        echo "$k" | grep 'RC4' > /dev/null
+        [ $? -eq 0 ] && continue
+        echo "$k" | grep 'EXP' > /dev/null
         [ $? -eq 0 ] && continue
         echo "$k" | grep 'PSK' > /dev/null
         [ $? -eq 0 ] && continue
@@ -36,6 +40,16 @@ openssl_ciphers_define()
         echo "$k" | grep '^DHE' > /dev/null
         [ $? -eq 0 ] && continue
         echo "$k" | grep 'SHA$' > /dev/null
+        [ $? -eq 0 ] && continue
+        echo "$k" | grep 'ADH' > /dev/null
+        [ $? -eq 0 ] && continue
+        echo "$k" | grep 'DSS' > /dev/null
+        [ $? -eq 0 ] && continue
+        echo "$k" | grep 'SSL' > /dev/null
+        [ $? -eq 0 ] && continue
+        echo "$k" | grep '3DES' > /dev/null
+        [ $? -eq 0 ] && continue
+        echo "$k" | grep 'CAMELLIA' > /dev/null
         [ $? -eq 0 ] && continue
 
         CRYPTREST_OPENSSL_SERVER_CIPHERS="$CRYPTREST_OPENSSL_SERVER_CIPHERS:$k"

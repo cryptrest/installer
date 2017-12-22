@@ -1,10 +1,22 @@
 #!/bin/sh
 
-CURRENT_DIR="${CURRENT_DIR:=$(cd $(dirname $0) && pwd -P)}"
+CURRENT_DIR="${CURRENT_DIR:=$(cd "$(dirname "$0")" && pwd -P)}"
 
-. "$CURRENT_DIR/../.env"
+CRYPTREST_ENV_FILE="$CURRENT_DIR/../.env"
+CRYPTREST_NGINX_ETC_ENV_FILE="$CURRENT_DIR/../etc/nginx/.env"
 
-CRYPTREST_DIR="${CRYPTREST_DIR:=$(cd $(dirname $0)/../ && pwd -P)}"
+if [ ! -f "$CRYPTREST_ENV_FILE" ]; then
+    CRYPTREST_ENV_FILE="$CURRENT_DIR/../../.env"
+    if [ ! -f "$CRYPTREST_NGINX_ETC_ENV_FILE" ]; then
+        CRYPTREST_NGINX_ETC_ENV_FILE="$CURRENT_DIR/../../etc/nginx/.env"
+    fi
+fi
+
+. "$CRYPTREST_ENV_FILE"
+. "$CRYPTREST_NGINX_ETC_ENV_FILE"
+
+
+CRYPTREST_DIR="${CRYPTREST_DIR:=$(cd "$(dirname "$0")"/../ && pwd -P)}"
 
 
 nginx_init()
