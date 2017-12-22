@@ -33,10 +33,6 @@ CRYPTREST_NGINX_ETC_DIR="$CRYPTREST_ETC_DIR/nginx"
 CRYPTREST_NGINX_OPT_DIR="$CRYPTREST_OPT_DIR/nginx"
 
 
-. "$CRYPTREST_OPENSSL_OPT_DIR/certs-define.sh"
-. "$CRYPTREST_NGINX_OPT_DIR/config-define.sh"
-
-
 openssl_init_prepare()
 {
     openssl_domain_dir_define && \
@@ -54,13 +50,17 @@ openssl_init_run()
 {
     local domains_dir="$CRYPTREST_ETC_DIR/.domains"
 
+    . "$CRYPTREST_NGINX_OPT_DIR/config-define.sh"
+
     for d in $(ls "$domains_dir"); do
         . "$domains_dir/$d"
 
         CRYPTREST_OPENSSL_SSL_DOMAIN_DIR="$CRYPTREST_OPENSSL_SSL_DIR/$CRYPTREST_LIB_DOMAIN"
         CRYPTREST_SSL_DOMAIN_DIR="$CRYPTREST_OPENSSL_SSL_DOMAIN_DIR"
         CRYPTREST_NGINX_LOG_DOMAIN_DIR="$CRYPTREST_NGINX_LOG_DIR/$CRYPTREST_LIB_DOMAIN"
-        CRYPTREST_WWW_DOMAIN_DIR="$CRYPTREST_WWW_DIR/$CRYPTREST_LIB_DOMAIN"
+        CRYPTREST_WWW_DOMAIN_DIR="$CRYPTREST_WWW_DIR/$d"
+
+        . "$CRYPTREST_OPENSSL_OPT_DIR/certs-define.sh"
 
         openssl_init_prepare
     done

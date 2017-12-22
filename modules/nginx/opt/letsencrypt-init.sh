@@ -47,11 +47,6 @@ CRYPTREST_NGINX_OPT_DIR="$CRYPTREST_OPT_DIR/nginx"
 CRYPTREST_LETSENCRYPT_OPT_DIR="$CRYPTREST_OPT_DIR/letsencrypt"
 
 
-. "$CRYPTREST_LETSENCRYPT_OPT_DIR/certs-define.sh"
-. "$CRYPTREST_OPENSSL_OPT_DIR/certs-define.sh"
-. "$CRYPTREST_NGINX_OPT_DIR/config-define.sh"
-
-
 letsencrypt_init_prepare()
 {
     mkdir -p "$CRYPTREST_WWW_DOMAIN_DIR" && \
@@ -80,7 +75,7 @@ letsencrypt_init_define()
         domains="$domains -d $domain"
     done
 
-    "$CRYPTREST_DIR/bin/cryptrest-letsencrypt" certonly --standalone --email "$CRYPTREST_EMAIL" --renew-by-default --rsa-key-size "$CRYPTREST_SSL_KEY_SIZE"$domains --pre-hook "$CRYPTREST_NGINX_CMD_STOP" --post-hook "$CRYPTREST_NGINX_CMD_START"
+    "$CRYPTREST_DIR/bin/cryptrest-letsencrypt" certonly --standalone --email "$CRYPTREST_EMAIL" --renew-by-default --rsa-key-size "$CRYPTREST_SSL_BIT_KEY_SIZE"$domains --pre-hook "$CRYPTREST_NGINX_CMD_STOP" --post-hook "$CRYPTREST_NGINX_CMD_START"
     #"$CRYPTREST_DIR/bin/cryptrest-letsencrypt" certonly --webroot $domains --email "$CRYPTREST_EMAIL" --csr $ECDSA_CSR --agree-tos
 }
 
@@ -88,13 +83,18 @@ letsencrypt_init_run()
 {
     local domains_dir="$CRYPTREST_ETC_DIR/.domains"
 
+    . "$CRYPTREST_NGINX_OPT_DIR/config-define.sh"
+
     for d in $(ls "$domains_dir"); do
         . "$domains_dir/$d"
 
         CRYPTREST_OPENSSL_SSL_DOMAIN_DIR="$CRYPTREST_OPENSSL_SSL_DIR/$CRYPTREST_LIB_DOMAIN"
         CRYPTREST_SSL_DOMAIN_DIR="$CRYPTREST_LETSENCRYPT_ETC_SYS_DIR/$CRYPTREST_LIB_DOMAIN"
         CRYPTREST_NGINX_LOG_DOMAIN_DIR="$CRYPTREST_NGINX_LOG_DIR/$CRYPTREST_LIB_DOMAIN"
-        CRYPTREST_WWW_DOMAIN_DIR="$CRYPTREST_WWW_DIR/$CRYPTREST_LIB_DOMAIN"
+        CRYPTREST_WWW_DOMAIN_DIR="$CRYPTREST_WWW_DIR/$d"
+
+        . "$CRYPTREST_LETSENCRYPT_OPT_DIR/certs-define.sh"
+        . "$CRYPTREST_OPENSSL_OPT_DIR/certs-define.sh"
 
         letsencrypt_init_prepare && \
         letsencrypt_init_define
