@@ -30,7 +30,7 @@ CURRENT_DIR="$(cd $(dirname $0) && pwd -P)"
 CRYPTREST_MODULES="${CRYPTREST_MODULES:=}"
 CRYPTREST_INSTALLER_GIT_BRANCH="${CRYPTREST_INSTALLER_GIT_BRANCH:=master}"
 
-CRYPTREST_GIT_URL="https://github.com/cryptrest/installer/archive/$CRYPTREST_INSTALLER_GIT_BRANCH.tar.gz"
+CRYPTREST_INSTALLER_GIT_URL="https://github.com/cryptrest/installer/archive/$CRYPTREST_INSTALLER_GIT_BRANCH.tar.gz"
 CRYPTREST_NAME='cryptrest'
 CRYPTREST_TITLE='CryptREST'
 CRYPTREST_USER="$USER"
@@ -135,8 +135,8 @@ cryptrest_local_install()
 
 cryptrest_download()
 {
-    cd "$CRYPTREST_MUDULES_LIB_BIN_DIR" && \
-    curl -SL "$CRYPTREST_MODULES_GIT_URL" | tar -xz
+    cd "$CRYPTREST_INSTALLER_LIB_BIN_DIR" && \
+    curl -SL "$CRYPTREST_INSTALLER_GIT_URL" | tar -xz
     if [ $? -ne 0 ]; then
         echo "$CRYPTREST_TITLE: Some errors with download"
         rm -rf "$CRYPTREST_MUDULES_LIB_BIN_DIR"
