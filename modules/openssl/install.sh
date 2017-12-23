@@ -2,15 +2,13 @@
 
 CRYPTREST_OPENSSL_OPT_DIR="$CRYPTREST_OPT_DIR/openssl"
 CRYPTREST_OPENSSL_ETC_DIR="$CRYPTREST_ETC_DIR/openssl"
-CRYPTREST_OPENSSL_SSL_DIR="$CRYPTREST_SSL_DIR/openssl"
 CRYPTREST_OPENSSL_TITLE='OpenSSL'
 
 
 letsencrypt_prepare()
 {
     rm -rf "$CRYPTREST_OPENSSL_OPT_DIR" && \
-    rm -rf "$CRYPTREST_OPENSSL_ETC_DIR/" && \
-    rm -rf "$CRYPTREST_OPENSSL_SSL_DIR/"
+    rm -rf "$CRYPTREST_OPENSSL_ETC_DIR/"
 }
 
 letsencrypt_install()
@@ -18,9 +16,7 @@ letsencrypt_install()
     mkdir -p "$CRYPTREST_OPENSSL_OPT_DIR" && \
     chmod 700 "$CRYPTREST_OPENSSL_OPT_DIR" && \
     mkdir -p "$CRYPTREST_OPENSSL_ETC_DIR" && \
-    chmod 700 "$CRYPTREST_OPENSSL_ETC_DIR" && \
-    mkdir -p "$CRYPTREST_OPENSSL_SSL_DIR" && \
-    chmod 700 "$CRYPTREST_OPENSSL_SSL_DIR"
+    chmod 700 "$CRYPTREST_OPENSSL_ETC_DIR"
 }
 
 letsencrypt_define()

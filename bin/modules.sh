@@ -46,11 +46,10 @@ CRYPTREST_OPT_DIR="$CRYPTREST_DIR/opt"
 CRYPTREST_BIN_DIR="$CRYPTREST_DIR/bin"
 CRYPTREST_SRC_DIR="$CRYPTREST_DIR/src"
 CRYPTREST_ETC_DIR="$CRYPTREST_DIR/etc"
-CRYPTREST_LOG_DIR="$CRYPTREST_DIR/log"
 CRYPTREST_WWW_DIR="$CRYPTREST_DIR/www"
 CRYPTREST_VAR_DIR="$CRYPTREST_DIR/var"
-CRYPTREST_SSL_DIR="$CRYPTREST_DIR/ssl"
-CRYPTREST_SSL_CRYPTREST_DIR="$CRYPTREST_SSL_DIR/$CRYPTREST_NAME"
+CRYPTREST_VAR_LOG_DIR="$CRYPTREST_VAR_DIR/log"
+CRYPTREST_ETC_SSL_DIR="$CRYPTREST_ETC_DIR/ssl"
 CRYPTREST_TMP_DIR="${TMPDIR:=/tmp}/$CRYPTREST_NAME"
 CRYPTREST_MUDULES_LIB_BIN_DIR="$CRYPTREST_LIB_DIR/installer-$CRYPTREST_INSTALLER_GIT_BRANCH/bin"
 CRYPTREST_INSTALLER_LIB_VERSION_FILE="$CRYPTREST_MUDULES_LIB_BIN_DIR/../VERSION"
@@ -64,26 +63,24 @@ CRYPTREST_IS_LOCAL=1
 
 cryptrest_init()
 {
-    mkdir -p "$CRYPTREST_VAR_DIR" && \
-    chmod 700 "$CRYPTREST_VAR_DIR" && \
     mkdir -p "$CRYPTREST_OPT_DIR" && \
     chmod 700 "$CRYPTREST_OPT_DIR" && \
     mkdir -p "$CRYPTREST_SRC_DIR" && \
     chmod 700 "$CRYPTREST_SRC_DIR" && \
     mkdir -p "$CRYPTREST_BIN_DIR" && \
     chmod 700 "$CRYPTREST_BIN_DIR" && \
-    mkdir -p "$CRYPTREST_ETC_DIR" && \
-    chmod 700 "$CRYPTREST_ETC_DIR" && \
-    mkdir -p "$CRYPTREST_LOG_DIR" && \
-    chmod 700 "$CRYPTREST_LOG_DIR" && \
-    mkdir -p "$CRYPTREST_SSL_DIR" && \
-    chmod 700 "$CRYPTREST_SSL_DIR" && \
-    mkdir -p "$CRYPTREST_SSL_CRYPTREST_DIR" && \
-    chmod 700 "$CRYPTREST_SSL_CRYPTREST_DIR" && \
     mkdir -p "$CRYPTREST_TMP_DIR" && \
     chmod 700 "$CRYPTREST_TMP_DIR" && \
     mkdir -p "$CRYPTREST_LIB_DIR" && \
     chmod 700 "$CRYPTREST_LIB_DIR" && \
+    mkdir -p "$CRYPTREST_ETC_DIR" && \
+    chmod 700 "$CRYPTREST_ETC_DIR" && \
+    mkdir -p "$CRYPTREST_ETC_SSL_DIR" && \
+    chmod 700 "$CRYPTREST_ETC_SSL_DIR" && \
+    mkdir -p "$CRYPTREST_VAR_DIR" && \
+    chmod 700 "$CRYPTREST_VAR_DIR" && \
+    mkdir -p "$CRYPTREST_VAR_LOG_DIR" && \
+    chmod 700 "$CRYPTREST_VAR_LOG_DIR" && \
     mkdir -p "$CRYPTREST_MUDULES_LIB_BIN_DIR" && \
     chmod 700 "$CRYPTREST_MUDULES_LIB_BIN_DIR" && \
 
@@ -137,7 +134,7 @@ cryptrest_local_install()
     echo "$CRYPTREST_TITLE mode: local"
     echo ''
 
-    for m in $CRYPTREST_MODULES; do
+    for m in $(echo "$CRYPTREST_MODULES" | sort); do
         . "$CRYPTREST_MODULES_DIR/$m/install.sh"
         [ $? -ne 0 ] && return 1
     done

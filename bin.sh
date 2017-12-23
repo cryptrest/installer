@@ -1,5 +1,9 @@
 #!/bin/sh
 
+# System utilities: echo, printf, chmod, mkdir, ln, cp, rm,
+#                   dirname, basename, ls, cat, exit, curl, tar
+
+
 CRYPTREST_CURRENT_DIR="$(cd $(dirname $0) && pwd -P)"
 
 CRYPTREST_CURRENT_ENV_FILE="$CRYPTREST_CURRENT_DIR/.env"
@@ -47,13 +51,13 @@ CRYPTREST_LIB_DIR="$CRYPTREST_DIR/lib"
 CRYPTREST_OPT_DIR="$CRYPTREST_DIR/opt"
 CRYPTREST_BIN_DIR="$CRYPTREST_DIR/bin"
 CRYPTREST_SRC_DIR="$CRYPTREST_DIR/src"
-CRYPTREST_LOG_DIR="$CRYPTREST_DIR/log"
 CRYPTREST_WWW_DIR="$CRYPTREST_DIR/www"
 CRYPTREST_VAR_DIR="$CRYPTREST_DIR/var"
-CRYPTREST_SSL_DIR="$CRYPTREST_DIR/ssl"
+CRYPTREST_VAR_LOG_DIR="$CRYPTREST_VAR_DIR/log"
+CRYPTREST_VAR_RUN_DIR="$CRYPTREST_VAR_DIR/run"
 CRYPTREST_ETC_DIR="$CRYPTREST_DIR/etc"
+CRYPTREST_ETC_SSL_DIR="$CRYPTREST_ETC_DIR/ssl"
 CRYPTREST_ETC_DOMAINS_DIR="$CRYPTREST_ETC_DIR/.domains"
-CRYPTREST_SSL_CRYPTREST_DIR="$CRYPTREST_SSL_DIR/$CRYPTREST_NAME"
 CRYPTREST_TMP_DIR="${TMPDIR:=/tmp}/$CRYPTREST_NAME"
 
 CRYPTREST_INSTALLER_NAME='installer'
@@ -93,8 +97,6 @@ cryptrest_init()
     cryptrest_prepare && \
     mkdir -p "$CRYPTREST_DIR" && \
     chmod 755 "$CRYPTREST_DIR" && \
-    mkdir -p "$CRYPTREST_VAR_DIR" && \
-    chmod 700 "$CRYPTREST_VAR_DIR" && \
     mkdir -p "$CRYPTREST_OPT_DIR" && \
     chmod 700 "$CRYPTREST_OPT_DIR" && \
     mkdir -p "$CRYPTREST_SRC_DIR" && \
@@ -103,22 +105,24 @@ cryptrest_init()
     chmod 700 "$CRYPTREST_BIN_DIR" && \
     mkdir -p "$CRYPTREST_ETC_DIR" && \
     chmod 700 "$CRYPTREST_ETC_DIR" && \
-    mkdir -p "$CRYPTREST_LOG_DIR" && \
-    chmod 700 "$CRYPTREST_LOG_DIR" && \
     mkdir -p "$CRYPTREST_WWW_DIR" && \
     chmod 700 "$CRYPTREST_WWW_DIR" && \
     mkdir -p "$CRYPTREST_TMP_DIR" && \
     chmod 700 "$CRYPTREST_TMP_DIR" && \
     mkdir -p "$CRYPTREST_LIB_DIR" && \
     chmod 700 "$CRYPTREST_LIB_DIR" && \
-    mkdir -p "$CRYPTREST_SSL_DIR" && \
-    chmod 700 "$CRYPTREST_SSL_DIR" && \
-    mkdir -p "$CRYPTREST_SSL_CRYPTREST_DIR" && \
-    chmod 700 "$CRYPTREST_SSL_CRYPTREST_DIR" && \
+    mkdir -p "$CRYPTREST_VAR_DIR" && \
+    chmod 700 "$CRYPTREST_VAR_DIR" && \
+    mkdir -p "$CRYPTREST_VAR_LOG_DIR" && \
+    chmod 700 "$CRYPTREST_VAR_LOG_DIR" && \
+    mkdir -p "$CRYPTREST_VAR_RUN_DIR" && \
+    chmod 700 "$CRYPTREST_VAR_RUN_DIR" && \
     mkdir -p "$CRYPTREST_INSTALLER_LIB_DIR" && \
     chmod 700 "$CRYPTREST_INSTALLER_LIB_DIR" && \
     mkdir -p "$CRYPTREST_INSTALLER_WWW_DIR" && \
     chmod 700 "$CRYPTREST_INSTALLER_WWW_DIR" && \
+    mkdir -p "$CRYPTREST_ETC_SSL_DIR" && \
+    chmod 700 "$CRYPTREST_ETC_SSL_DIR" && \
     mkdir -p "$CRYPTREST_ETC_DOMAINS_DIR" && \
     chmod 700 "$CRYPTREST_ETC_DOMAINS_DIR" && \
     echo '' > "$CRYPTREST_ENV_FILE" && \
