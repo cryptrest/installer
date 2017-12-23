@@ -34,7 +34,6 @@ nginx_config_define()
     chown "$CRYPTREST_USER.$CRYPTREST_USER" "$conf_file" && \
     chmod 400 "$conf_file"
 
-CRYPTREST_SSL_ECDH_CURVE
     sed -i "s/\[DOMAIN\]/$domain/g" "$conf_file" && \
     sed -i "s#\[ROOT_WWW\]#$CRYPTREST_WWW_DOMAIN_DIR#g" "$conf_file" && \
     sed -i "s#\[LOG_WWW\]#$CRYPTREST_NGINX_LOG_DOMAIN_DIR#g" "$conf_file" && \
