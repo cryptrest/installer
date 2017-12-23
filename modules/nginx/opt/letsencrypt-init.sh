@@ -48,13 +48,12 @@ CRYPTREST_LETSENCRYPT_OPT_DIR="$CRYPTREST_OPT_DIR/letsencrypt"
 
 letsencrypt_init_prepare()
 {
+    mkdir -p "$CRYPTREST_SSL_DOMAIN_DIR" && \
+    chmod 700 "$CRYPTREST_SSL_DOMAIN_DIR" && \
     mkdir -p "$CRYPTREST_WWW_DOMAIN_DIR" && \
     chmod 700 "$CRYPTREST_WWW_DOMAIN_DIR" && \
     mkdir -p "$CRYPTREST_NGINX_LOG_DOMAIN_DIR" && \
     chmod 700 "$CRYPTREST_NGINX_LOG_DOMAIN_DIR" && \
-    mkdir -p "$CRYPTREST_OPENSSL_SSL_DOMAIN_DIR" && \
-    chmod 700 "$CRYPTREST_OPENSSL_SSL_DOMAIN_DIR" && \
-    openssl_domain_dir_define && \
     openssl_session_ticket_key_define && \
     #openssl_ecdsa_define && \
     openssl_hd_param_define && \
