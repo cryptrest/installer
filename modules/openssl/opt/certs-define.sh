@@ -46,6 +46,8 @@ openssl_ciphers_define()
         [ $? -eq 0 ] && continue
         echo "$k" | grep 'ADH' > /dev/null
         [ $? -eq 0 ] && continue
+        echo "$k" | grep 'DSA' > /dev/null
+        [ $? -eq 0 ] && continue
         echo "$k" | grep 'DSS' > /dev/null
         [ $? -eq 0 ] && continue
         echo "$k" | grep 'SSL' > /dev/null

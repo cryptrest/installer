@@ -40,12 +40,10 @@ server {
     add_header X-Content-Type-Options "nosniff";
     add_header Strict-Transport-Security "max-age=31536000; includeSubDomains; preload";
     add_header Public-Key-Pins '[PUBLIC_KEY_PINS]max-age=31536000; includeSubDomains';
-    add_header Public-Key-Pins-Report-Only '[PUBLIC_KEY_PINS]max-age=31536000; includeSubDomains';
     add_header X-XSS-Protection "1; mode=block";
     add_header Referrer-Policy "no-referrer";
-    add_header Set-Cookie "Secure; HttpOnly";
-    add_header Content-Security-Policy "default-src https:; script-src https: 'unsafe-eval' 'unsafe-inline'; style-src https: 'unsafe-inline'; img-src https: data:; font-src https: data:; report-uri /csp-report";
-    add_header Content-Security-Policy-Report-Only "default-src https:; script-src https: 'unsafe-eval' 'unsafe-inline'; style-src https: 'unsafe-inline'; img-src https: data:; font-src https: data:; report-uri /csp-report";
+    add_header Set-Cookie "Domain=[DOMAIN]; Path=/; Secure; HttpOnly";
+    add_header Content-Security-Policy "default-src https://[DOMAIN]:443; script-src https://[DOMAIN]:443; style-src https://[DOMAIN]:443; img-src https://[DOMAIN]:443; font-src https://[DOMAIN]:443; upgrade-insecure-requests https://[DOMAIN]:443; reflected-xss https://[DOMAIN]:443";
 
     resolver 8.8.8.8 8.8.4.4 127.0.0.1 valid=300s;
     resolver_timeout 10s;
