@@ -64,6 +64,7 @@ CRYPTREST_INSTALLER_LIB_FILE="$CRYPTREST_INSTALLER_LIB_DIR/bin.sh"
 CRYPTREST_INSTALLER_LIB_VERSION_FILE="$CRYPTREST_INSTALLER_LIB_DIR/VERSION"
 CRYPTREST_INSTALLER_WWW_DIR="$CRYPTREST_WWW_DIR/$CRYPTREST_INSTALLER_NAME"
 CRYPTREST_INSTALLER_WWW_HTML_FILE="$CRYPTREST_INSTALLER_WWW_DIR/index.html"
+CRYPTREST_INSTALLER_WWW_ROBOTSTXT_FILE="$CRYPTREST_INSTALLER_WWW_DIR/robots.txt"
 
 
 cryptrest_prepare()
@@ -131,8 +132,6 @@ cryptrest_init()
     echo "CRYPTREST_DOMAIN=\"$CRYPTREST_DOMAIN\"" >> "$CRYPTREST_ENV_FILE"
     echo "CRYPTREST_SSL_BIT_SIZE=\"$CRYPTREST_SSL_BIT_SIZE\"" >> "$CRYPTREST_ENV_FILE"
     echo "CRYPTREST_SSL_BIT_KEY_SIZE=\"$CRYPTREST_SSL_BIT_KEY_SIZE\"" >> "$CRYPTREST_ENV_FILE"
-    echo '' >> "$CRYPTREST_ENV_FILE"
-    echo '' >> "$CRYPTREST_ENV_FILE"
 
     echo "$CRYPTREST_TITLE structure: init")
 }
@@ -229,6 +228,7 @@ cryptrest_define()
     chmod 400 "$CRYPTREST_ENV_FILE" && \
     chmod 500 "$CRYPTREST_INSTALLER_LIB_FILE" && \
     ln -s "$CRYPTREST_INSTALLER_LIB_FILE" "$CRYPTREST_INSTALLER_BIN_FILE" && \
+    cryptrest_robotstxt_installer && \
     chmod 555 "$CRYPTREST_INSTALLER_WWW_DIR" && \
     chmod 555 "$CRYPTREST_WWW_DIR"
 }
@@ -270,6 +270,19 @@ cryptrest_define_env_file()
         echo "$CRYPTREST_TITLE$(cryptrest_version_define): installation successfully completed!"
         echo ''
     fi
+}
+
+cryptrest_robotstxt_installer()
+{
+(   echo "# $CRYPTREST_TITLE Installer" > "$CRYPTREST_INSTALLER_WWW_ROBOTSTXT_FILE"
+    echo 'User-agent: *' >> "$CRYPTREST_INSTALLER_WWW_ROBOTSTXT_FILE"
+    echo 'Disallow: /' >> "$CRYPTREST_INSTALLER_WWW_ROBOTSTXT_FILE"
+    echo 'Allow: /' >> "$CRYPTREST_INSTALLER_WWW_ROBOTSTXT_FILE"
+    echo 'Allow: /modules' >> "$CRYPTREST_INSTALLER_WWW_ROBOTSTXT_FILE"
+    echo 'Allow: /libs' >> "$CRYPTREST_INSTALLER_WWW_ROBOTSTXT_FILE"
+    chmod 444 "$CRYPTREST_INSTALLER_WWW_ROBOTSTXT_FILE") && \
+
+    echo "$CRYPTREST_TITLE Installer robots.txt file: init"
 }
 
 cryptrest_domains_installer()
