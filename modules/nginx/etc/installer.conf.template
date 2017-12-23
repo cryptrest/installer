@@ -1,6 +1,6 @@
 # for redirecting to non-www version of the site
 server {
-    listen 80;
+    listen [DOMAIN]:80;
     server_name [DOMAIN];
     rewrite ^(.*) https://[DOMAIN]$1 permanent;
 }
@@ -22,27 +22,26 @@ server {
 
     ssl_protocols TLSv1.3 TLSv1.2 TLSv1.1 TLSv1;
     ssl_prefer_server_ciphers on;
-    ssl_ciphers HIGH:!RC4:!aNULL:!eNULL:!LOW:!MD5:!DSS:!SSL:!CBC:!3DES:!CAMELLIA:!ADH:!EXP:!PSK:!SRP:!EXPORT:!IDEA:!SEED[SERVER_CIPHERS];
+    ssl_ciphers [SERVER_CIPHERS];
 
     ssl_session_cache shared:SSL:10m;
     ssl_session_timeout 10m;
     ssl_session_tickets on;
     ssl_session_ticket_key [OPENSSL_DOMAIN_DIR]/session_ticket.key;
 
-    ssl_ecdh_curve secp384r1; # sect283k1:sect283r1:sect409k1:sect409r1:sect571k1:sect571r1:secp256k1:secp256r1:secp384r1:secp521r1:brainpoolP256r1:brainpoolP384r1:brainpoolP512r1
+    ssl_ecdh_curve [SSL_ECDH_CURVE];
     ssl_stapling on;
     ssl_stapling_verify on;
     ssl_buffer_size 16k;
-
-#    set_cookie_flag HttpOnly secure;
 
     add_header Cache-Control "public";
     add_header X-Robots-Tag "noarchive, nosnippet, notranslate, noimageindex";
     add_header X-Frame-Options "SAMEORIGIN";
     add_header X-Content-Type-Options "nosniff";
-    add_header Strict-Transport-Security "max-age=31536000; includeSubDomains; preload";
-    add_header Public-Key-Pins '[PUBLIC_KEY_PINS]max-age=31536000';
+    add_header Strict-Transport-Security "max-age=31536000; includeSubDomains; always";
+    add_header Public-Key-Pins '[PUBLIC_KEY_PINS]max-age=31536000; always';
     add_header X-XSS-Protection "1; mode=block";
+    add_header Referrer-Policy "no-referrer";
     add_header Content-Security-Policy-Report-Only "default-src https:; script-src https: 'unsafe-eval' 'unsafe-inline'; style-src https: 'unsafe-inline'; img-src https: data:; font-src https: data:; report-uri /csp-report";
 
     resolver 8.8.8.8 8.8.4.4 127.0.0.1 valid=300s;

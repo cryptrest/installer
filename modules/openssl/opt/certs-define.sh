@@ -1,6 +1,7 @@
 #!/bin/sh
 
-CRYPTREST_OPENSSL_SERVER_CIPHERS=''
+#CRYPTREST_SSL_ECDH_CURVE: sect283k1:sect283r1:sect409k1:sect409r1:sect571k1:sect571r1:secp256k1:secp256r1:secp384r1:secp521r1:brainpoolP256r1:brainpoolP384r1:brainpoolP512r1
+CRYPTREST_OPENSSL_SERVER_CIPHERS='HIGH:!RC4:!aNULL:!eNULL:!LOW:!MD5:!DSS:!SSL:!CBC:!DSA:!3DES:!CAMELLIA:!ADH:!EXP:!PSK:!SRP:!EXPORT:!IDEA:!SEED'
 
 CRYPTREST_OPENSSL_DHPARAM_KEY_FILE="$CRYPTREST_OPENSSL_SSL_DOMAIN_DIR/dhparam.pem"
 CRYPTREST_OPENSSL_ECDSA_KEY_FILE="$CRYPTREST_OPENSSL_SSL_DOMAIN_DIR/ecdsa.key"
@@ -25,6 +26,8 @@ openssl_session_ticket_key_define()
 openssl_ciphers_define()
 {
     for k in $(openssl ciphers | tr ':' ' '); do
+        echo "$k" | grep '128' > /dev/null
+        [ $? -eq 0 ] && continue
         echo "$k" | grep 'MD5' > /dev/null
         [ $? -eq 0 ] && continue
         echo "$k" | grep 'RC4' > /dev/null
@@ -65,7 +68,7 @@ openssl_hd_param_define()
 # ECDSA
 openssl_ecdsa_define()
 {
-    openssl ecparam -genkey -name secp384r1 | openssl ec -out "$CRYPTREST_OPENSSL_ECDSA_KEY_FILE"
+    openssl ecparam -genkey -name "$CRYPTREST_SSL_ECDH_CURVE" | openssl ec -out "$CRYPTREST_OPENSSL_ECDSA_KEY_FILE"
 }
 
 # Certificate Signing Request (CSR)
