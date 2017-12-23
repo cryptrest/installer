@@ -43,7 +43,7 @@ server {
     add_header X-XSS-Protection "1; mode=block";
     add_header Referrer-Policy "no-referrer";
     add_header Set-Cookie "Domain=[DOMAIN]; Path=/; Secure; HttpOnly";
-    add_header Content-Security-Policy "default-src https://[DOMAIN]:443; script-src https://[DOMAIN]:443; style-src https://[DOMAIN]:443; img-src https://[DOMAIN]:443; font-src https://[DOMAIN]:443; upgrade-insecure-requests https://[DOMAIN]:443; reflected-xss https://[DOMAIN]:443";
+    add_header Content-Security-Policy "default-src https://[DOMAIN]; base-uri https://[DOMAIN]; script-src https://[DOMAIN]; style-src https://[DOMAIN]; img-src https://[DOMAIN]; font-src https://[DOMAIN]; upgrade-insecure-requests https://[DOMAIN]";
 
     resolver 8.8.8.8 8.8.4.4 127.0.0.1 valid=300s;
     resolver_timeout 10s;
