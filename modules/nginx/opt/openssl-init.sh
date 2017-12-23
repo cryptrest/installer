@@ -34,6 +34,12 @@ CRYPTREST_NGINX_OPT_DIR="$CRYPTREST_OPT_DIR/nginx"
 
 openssl_init_prepare()
 {
+    mkdir -p "$CRYPTREST_WWW_DOMAIN_DIR" && \
+    chmod 700 "$CRYPTREST_WWW_DOMAIN_DIR" && \
+    mkdir -p "$CRYPTREST_NGINX_LOG_DOMAIN_DIR" && \
+    chmod 700 "$CRYPTREST_NGINX_LOG_DOMAIN_DIR" && \
+    mkdir -p "$CRYPTREST_OPENSSL_SSL_DOMAIN_DIR" && \
+    chmod 700 "$CRYPTREST_OPENSSL_SSL_DOMAIN_DIR" && \
     openssl_domain_dir_define && \
     openssl_session_ticket_key_define && \
     #openssl_ecdsa_define && \
@@ -52,16 +58,17 @@ openssl_init_run()
     . "$CRYPTREST_NGINX_OPT_DIR/config-define.sh"
 
     for d in $(ls "$domains_dir"); do
-        . "$domains_dir/$d"
+        if [ -f "$domains_dir/$d" ]; then
+            . "$domains_dir/$d"
 
-        CRYPTREST_OPENSSL_SSL_DOMAIN_DIR="$CRYPTREST_ETC_SSL_DIR/$CRYPTREST_LIB_DOMAIN"
-        CRYPTREST_SSL_DOMAIN_DIR="$CRYPTREST_OPENSSL_SSL_DOMAIN_DIR"
-        CRYPTREST_NGINX_LOG_DOMAIN_DIR="$CRYPTREST_NGINX_VAR_LOG_DIR/$CRYPTREST_LIB_DOMAIN"
-        CRYPTREST_WWW_DOMAIN_DIR="$CRYPTREST_WWW_DIR/$d"
+            CRYPTREST_SSL_DOMAIN_DIR="$CRYPTREST_ETC_SSL_DIR/$CRYPTREST_LIB_DOMAIN"
+            CRYPTREST_NGINX_LOG_DOMAIN_DIR="$CRYPTREST_NGINX_VAR_LOG_DIR/$CRYPTREST_LIB_DOMAIN"
+            CRYPTREST_WWW_DOMAIN_DIR="$CRYPTREST_WWW_DIR/$d"
 
-        . "$CRYPTREST_OPENSSL_OPT_DIR/certs-define.sh"
+            . "$CRYPTREST_OPENSSL_OPT_DIR/certs-define.sh"
 
-        openssl_init_prepare
+            openssl_init_prepare
+        fi
     done
 }
 

@@ -28,7 +28,7 @@ server {
     ssl_certificate [SSL_DOMAIN_DIR]/fullchain.pem;
     ssl_certificate_key [SSL_DOMAIN_DIR]/privkey.pem;
     ssl_trusted_certificate [SSL_DOMAIN_DIR]/cert.pem;
-    ssl_dhparam [OPENSSL_DOMAIN_DIR]/dhparam.pem;
+    ssl_dhparam [SSL_DOMAIN_DIR]/dhparam.pem;
 
     ssl_protocols TLSv1.3 TLSv1.2 TLSv1.1 TLSv1;
     ssl_prefer_server_ciphers on;
@@ -37,7 +37,7 @@ server {
     ssl_session_cache shared:SSL:10m;
     ssl_session_timeout 10m;
     ssl_session_tickets on;
-    ssl_session_ticket_key [OPENSSL_DOMAIN_DIR]/session_ticket.key;
+    ssl_session_ticket_key [SSL_DOMAIN_DIR]/session_ticket.key;
 
     ssl_ecdh_curve [SSL_ECDH_CURVE];
     ssl_stapling on;

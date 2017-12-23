@@ -1,6 +1,6 @@
 #!/bin/sh
 
-CRYPTREST_LETSENCRYPT_PRIVATE_KEY_FILE="$CRYPTREST_LETSENCRYPT_ETC_SYS_DIR/$CRYPTREST_DOMAIN/privkey.pem"
+CRYPTREST_LETSENCRYPT_PRIVATE_KEY_FILE="$CRYPTREST_SSL_DOMAIN_DIR/$CRYPTREST_DOMAIN/privkey.pem"
 
 
 # PUBLIC_KEY_PINS
@@ -16,6 +16,8 @@ letsencrypt_public_key_pins_define()
     done
 
     # RSA
-    hash="$(openssl rsa -pubout -in "$CRYPTREST_LETSENCRYPT_PRIVATE_KEY_FILE" -outform DER | openssl dgst -sha$ssl_bit_size -binary | openssl enc -base64)"
-    CRYPTREST_PUBLIC_KEY_PINS="${CRYPTREST_PUBLIC_KEY_PINS}pin-sha$ssl_bit_size=\"$hash\"; "
+    if [ -f "$CRYPTREST_LETSENCRYPT_PRIVATE_KEY_FILE" ]; then
+        hash="$(openssl rsa -pubout -in "$CRYPTREST_LETSENCRYPT_PRIVATE_KEY_FILE" -outform DER | openssl dgst -sha$ssl_bit_size -binary | openssl enc -base64)"
+        CRYPTREST_PUBLIC_KEY_PINS="${CRYPTREST_PUBLIC_KEY_PINS}pin-sha$ssl_bit_size=\"$hash\"; "
+    fi
 }
