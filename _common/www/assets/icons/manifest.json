@@ -49,5 +49,6 @@
     ],
     "theme_color": "#ffffff",
     "background_color": "#ffffff",
+    "start_url": "https://crypt.rest",
     "display": "standalone"
 }
