@@ -254,6 +254,17 @@ cryptrest_version_define()
     echo "$message"
 }
 
+cryptrest_profile_file_autoclean()
+{
+    local profile_file="$1"
+    local file_backup="$profile_file.backup"
+
+    cp "$profile_file" "$file_backup"
+    [ -f "$file_backup" ] && \
+    grep -v '[Cc][Rr][Yy][Pp][Tt][Rr][Ee][Ss][Tt]' "$file_backup" | cat -s > "$profile_file" && \
+    rm -f "$file_backup"
+}
+
 cryptrest_define_env_file()
 {
     local profile_file=''
@@ -266,6 +277,8 @@ cryptrest_define_env_file()
             profile_file="$HOME/$shell_profile_file"
 
             if [ -f "$profile_file" ]; then
+                cryptrest_profile_file_autoclean "$profile_file"
+
                 echo '' >> "$profile_file"
                 echo "# $CRYPTREST_TITLE" >> "$profile_file"
                 echo ". \$HOME/.$CRYPTREST_NAME/.env" >> "$profile_file"
