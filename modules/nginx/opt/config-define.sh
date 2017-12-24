@@ -8,7 +8,8 @@ nginx_log_dir_define()
     local domain="$1"
 
     mkdir -p "$CRYPTREST_NGINX_VAR_LOG_DIR/$domain" && \
-    chmod 700 "$CRYPTREST_NGINX_VAR_LOG_DIR/$domain"
+    chmod 700 "$CRYPTREST_NGINX_VAR_LOG_DIR/$domain" && \
+    chown "$CRYPTREST_USER.$CRYPTREST_USER" "$CRYPTREST_NGINX_VAR_LOG_DIR/$domain"
 }
 
 nginx_links_define()
