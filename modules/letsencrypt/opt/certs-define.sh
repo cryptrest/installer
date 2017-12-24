@@ -1,16 +1,17 @@
 #!/bin/sh
 
 CRYPTREST_LETSENCRYPT_KEYS='cert chain fullchain privkey'
-CRYPTREST_LETSENCRYPT_PRIVATE_KEY_FILE="$CRYPTREST_SSL_DOMAIN_DIR/$CRYPTREST_SSL_DOMAIN/privkey.pem"
+CRYPTREST_LETSENCRYPT_PRIVATE_KEY_FILE="$CRYPTREST_SSL_DOMAIN_DIR/privkey.pem"
 
 
 letsencrypt_key_links()
 {
     local current_dir="$(pwd -P)"
 
-    cd "$CRYPTREST_SSL_DOMAIN_DIR/$CRYPTREST_SSL_DOMAIN" && \
+    cd "$CRYPTREST_SSL_DOMAIN_DIR" && \
     for k in $CRYPTREST_LETSENCRYPT_KEYS; do
-        ln -s "live/$CRYPTREST_SSL_DOMAIN/$k.pem" "$k.pem"
+        rm -f "$k.pem" && \
+        ln -s "live/$CRYPTREST_LIB_DOMAIN/$k.pem" "$k.pem"
     done
     cd "$current_dir"
 }
