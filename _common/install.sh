@@ -3,10 +3,11 @@
 CRYPTREST__COMMON_WWW_DIR="$CRYPTREST_WWW_DIR/_common"
 CRYPTREST__COMMON_WWW_ERRORS_DIR="$CRYPTREST__COMMON_WWW_DIR/errors"
 CRYPTREST__COMMON_WWW_ASSETS_DIR="$CRYPTREST__COMMON_WWW_DIR/assets"
+CRYPTREST__COMMON_WWW_ASSETS_ICONS_DIR="$CRYPTREST__COMMON_WWW_ASSETS_DIR/icons"
 CRYPTREST__COMMON_TITLE='CryptREST Common'
 
 
-nginx_prepare()
+cryptrest_common_prepare()
 {
     if [ -d "$CRYPTREST__COMMON_WWW_DIR" ]; then
         chmod 700 "$CRYPTREST__COMMON_WWW_DIR"
@@ -21,13 +22,13 @@ nginx_prepare()
     rm -rf "$CRYPTREST__COMMON_WWW_DIR"
 }
 
-nginx_install()
+cryptrest_common_install()
 {
     mkdir -p "$CRYPTREST__COMMON_WWW_DIR" && \
     chmod 700 "$CRYPTREST__COMMON_WWW_DIR"
 }
 
-nginx_define()
+cryptrest_common_define()
 {
     cp -r "$CRYPTREST_CURRENT_DIR/_common/www/"* "$CRYPTREST__COMMON_WWW_DIR/" && \
     chmod 400 "$CRYPTREST__COMMON_WWW_DIR/"* && \
@@ -35,7 +36,9 @@ nginx_define()
     chmod 444 "$CRYPTREST__COMMON_WWW_ERRORS_DIR/"*.html && \
     chmod 555 "$CRYPTREST__COMMON_WWW_ERRORS_DIR" && \
     chmod 700 "$CRYPTREST__COMMON_WWW_ASSETS_DIR" && \
-    chmod 444 "$CRYPTREST__COMMON_WWW_ASSETS_DIR/"*.ico && \
+    chmod 700 "$CRYPTREST__COMMON_WWW_ASSETS_ICONS_DIR" && \
+    chmod 444 "$CRYPTREST__COMMON_WWW_ASSETS_ICONS_DIR/"* && \
+    chmod 555 "$CRYPTREST__COMMON_WWW_ASSETS_ICONS_DIR" && \
     chmod 555 "$CRYPTREST__COMMON_WWW_ASSETS_DIR" && \
     chmod 555 "$CRYPTREST__COMMON_WWW_DIR" && \
 
@@ -44,6 +47,6 @@ nginx_define()
 }
 
 
-nginx_prepare && \
-nginx_install && \
-nginx_define
+cryptrest_common_prepare && \
+cryptrest_common_install && \
+cryptrest_common_define
