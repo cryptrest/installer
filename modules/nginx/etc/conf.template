@@ -6,13 +6,13 @@ upstream cryptrest_site {
 server {
     listen 80;
     server_name [DOMAIN] www.[DOMAIN];
-    return 302 https://[DOMAIN]$request_uri;
+    return 301 https://[DOMAIN]$request_uri;
 }
 
 server {
     listen 443;
     server_name www.[DOMAIN];
-    return 302 https://[DOMAIN]$request_uri;
+    return 301 https://[DOMAIN]$request_uri;
 }
 
 server {
