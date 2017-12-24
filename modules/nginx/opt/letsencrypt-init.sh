@@ -59,6 +59,7 @@ letsencrypt_init_prepare()
     openssl_hd_param_define && \
     openssl_ciphers_define && \
     #openssl_public_key_pins_define && \
+    letsencrypt_key_links && \
     letsencrypt_public_key_pins_define && \
     nginx -v && \
     nginx_configs_define && \
