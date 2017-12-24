@@ -35,15 +35,17 @@ CRYPTREST_WWW_DIR="$CRYPTREST_DIR/www"
 CRYPTREST_ETC_DIR="$CRYPTREST_DIR/etc"
 CRYPTREST_ETC_SSL_DIR="$CRYPTREST_ETC_DIR/ssl"
 CRYPTREST_OPT_DIR="$CRYPTREST_DIR/opt"
+CRYPTREST_VAR_LOG_DIR="$CRYPTREST_DIR/var/log"
 
 CRYPTREST_OPENSSL_OPT_DIR="$CRYPTREST_OPT_DIR/openssl"
 CRYPTREST_OPENSSL_ETC_DIR="$CRYPTREST_ETC_DIR/openssl"
 
-CRYPTREST_NGINX_VAR_LOG_DIR="$CRYPTREST_DIR/var/log/nginx"
+CRYPTREST_NGINX_VAR_LOG_DIR="$CRYPTREST_VAR_LOG_DIR/nginx"
 CRYPTREST_NGINX_ETC_DIR="$CRYPTREST_ETC_DIR/nginx"
 CRYPTREST_NGINX_OPT_DIR="$CRYPTREST_OPT_DIR/nginx"
 
 CRYPTREST_LETSENCRYPT_OPT_DIR="$CRYPTREST_OPT_DIR/letsencrypt"
+CRYPTREST_LETSENCRYPT_VAR_LOG_DIR="$CRYPTREST_VAR_LOG_DIR/letsencrypt"
 
 
 letsencrypt_init_prepare()
@@ -61,6 +63,7 @@ letsencrypt_init_prepare()
     #openssl_public_key_pins_define && \
     letsencrypt_key_links && \
     letsencrypt_public_key_pins_define && \
+    letsencrypt_log_dir_define && \
     nginx -v && \
     nginx_configs_define && \
     chmod 555 "$CRYPTREST_WWW_DOMAIN_DIR"
@@ -69,12 +72,13 @@ letsencrypt_init_prepare()
 letsencrypt_init_define()
 {
     local domains=''
+    local log_dir="$CRYPTREST_LETSENCRYPT_VAR_LOG_DIR/$CRYPTREST_LIB_DOMAIN"
 
     for domain in $CRYPTREST_DOMAINS; do
         domains="$domains -d $domain"
     done
 
-    "$CRYPTREST_DIR/bin/cryptrest-letsencrypt" certonly --standalone --email "$CRYPTREST_EMAIL" --webroot "$CRYPTREST_SSL_DOMAIN_DIR" --renew-by-default --rsa-key-size "$CRYPTREST_SSL_BIT_KEY_SIZE"$domains --pre-hook "$CRYPTREST_NGINX_CMD_STOP" --post-hook "$CRYPTREST_NGINX_CMD_START"
+    "$CRYPTREST_DIR/bin/cryptrest-letsencrypt" certonly --standalone --staple-ocsp --hsts --no-redirect --email "$CRYPTREST_EMAIL" --renew-by-default --rsa-key-size "$CRYPTREST_SSL_BIT_KEY_SIZE"$domains --logs-dir "$log_dir" --pre-hook "$CRYPTREST_NGINX_CMD_STOP" --post-hook "$CRYPTREST_NGINX_CMD_START"
     #"$CRYPTREST_DIR/bin/cryptrest-letsencrypt" certonly --webroot $domains --email "$CRYPTREST_EMAIL" --csr $ECDSA_CSR --agree-tos
 }
 
