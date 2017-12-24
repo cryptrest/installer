@@ -4,15 +4,15 @@ upstream cryptrest_site {
 
 # for redirecting to non-www version of the site
 server {
-    listen [DOMAIN]:80;
+    listen 80;
     server_name [DOMAIN] www.[DOMAIN];
-    rewrite ^(.*) https://[DOMAIN]$1 permanent;
+    return 302 https://[DOMAIN]$request_uri;
 }
 
 server {
     listen 443;
     server_name www.[DOMAIN];
-    rewrite ^(.*) https://[DOMAIN]$1 permanent;
+    return 302 https://[DOMAIN]$request_uri;
 }
 
 server {
