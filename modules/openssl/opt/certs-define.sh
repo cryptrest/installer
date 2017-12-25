@@ -1,6 +1,5 @@
 #!/bin/sh
 
-#CRYPTREST_SSL_ECDH_CURVE: sect283k1:sect283r1:sect409k1:sect409r1:sect571k1:sect571r1:secp256k1:secp256r1:secp384r1:secp521r1:brainpoolP256r1:brainpoolP384r1:brainpoolP512r1
 CRYPTREST_OPENSSL_SERVER_CIPHERS='HIGH:!RC4:!aNULL:!eNULL:!LOW:!MD5:!DSS:!SSL:!CBC:!DSA:!3DES:!CAMELLIA:!ADH:!EXP:!PSK:!SRP:!EXPORT:!IDEA:!SEED'
 
 CRYPTREST_OPENSSL_DHPARAM_KEY_FILE="$CRYPTREST_SSL_DOMAIN_DIR/dhparam.pem"
@@ -60,10 +59,17 @@ openssl_hd_param_define()
     openssl dhparam -out "$CRYPTREST_OPENSSL_DHPARAM_KEY_FILE" "$CRYPTREST_SSL_BIT_KEY_SIZE"
 }
 
+openssl_ecdh_curves_define()
+{
+    openssl ecparam -list_curves | grep r1 | cut -d ':' -f 1 | grep -E "[3][8][4]|[5][1][2]|[5][2][1]" | xargs | tr ' ' ':'
+}
+
 # ECDSA
 openssl_ecdsa_define()
 {
-    openssl ecparam -genkey -name "$CRYPTREST_SSL_ECDH_CURVE" | openssl ec -out "$CRYPTREST_OPENSSL_ECDSA_KEY_FILE"
+    [ -z "$CRYPTREST_SSL_ECDH_CURVES" ] && CRYPTREST_SSL_ECDH_CURVES="$(openssl_ecdh_curves_define)"
+
+    openssl ecparam -genkey -name "$CRYPTREST_SSL_ECDH_CURVES" | openssl ec -out "$CRYPTREST_OPENSSL_ECDSA_KEY_FILE"
 }
 
 # Certificate Signing Request (CSR)

@@ -39,7 +39,7 @@ server {
     ssl_session_tickets on;
     ssl_session_ticket_key [SSL_DOMAIN_DIR]/session_ticket.key;
 
-    ssl_ecdh_curve [SSL_ECDH_CURVE];
+    ssl_ecdh_curve [SSL_ECDH_CURVES];
     ssl_stapling on;
     ssl_stapling_verify on;
     ssl_buffer_size 16k;
