@@ -1,8 +1,10 @@
 #!/bin/sh
 
-# Shell utilities: echo, printf, chmod, mkdir, ln, cp, ls,
-#                  dirname, basename, rm, cat, exit, cat
-# System utilities: curl, tar
+# Shell utilities: echo, printf, chmod, chown, mkdir,
+#                  ln, cp, ls, xargs, cat, exit, cut,
+#                  dirname, basename, tr, grep, cd, rm
+#
+# System utilities: curl, tar, sed, uname
 
 
 CRYPTREST_CURRENT_DIR="$(cd $(dirname $0) && pwd -P)"
@@ -41,7 +43,7 @@ CRYPTREST_INSTALLER_GIT_BRANCH="${CRYPTREST_INSTALLER_GIT_BRANCH:=master}"
 CRYPTREST_MAIN_LIBS='_common'
 CRYPTREST_MAIN_LIBS_BIN_DIR="$CRYPTREST_MAIN_LIBS_DIR/bin"
 CRYPTREST_IS_LOCAL=1
-CRYPTREST_HOME_SHELL_PROFILE_FILES='.bashrc .mkshrc .zshrc .cshrc .kshrc'
+CRYPTREST_HOME_SHELL_PROFILE_FILES='.bashrc .mkshrc .zshrc .cshrc .kshrc .rshrc'
 
 CRYPTREST_NAME='cryptrest'
 CRYPTREST_TITLE='CryptREST'
@@ -72,6 +74,21 @@ CRYPTREST_INSTALLER_WWW_DIR="$CRYPTREST_WWW_DIR/$CRYPTREST_INSTALLER_NAME"
 CRYPTREST_INSTALLER_WWW_HTML_FILE="$CRYPTREST_INSTALLER_WWW_DIR/index.html"
 CRYPTREST_INSTALLER_WWW_ROBOTSTXT_FILE="$CRYPTREST_INSTALLER_WWW_DIR/robots.txt"
 
+
+cryptrest_utilities_check()
+{
+    local utils_list='curl tar sed uname'
+
+    for u in $utils_list; do
+        "$u" --version 1> /dev/null
+        if [ $? -ne 0 ]; then
+            echo "$CRYPTREST_TITLE check: '$u' not found or installed"
+            echo ''
+
+            exit 1
+        fi
+    done
+}
 
 cryptrest_prepare()
 {
@@ -345,5 +362,6 @@ cryptrest_install()
 }
 
 
+cryptrest_utilities_check && \
 cryptrest_init && \
 cryptrest_install
