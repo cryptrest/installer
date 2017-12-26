@@ -68,6 +68,7 @@ nginx_install()
 nginx_define()
 {
     cp "$CRYPTREST_MODULES_DIR/nginx/etc/"*conf.template "$CRYPTREST_NGINX_ETC_DIR/" && \
+    cp "$CRYPTREST_MODULES_DIR/nginx/etc/"*.conf "$CRYPTREST_NGINX_ETC_DIR/" && \
     chmod 400 "$CRYPTREST_NGINX_ETC_DIR/"* && \
     cp "$CRYPTREST_MODULES_DIR/nginx/opt/"*.sh "$CRYPTREST_NGINX_OPT_DIR/" && \
     chmod 400 "$CRYPTREST_NGINX_OPT_DIR/"*.sh && \
