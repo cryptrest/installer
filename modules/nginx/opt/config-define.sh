@@ -61,6 +61,7 @@ nginx_configs_define()
             nginx_log_dir_define "$domain" && \
             nginx_config_define "$domain" "$conf_file" "$template_file" && \
             nginx_links_define "$conf_file" && \
+
             echo "NGinx config and links has been defined for '$domain'"
         fi
     done

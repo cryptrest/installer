@@ -61,7 +61,7 @@ openssl_hd_param_define()
 
 openssl_ecdh_curves_define()
 {
-    openssl ecparam -list_curves | grep r1 | cut -d ':' -f 1 | grep -E "[3][8][4]|[5][1][2]|[5][2][1]" | xargs | tr ' ' ':'
+    openssl ecparam -list_curves | grep 'r1' | cut -d ':' -f 1 | grep -E "[3][8][4]|[5][1][2]|[5][2][1]" | xargs | tr ' ' ':'
 }
 
 # ECDSA
