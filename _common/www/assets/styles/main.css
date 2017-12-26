@@ -1,6 +1,6 @@
 @import url("fonts.css");
 
-html, body {position: relative; border: 0; padding: 0; margin: 0; top: 0; bottom: 0; left: 0; right: 0; height: 100%; width: 100%; background-image: url(../images/bg_light.svg); background-color: #f7fbfb; background-repeat: repeat; background-position: center center; z-index: 10; text-decoration: none; outline: none; cursor: default; text-transform: none;}
+html, body {position: relative; border: 0; padding: 0; margin: 0; top: 0; bottom: 0; left: 0; right: 0; height: 100%; width: 100%; background-image: url(../images/bg_light.png); background-color: #f7fbfb; background-repeat: repeat; background-position: center center; z-index: 10; text-decoration: none; outline: none; cursor: default; text-transform: none;}
 a, p {border: 0; padding: 0; margin: 0; font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 11pt; color: #414747; text-decoration: none; outline: none; cursor: default; text-transform: none;}
 
 .logo {position: relative; padding: 0; margin: auto; top: 0; bottom: 0; left: 0; right: 0; height: 64px; width: 128px; background: none;}

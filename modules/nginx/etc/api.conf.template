@@ -83,9 +83,9 @@ server {
         gzip_static on;
         gzip_comp_level 5;
         gzip_disable "msie6";
-        gzip_types text/plain text/css application/json application/x-javascript text/xml application/xml application/xml+rss text/javascript application/javascript;
+        gzip_types text/css text/plain text/x-component image/png image/svg+xml image/x-icon image/x-ms-bm application/font-woff application/x-javascript text/javascript application/javascript;
         expires 7d;
-        add_header Cache-Control public,max-age=259200;
+        add_header Cache-Control "public,max-age=259200";
     }
 
     location = / {
