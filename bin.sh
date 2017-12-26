@@ -261,6 +261,7 @@ cryptrest_define()
     chmod 500 "$CRYPTREST_INSTALLER_LIB_FILE" && \
     ln -s "$CRYPTREST_INSTALLER_LIB_FILE" "$CRYPTREST_INSTALLER_BIN_FILE" && \
     cryptrest_robotstxt_installer && \
+    chmod 555 "$CRYPTREST_INSTALLER_WWW_STRUCTURE_DIR" && \
     chmod 555 "$CRYPTREST_INSTALLER_WWW_DIR" && \
     chmod 555 "$CRYPTREST_WWW_DIR"
 }

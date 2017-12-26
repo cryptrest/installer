@@ -13,6 +13,9 @@ cryptrest_common_prepare()
     if [ -d "$CRYPTREST__COMMON_WWW_DIR" ]; then
         chmod 700 "$CRYPTREST__COMMON_WWW_DIR"
     fi
+    if [ -d "$CRYPTREST__COMMON_WWW_HTML_DIR" ]; then
+        chmod 700 "$CRYPTREST__COMMON_WWW_HTML_DIR"
+    fi
     if [ -d "$CRYPTREST__COMMON_WWW_HTML_ERRORS_DIR" ]; then
         chmod 700 "$CRYPTREST__COMMON_WWW_HTML_ERRORS_DIR"
     fi
@@ -39,6 +42,7 @@ cryptrest_common_define()
     chmod 700 "$CRYPTREST__COMMON_WWW_HTML_ERRORS_DIR" && \
     chmod 444 "$CRYPTREST__COMMON_WWW_HTML_ERRORS_DIR/"*.html && \
     chmod 555 "$CRYPTREST__COMMON_WWW_HTML_ERRORS_DIR" && \
+    chmod 555 "$CRYPTREST__COMMON_WWW_HTML_DIR" && \
     chmod 700 "$CRYPTREST__COMMON_WWW_ASSETS_DIR" && \
     chmod 700 "$CRYPTREST__COMMON_WWW_ASSETS_ICONS_DIR" && \
     chmod 444 "$CRYPTREST__COMMON_WWW_ASSETS_ICONS_DIR/"* && \
