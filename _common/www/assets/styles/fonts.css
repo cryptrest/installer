@@ -1,0 +1,12 @@
+
+@font-face {
+    font-family: 'VisitorTT1';
+    src: url('../fonts/Visitor_TT1_BRK-Regular.eot'); /* IE9 Compat Modes */
+    src: url('../fonts/Visitor_TT1_BRK-Regular.eot?#iefix') format('embedded-opentype'), /* IE6-IE8 */
+         url('../fonts/Visitor_TT1_BRK-Regular.woff') format('woff'), /* Modern Browsers */
+         url('../fonts/Visitor_TT1_BRK-Regular.woff2') format('woff2'), /* Modern Browsers */
+         url('../fonts/Visitor_TT1_BRK-Regular.ttf')  format('truetype'), /* Safari, Android, iOS */
+         url('../fonts/Visitor_TT1_BRK-Regular.svg#VisitorTT1') format('svg'); /* Legacy iOS */
+         font-weight:normal;
+         font-style:normal;
+}
