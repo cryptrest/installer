@@ -1,7 +1,8 @@
 #!/bin/sh
 
-# System utilities: echo, printf, chmod, mkdir, ln, cp, rm,
-#                   dirname, basename, ls, cat, exit, curl, tar
+# Shell utilities: echo, printf, chmod, mkdir, ln, cp, ls,
+#                  dirname, basename, rm, cat, exit, cat
+# System utilities: curl, tar
 
 
 CRYPTREST_CURRENT_DIR="$(cd $(dirname $0) && pwd -P)"
