@@ -108,20 +108,5 @@ server {
         proxy_set_header X-Forwarded-Proto $scheme;
     }
 
-    error_page 400 /errors/400.html;
-    error_page 401 /errors/401.html;
-    error_page 402 /errors/402.html;
-    error_page 403 /errors/403.html;
-    error_page 404 /errors/404.html;
-    error_page 405 /errors/405.html;
-    error_page 406 /errors/406.html;
-    error_page 407 /errors/407.html;
-    error_page 408 /errors/408.html;
-    error_page 409 /errors/409.html;
-    error_page 500 /errors/500.html;
-    error_page 501 /errors/501.html;
-    error_page 502 /errors/502.html;
-    error_page 503 /errors/503.html;
-    error_page 504 /errors/504.html;
-    error_page 505 /errors/505.html;
+    include [NGINX_CONF_DIR]/error_pages.conf;
 }

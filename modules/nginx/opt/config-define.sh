@@ -41,7 +41,8 @@ nginx_config_define()
     sed -i "s#\[SERVER_CIPHERS\]#$CRYPTREST_OPENSSL_SERVER_CIPHERS#g" "$conf_file" && \
     sed -i "s#\[SSL_ECDH_CURVES\]#$CRYPTREST_SSL_ECDH_CURVES#g" "$conf_file" && \
     sed -i "s#\[SSL_DOMAIN_DIR\]#$CRYPTREST_SSL_DOMAIN_DIR#g" "$conf_file" && \
-    sed -i "s#\[PUBLIC_KEY_PINS\]#$CRYPTREST_PUBLIC_KEY_PINS#g" "$conf_file"
+    sed -i "s#\[PUBLIC_KEY_PINS\]#$CRYPTREST_PUBLIC_KEY_PINS#g" "$conf_file" && \
+    sed -i "s#\[NGINX_CONF_DIR\]#$CRYPTREST_NGINX_ETC_DIR#g" "$conf_file"
 }
 
 nginx_configs_define()

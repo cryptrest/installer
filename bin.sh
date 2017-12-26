@@ -41,6 +41,7 @@ CRYPTREST_SSL_ECDH_CURVES="${CRYPTREST_SSL_ECDH_CURVES:=secp521r1:brainpoolP512r
 CRYPTREST_INSTALLER_GIT_BRANCH="${CRYPTREST_INSTALLER_GIT_BRANCH:=master}"
 
 CRYPTREST_MAIN_LIBS='_common'
+CRYPTREST_MAIN_LIBS_LIST=''
 CRYPTREST_MAIN_LIBS_BIN_DIR="$CRYPTREST_MAIN_LIBS_DIR/bin"
 CRYPTREST_IS_LOCAL=1
 CRYPTREST_HOME_SHELL_PROFILE_FILES='.bashrc .mkshrc .zshrc .cshrc .kshrc .rshrc'
@@ -229,6 +230,8 @@ cryptrest_bin_installer_define()
     rm -f "$CRYPTREST_INSTALLER_BIN_FILE"* && \
 
     for f in $(ls "$CRYPTREST_MAIN_LIBS_BIN_DIR/"*.sh); do
+        CRYPTREST_MAIN_LIBS_LIST="$CRYPTREST_MAIN_LIBS_LIST $f"
+
         [ "$f" = 'structure' ] && continue
 
         file_name="$(basename -s .sh "$f")"
@@ -324,8 +327,11 @@ cryptrest_robotstxt_installer()
     echo 'User-agent: *' >> "$CRYPTREST_INSTALLER_WWW_ROBOTSTXT_FILE"
     echo 'Disallow: /' >> "$CRYPTREST_INSTALLER_WWW_ROBOTSTXT_FILE"
     echo 'Allow: /' >> "$CRYPTREST_INSTALLER_WWW_ROBOTSTXT_FILE"
-    echo 'Allow: /modules' >> "$CRYPTREST_INSTALLER_WWW_ROBOTSTXT_FILE"
-    echo 'Allow: /libs' >> "$CRYPTREST_INSTALLER_WWW_ROBOTSTXT_FILE"
+
+    for l in $CRYPTREST_MAIN_LIBS_LIST; do
+        echo "Allow: /$l" >> "$CRYPTREST_INSTALLER_WWW_ROBOTSTXT_FILE"
+    done
+
     chmod 444 "$CRYPTREST_INSTALLER_WWW_ROBOTSTXT_FILE") && \
 
     echo "$CRYPTREST_TITLE Installer robots.txt file: init"
