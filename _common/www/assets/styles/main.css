@@ -5,7 +5,7 @@
     src: url('../fonts/Visitor_TT2_BRK-Regular.eot?#iefix') format('embedded-opentype'), /* IE6-IE8 */
          url('../fonts/Visitor_TT2_BRK-Regular.woff') format('woff'), /* Modern Browsers */
          url('../fonts/Visitor_TT2_BRK-Regular.woff2') format('woff2'), /* Modern Browsers */
-         url('../fonts/Visitor_TT2_BRK-Regular.ttf')  format('truetype'), /* Safari, Android, iOS */
+         url('../fonts/Visitor_TT2_BRK-Regular.ttf') format('truetype'), /* Safari, Android, iOS */
          url('../fonts/Visitor_TT2_BRK-Regular.svg#VisitorTT2') format('svg'); /* Legacy iOS */
          font-weight:normal;
          font-style:normal;
@@ -17,30 +17,45 @@
     src: url('../fonts/Cone.eot?#iefix') format('embedded-opentype'), /* IE6-IE8 */
          url('../fonts/Cone.woff') format('woff'), /* Modern Browsers */
          url('../fonts/Cone.woff2') format('woff2'), /* Modern Browsers */
-         url('../fonts/Cone.ttf')  format('truetype'), /* Safari, Android, iOS */
+         url('../fonts/Cone.ttf') format('truetype'), /* Safari, Android, iOS */
          url('../fonts/Cone.svg#Cone') format('svg'); /* Legacy iOS */
          font-weight:normal;
          font-style:normal;
 }
 
-html, body {position: relative; border: 0; padding: 0; margin: 0; top: 0; bottom: 0; left: 0; right: 0; height: 100%; width: 100%; background-image: url(../images/bg_light.png); background-color: #f7fbfb; background-repeat: repeat; background-position: center center; z-index: 10; text-decoration: none; outline: none; cursor: default; text-transform: none;}
+
+
+
+html, body {overflow: auto; min-width: 400px; min-height: 800px; position: relative; border: 0; padding: 0; margin: 0; top: 0; bottom: 0; left: 0; right: 0; height: 100%; width: 100%; background-image: url(../images/bg_light.png); background-color: #f7fbfb; background-repeat: repeat; background-position: center center; z-index: 10; text-decoration: none; outline: none; cursor: default; text-transform: none;}
 a, p {border: 0; padding: 0; margin: 0; font-family: Cone, Helvetica, Arial; color: #414747; font-size: 102%; text-decoration: none; outline: none; cursor: default; text-transform: none;}
 
-.logo {position: relative; padding: 0; margin: auto; top: 0; bottom: 0; left: 0; right: 0; height: 64px; width: 128px; background: none;}
-.cryptrest-logo, .cryptrest-logo:hover, .cryptrest-logo:visited, .cryptrest-logo:active, .cryptrest-logo:focus {position: relative; padding: 0; margin: 0; top: 0; bottom: 0; left: 0; right: 0; height: 64px; width: 128px; outline: none; text-decoration: none; text-transform: none; z-index: 10; background-image: url(../images/cryptrest_logo.svg); background-color: none; background-repeat: no-repeat; background-position: center center;}
-.cryptrest-logo:hover {cursor: pointer;}
-* HTML .cryptrest-logo:hover {cursor: hand;}
+.logo-64x32 {position: relative; padding: 0; margin: auto; top: 0; bottom: 0; left: 0; right: 0; height: 32px; width: 64px; background: none;}
+.cryptrest-logo-64x32, .cryptrest-logo-64x32:hover, .cryptrest-logo-64x32:visited, .cryptrest-logo-64x32:active, .cryptrest-logo-64x32:focus {position: relative; padding: 0; margin: 0; top: 0; bottom: 0; left: 0; right: 0; height: 32px; width: 64px; outline: none; text-decoration: none; text-transform: none; z-index: 10; background-image: url(../images/cryptrest_logo-64x32.svg); background-color: none; background-repeat: no-repeat; background-position: center center; background-size: 64px 32px;}
+.cryptrest-logo-64x32:hover {cursor: pointer;}
+* HTML .cryptrest-logo-64x32:hover {cursor: hand;}
 
-.box {position: fixed; padding: 0; margin: auto; top: 0; bottom: 0; left: 0; right: 0; width: 50%; min-width: 400px; max-width: auto; height: 50%; min-height: 400px; max-height: auto; background-image: url(../images/bg_dark.png); background-color: #414747; background-repeat: repeat; background-position: center center;}
-.box-top {position: relative; padding: 0; margin: auto; top: -128px; bottom: 0; left: 0; right: 0; width: 100%; height: 128px; background: none;}
-.box-center {position: relative; padding: 0; margin: auto; top: -192px; bottom: 50%; left: 0; right: 0; width: 100%; height: 100%; background: none;}
-.box-center-block {position: relative; padding: 0; margin: 0; top: 25%; bottom: 25%; left: 0; right: 0; width: 100%; height: 50%; background: none;}
-.box-bottom {position: relative; padding: 0; margin: -128px 0 0 0; top: 0; bottom: 0; left: 0; right: 0; width: 100%; height: 64px; background: none;}
+.logo-96x48 {position: relative; padding: 0; margin: auto; top: 0; bottom: 0; left: 0; right: 0; height: 48px; width: 96px; background: none;}
+.cryptrest-logo-96x48, .cryptrest-logo-96x48:hover, .cryptrest-logo-96x48:visited, .cryptrest-logo-96x48:active, .cryptrest-logo-96x48:focus {position: relative; padding: 0; margin: 0; top: 0; bottom: 0; left: 0; right: 0; height: 48px; width: 96px; outline: none; text-decoration: none; text-transform: none; z-index: 10; background-image: url(../images/cryptrest_logo-96x48.svg); background-color: none; background-repeat: no-repeat; background-position: center center; background-size: 96px 48px;}
+.cryptrest-logo-96x48:hover {cursor: pointer;}
+* HTML .cryptrest-logo-96x48:hover {cursor: hand;}
 
-.delta-box {position: relative; padding: 0 0 0 0.5%; margin: 0; top: 0; bottom: 0; left: 0; right: 0; background: none;}
-.big-code {border: 0; padding: 0; margin: 0; font-family: VisitorTT2, Helvetica, Arial; font-size: 820%; color: #058545;}
-.big-desc {border: 0; padding: 0; margin: 0; font-family: VisitorTT2, Helvetica, Arial; font-size: 204%; color: #058545;}
-.note {border: 0; padding: 0; margin: 0; font-family: Cone, Helvetica, Arial; font-size: 102%; color: #9ca3a3; letter-spacing: 0.05em;}
+.logo-128x64 {position: relative; padding: 0; margin: auto; top: 0; bottom: 0; left: 0; right: 0; height: 64px; width: 128px; background: none;}
+.cryptrest-logo-128x64, .cryptrest-logo-128x64:hover, .cryptrest-logo-128x64:visited, .cryptrest-logo-128x64:active, .cryptrest-logo-128x64:focus {position: relative; padding: 0; margin: 0; top: 0; bottom: 0; left: 0; right: 0; height: 64px; width: 128px; outline: none; text-decoration: none; text-transform: none; z-index: 10; background-image: url(../images/cryptrest_logo-128x64.svg); background-color: none; background-repeat: no-repeat; background-position: center center; background-size: 128px 64px;}
+.cryptrest-logo-128x64:hover {cursor: pointer;}
+* HTML .cryptrest-logo-128x64:hover {cursor: hand;}
 
-.footer {position: relative; padding: 32px 0 0 0; margin: 0; top: 0; bottom: 0; left: 0; right: 0; height: 32px; width: 100%; background: none;}
-.copyright-txt {margin: 0; top: 0; bottom: 0; left: 0; right: 0; color: #9ca3a3; background: none; border: 0; padding: 0; margin: 0; font-family: Cone, Arial, Helvetica; font-size: 102%;}
+
+.error-box {position: fixed; padding: 0; margin: auto; top: 0; bottom: 0; left: 0; right: 0; width: 50%; min-width: 320px; max-width: auto; height: 50%; min-height: 320px; max-height: auto; background-image: url(../images/bg_dark.png); background-color: #414747; background-repeat: repeat; background-position: center center;}
+.error-box-top {position: relative; padding: 0; margin: auto; top: -128px; bottom: 0; left: 0; right: 0; width: 100%; height: 128px; background: none;}
+.error-box-center {position: relative; padding: 0; margin: auto; top: -192px; bottom: 50%; left: 0; right: 0; width: 100%; height: 100%; background: none;}
+.error-box-center-block {position: relative; padding: 0; margin: 0; top: 25%; bottom: 25%; left: 0; right: 0; width: 100%; height: 50%; background: none;}
+.error-box-bottom {position: relative; padding: 0; margin: -128px 0 0 0; top: 0; bottom: 0; left: 0; right: 0; width: 100%; height: 64px; background: none;}
+
+.error-delta-box {position: relative; padding: 0; margin: 0; top: 0; bottom: 0; left: 0; right: 0; background: none;}
+.error-delta-box-bottom {position: relative; padding: 28px 0 0 0; margin: 0; top: 0; bottom: 0; left: 0; right: 0; background: none;}
+.error-big-code {border: 0; padding: 0 0 0 12px; margin: 0; font-family: VisitorTT2, Helvetica, Arial; font-size: 820%; color: #058545;}
+.error-big-desc {border: 0; padding: 0 0 0 2px; margin: 0; font-family: VisitorTT2, Helvetica, Arial; font-size: 204%; color: #058545;}
+.error-note {border: 0; padding: 0; margin: 0; font-family: Cone, Helvetica, Arial; font-size: 102%; color: #9ca3a3; letter-spacing: 0.05em;}
+
+.error-footer {position: relative; padding: 32px 0 0 0; margin: 0; top: 0; bottom: 0; left: 0; right: 0; height: 32px; width: 100%; background: none;}
+.error-copyright {margin: 0; top: 0; bottom: 0; left: 0; right: 0; color: #9ca3a3; background: none; border: 0; padding: 0; margin: 0; font-family: Cone, Arial, Helvetica; font-size: 102%;}
