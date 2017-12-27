@@ -26,7 +26,7 @@
 
 
 
-html, body {overflow: auto; min-width: 400px; min-height: 800px; position: relative; border: 0; padding: 0; margin: 0; top: 0; bottom: 0; left: 0; right: 0; height: 100%; width: 100%; background-image: url(../images/bg_light.png); background-color: #f7fbfb; background-repeat: repeat; background-position: center center; z-index: 10; text-decoration: none; outline: none; cursor: default; text-transform: none;}
+html, body {overflow: hidden; min-width: 400px; min-height: 800px; position: relative; border: 0; padding: 0; margin: 0; top: 0; bottom: 0; left: 0; right: 0; height: 100%; width: 100%; background-image: url(../images/bg_light.png); background-color: #f7fbfb; background-repeat: repeat; background-position: center center; z-index: 10; text-decoration: none; outline: none; cursor: default; text-transform: none;}
 a, p {border: 0; padding: 0; margin: 0; font-family: Cone, Helvetica, Arial; color: #414747; font-size: 102%; text-decoration: none; outline: none; cursor: default; text-transform: none;}
 
 .logo-64x32 {position: relative; padding: 0; margin: auto; top: 0; bottom: 0; left: 0; right: 0; height: 32px; width: 64px; background: none;}
@@ -44,7 +44,22 @@ a, p {border: 0; padding: 0; margin: 0; font-family: Cone, Helvetica, Arial; col
 .cryptrest-logo-128x64:hover {cursor: pointer;}
 * HTML .cryptrest-logo-128x64:hover {cursor: hand;}
 
+/* Header */
+.box-top {position: fixed; padding: 0; margin: 0; width: 100%; height: 96px; background: none;}
+.box-top-logo {padding: 0; margin: 16px 0 16px 0; top: 0; bottom: 0; left: 0; right: 0; width: 50%; height: 32px; background: none;}
+.box-top-panel {position: relative; padding: 0; margin: 0; top: 0; bottom: 0; left: 0; right: 0; width: 100%; height: 32px; background-image: url(../images/bg_dark.png); background-color: #414747; background-repeat: repeat; background-position: center center;}
 
+/* Body */
+.box-center {position: fixed; overflow: auto; padding: 0; margin: 0; top: 96px; bottom: 32px; left: 0; right: 0; width: 100%; background: none;}
+.box-center-body {position: relative; padding: 0; margin: 32px 64px 32px 64px; top: 0; bottom: 0; left: 0; right: 0; background: none;}
+
+/* bottom */
+.box-bottom {position: fixed; padding: 0; margin: 0; top: auto; bottom: 0; width: 100%; height: 32px; background-image: url(../images/bg_dark.png); background-color: #414747; background-repeat: repeat; background-position: center center;}
+.box-bottom-footer {padding: 2px 0 0 0; margin: 0; top: 0; bottom: 0; left: 0; right: 0; width: 50%; background: none;}
+.box-bottom-footer-copyright {top: 0; bottom: 0; left: 0; right: 0; color: #9ca3a3; background: none; border: 0; padding: 0; margin: 0; font-family: Cone, Arial, Helvetica; font-size: 102%;}
+
+
+/* Errors pages */
 .error-box {position: fixed; padding: 0; margin: auto; top: 0; bottom: 0; left: 0; right: 0; width: 50%; min-width: 320px; max-width: auto; height: 50%; min-height: 320px; max-height: auto; background-image: url(../images/bg_dark.png); background-color: #414747; background-repeat: repeat; background-position: center center;}
 .error-box-top {position: relative; padding: 0; margin: auto; top: -128px; bottom: 0; left: 0; right: 0; width: 100%; height: 128px; background: none;}
 .error-box-center {position: relative; padding: 0; margin: auto; top: -192px; bottom: 50%; left: 0; right: 0; width: 100%; height: 100%; background: none;}
@@ -58,4 +73,4 @@ a, p {border: 0; padding: 0; margin: 0; font-family: Cone, Helvetica, Arial; col
 .error-note {border: 0; padding: 0; margin: 0; font-family: Cone, Helvetica, Arial; font-size: 102%; color: #9ca3a3; letter-spacing: 0.05em;}
 
 .error-footer {position: relative; padding: 32px 0 0 0; margin: 0; top: 0; bottom: 0; left: 0; right: 0; height: 32px; width: 100%; background: none;}
-.error-copyright {margin: 0; top: 0; bottom: 0; left: 0; right: 0; color: #9ca3a3; background: none; border: 0; padding: 0; margin: 0; font-family: Cone, Arial, Helvetica; font-size: 102%;}
+.error-copyright {top: 0; bottom: 0; left: 0; right: 0; color: #9ca3a3; background: none; border: 0; padding: 0; margin: 0; font-family: Cone, Arial, Helvetica; font-size: 102%;}
