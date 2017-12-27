@@ -24,7 +24,7 @@
 }
 
 html, body {position: relative; border: 0; padding: 0; margin: 0; top: 0; bottom: 0; left: 0; right: 0; height: 100%; width: 100%; background-image: url(../images/bg_light.png); background-color: #f7fbfb; background-repeat: repeat; background-position: center center; z-index: 10; text-decoration: none; outline: none; cursor: default; text-transform: none;}
-a, p {border: 0; padding: 0; margin: 0; font-family: Cone, Helvetica, Arial; font-size: 11pt; color: #414747; text-decoration: none; outline: none; cursor: default; text-transform: none;}
+a, p {border: 0; padding: 0; margin: 0; font-family: Cone, Helvetica, Arial; color: #414747; font-size: 102%; text-decoration: none; outline: none; cursor: default; text-transform: none;}
 
 .logo {position: relative; padding: 0; margin: auto; top: 0; bottom: 0; left: 0; right: 0; height: 64px; width: 128px; background: none;}
 .cryptrest-logo, .cryptrest-logo:hover, .cryptrest-logo:visited, .cryptrest-logo:active, .cryptrest-logo:focus {position: relative; padding: 0; margin: 0; top: 0; bottom: 0; left: 0; right: 0; height: 64px; width: 128px; outline: none; text-decoration: none; text-transform: none; z-index: 10; background-image: url(../images/cryptrest_logo.svg); background-color: none; background-repeat: no-repeat; background-position: center center;}
@@ -40,7 +40,7 @@ a, p {border: 0; padding: 0; margin: 0; font-family: Cone, Helvetica, Arial; fon
 .delta-box {position: relative; padding: 0 0 0 0.5%; margin: 0; top: 0; bottom: 0; left: 0; right: 0; background: none;}
 .big-code {border: 0; padding: 0; margin: 0; font-family: VisitorTT2, Helvetica, Arial; font-size: 820%; color: #058545;}
 .big-desc {border: 0; padding: 0; margin: 0; font-family: VisitorTT2, Helvetica, Arial; font-size: 204%; color: #058545;}
-.note {border: 0; padding: 0; margin: 0; font-family: Cone, Helvetica, Arial; font-size: 102%; color: #9fadad; letter-spacing: 0.05em;}
+.note {border: 0; padding: 0; margin: 0; font-family: Cone, Helvetica, Arial; font-size: 102%; color: #9ca3a3; letter-spacing: 0.05em;}
 
 .footer {position: relative; padding: 32px 0 0 0; margin: 0; top: 0; bottom: 0; left: 0; right: 0; height: 32px; width: 100%; background: none;}
-.copyright-txt {margin: 0; top: 0; bottom: 0; left: 0; right: 0; color: #95a3a3; background: none; border: 0; padding: 0; margin: 0; font-family: VisitorTT2, Arial, Helvetica, sans-serif; font-size: 100%;}
+.copyright-txt {margin: 0; top: 0; bottom: 0; left: 0; right: 0; color: #9ca3a3; background: none; border: 0; padding: 0; margin: 0; font-family: Cone, Arial, Helvetica; font-size: 102%; letter-spacing: 0.05em;}
