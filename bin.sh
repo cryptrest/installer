@@ -340,7 +340,7 @@ cryptrest_robotstxt_installer()
 cryptrest_installer_site_difine()
 {
     for a in $CRYPTREST_INSTALLER_ARGS; do
-        if [ "$a" = "$CRYPTREST_INSTALLER_SITE"]; then
+        if [ "$a" = "$CRYPTREST_INSTALLER_SITE" ]; then
             CRYPTREST_INSTALLER_IS_SITE="$CRYPTREST_INSTALLER_SITE"
 
             break
