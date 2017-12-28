@@ -334,13 +334,13 @@ cryptrest_robotstxt_installer()
 
     chmod 444 "$CRYPTREST_INSTALLER_WWW_ROBOTSTXT_FILE") && \
 
-    echo "$CRYPTREST_TITLE Installer robots.txt file: init"
+    echo "$CRYPTREST_TITLE Installer file robots.txt: init"
 }
 
 cryptrest_installer_site_difine()
 {
-    for var in $CRYPTREST_INSTALLER_ARGS; do
-        if []; then
+    for a in $CRYPTREST_INSTALLER_ARGS; do
+        if [ "$a" = "$CRYPTREST_INSTALLER_SITE"]; then
             CRYPTREST_INSTALLER_IS_SITE="$CRYPTREST_INSTALLER_SITE"
 
             break
