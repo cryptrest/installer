@@ -67,7 +67,7 @@ CRYPTREST_TMP_DIR="${TMPDIR:=/tmp}/$CRYPTREST_NAME"
 
 CRYPTREST_INSTALLER_NAME='installer'
 CRYPTREST_INSTALLER_GIT_URL="https://github.com/$CRYPTREST_NAME/$CRYPTREST_INSTALLER_NAME/archive/$CRYPTREST_INSTALLER_GIT_BRANCH.tar.gz"
-CRYPTREST_INSTALLER_BIN_FILE="$CRYPTREST_BIN_DIR/$CRYPTREST_NAME-$CRYPTREST_INSTALLER_DOMAIN"
+CRYPTREST_INSTALLER_BIN_FILE="$CRYPTREST_BIN_DIR/$CRYPTREST_NAME-$CRYPTREST_INSTALLER_NAME"
 CRYPTREST_INSTALLER_LIB_DIR="$CRYPTREST_LIB_DIR/$CRYPTREST_INSTALLER_NAME-$CRYPTREST_INSTALLER_GIT_BRANCH"
 CRYPTREST_INSTALLER_LIB_BIN_DIR="$CRYPTREST_INSTALLER_LIB_DIR/bin"
 CRYPTREST_INSTALLER_LIB_FILE="$CRYPTREST_INSTALLER_LIB_DIR/bin.sh"
@@ -75,6 +75,9 @@ CRYPTREST_INSTALLER_LIB_VERSION_FILE="$CRYPTREST_INSTALLER_LIB_DIR/VERSION"
 CRYPTREST_INSTALLER_WWW_DIR="$CRYPTREST_WWW_DIR/$CRYPTREST_INSTALLER_DOMAIN"
 CRYPTREST_INSTALLER_WWW_HTML_FILE="$CRYPTREST_INSTALLER_WWW_DIR/index.html"
 CRYPTREST_INSTALLER_WWW_ROBOTSTXT_FILE="$CRYPTREST_INSTALLER_WWW_DIR/robots.txt"
+CRYPTREST_INSTALLER_IS_SITE=''
+CRYPTREST_INSTALLER_SITE='site'
+CRYPTREST_INSTALLER_ARGS="$*"
 
 
 cryptrest_utilities_check()
@@ -212,44 +215,6 @@ cryptrest_network_install()
     "$CRYPTREST_INSTALLER_LIB_FILE"
 }
 
-cryptrest_bin_installer_define()
-{
-    local html_file=''
-    local html_dir=''
-    local bin_file=''
-    local file_name=''
-
-    [ -d "$CRYPTREST_INSTALLER_LIB_BIN_DIR" ] && \
-    [ ! -z "$(ls "$CRYPTREST_INSTALLER_LIB_BIN_DIR")" ] && \
-    chmod 700 "$CRYPTREST_INSTALLER_LIB_BIN_DIR/"*.sh
-
-    mkdir -p "$CRYPTREST_INSTALLER_LIB_BIN_DIR" && \
-    chmod 700 "$CRYPTREST_INSTALLER_LIB_BIN_DIR" && \
-    rm -f "$CRYPTREST_INSTALLER_BIN_FILE"* && \
-
-    for f in $(ls "$CRYPTREST_MAIN_LIBS_BIN_DIR/"*.sh); do
-        CRYPTREST_MAIN_LIBS_LIST="$CRYPTREST_MAIN_LIBS_LIST $f"
-
-        [ "$f" = 'structure' ] && continue
-
-        file_name="$(basename -s .sh "$f")"
-        html_dir="$CRYPTREST_INSTALLER_WWW_DIR/$file_name"
-        html_file="$html_dir/index.html"
-        bin_file="$CRYPTREST_INSTALLER_LIB_BIN_DIR/$(basename "$f")"
-
-        if [ "$f" != "$bin_file" ]; then
-            cp "$f" "$bin_file" && \
-            chmod 500 "$bin_file"
-        fi
-
-        mkdir -p "$html_dir" && \
-        cp "$bin_file" "$html_file" && \
-        chmod 444 "$html_file" && \
-        chmod 555 "$html_dir" && \
-        ln -s "$bin_file" "$CRYPTREST_INSTALLER_BIN_FILE-$file_name"
-    done
-}
-
 cryptrest_define()
 {
     cryptrest_bin_installer_define && \
@@ -318,6 +283,44 @@ cryptrest_define_env_file()
     fi
 }
 
+cryptrest_bin_installer_define()
+{
+    local html_file=''
+    local html_dir=''
+    local bin_file=''
+    local file_name=''
+
+    [ -d "$CRYPTREST_INSTALLER_LIB_BIN_DIR" ] && \
+    [ ! -z "$(ls "$CRYPTREST_INSTALLER_LIB_BIN_DIR")" ] && \
+    chmod 700 "$CRYPTREST_INSTALLER_LIB_BIN_DIR/"*.sh
+
+    mkdir -p "$CRYPTREST_INSTALLER_LIB_BIN_DIR" && \
+    chmod 700 "$CRYPTREST_INSTALLER_LIB_BIN_DIR" && \
+    rm -f "$CRYPTREST_INSTALLER_BIN_FILE"* && \
+
+    for f in $(ls "$CRYPTREST_MAIN_LIBS_BIN_DIR/"*.sh); do
+        CRYPTREST_MAIN_LIBS_LIST="$CRYPTREST_MAIN_LIBS_LIST $f"
+
+        [ "$f" = 'structure' ] && continue
+
+        file_name="$(basename -s .sh "$f")"
+        html_dir="$CRYPTREST_INSTALLER_WWW_DIR/$file_name"
+        html_file="$html_dir/index.html"
+        bin_file="$CRYPTREST_INSTALLER_LIB_BIN_DIR/$(basename "$f")"
+
+        if [ "$f" != "$bin_file" ]; then
+            cp "$f" "$bin_file" && \
+            chmod 500 "$bin_file"
+        fi
+
+        mkdir -p "$html_dir" && \
+        cp "$bin_file" "$html_file" && \
+        chmod 444 "$html_file" && \
+        chmod 555 "$html_dir" && \
+        ln -s "$bin_file" "$CRYPTREST_INSTALLER_BIN_FILE-$file_name"
+    done
+}
+
 cryptrest_robotstxt_installer()
 {
 (   echo "# $CRYPTREST_TITLE Installer" > "$CRYPTREST_INSTALLER_WWW_ROBOTSTXT_FILE"
@@ -334,10 +337,27 @@ cryptrest_robotstxt_installer()
     echo "$CRYPTREST_TITLE Installer robots.txt file: init"
 }
 
+cryptrest_installer_site_difine()
+{
+    for var in $CRYPTREST_INSTALLER_ARGS; do
+        if []; then
+            CRYPTREST_INSTALLER_IS_SITE="$CRYPTREST_INSTALLER_SITE"
+
+            break
+        fi
+    done
+}
+
 cryptrest_domains_installer()
 {
-    echo "CRYPTREST_LIB_DOMAIN=\"$CRYPTREST_INSTALLER_DOMAIN.\$CRYPTREST_DOMAIN\"" > "$CRYPTREST_ETC_DOMAINS_DIR/$CRYPTREST_INSTALLER_DOMAIN"
-    echo "CRYPTREST_DOMAINS=\"$CRYPTREST_INSTALLER_DOMAIN.\$CRYPTREST_DOMAIN\"" >> "$CRYPTREST_ETC_DOMAINS_DIR/$CRYPTREST_INSTALLER_DOMAIN"
+    cryptrest_installer_site_difine
+
+    if [ "$CRYPTREST_INSTALLER_IS_SITE" = "$CRYPTREST_INSTALLER_SITE" ]; then
+        echo "CRYPTREST_LIB_DOMAIN=\"$CRYPTREST_INSTALLER_DOMAIN.\$CRYPTREST_DOMAIN\"" > "$CRYPTREST_ETC_DOMAINS_DIR/$CRYPTREST_INSTALLER_DOMAIN"
+        echo "CRYPTREST_DOMAINS=\"$CRYPTREST_INSTALLER_DOMAIN.\$CRYPTREST_DOMAIN\"" >> "$CRYPTREST_ETC_DOMAINS_DIR/$CRYPTREST_INSTALLER_DOMAIN"
+    else
+        rm -f "$CRYPTREST_ETC_DOMAINS_DIR/$CRYPTREST_INSTALLER_DOMAIN"
+    fi
 }
 
 cryptrest_install()
