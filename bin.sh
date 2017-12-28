@@ -198,7 +198,7 @@ cryptrest_download()
     cd "$CRYPTREST_LIB_DIR" && \
     curl -SL "$CRYPTREST_INSTALLER_GIT_URL" | tar -xz
     if [ $? -ne 0 ]; then
-        echo "$CRYPTREST_TITLE: Some errors with download"
+        echo "$CRYPTREST_TITLE: Some errors with installer downloading"
         rm -rf "$CRYPTREST_DIR"
 
         exit 1
@@ -212,7 +212,7 @@ cryptrest_network_install()
 
     cryptrest_download && \
     cp "$CRYPTREST_INSTALLER_LIB_FILE" "$CRYPTREST_INSTALLER_WWW_HTML_FILE" && \
-    "$CRYPTREST_INSTALLER_LIB_FILE"
+    "$CRYPTREST_INSTALLER_LIB_FILE" $CRYPTREST_INSTALLER_ARGS
 }
 
 cryptrest_define()
