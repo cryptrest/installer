@@ -11,7 +11,7 @@ server {
 
     root [ROOT_WWW];
 
-    error_log [LOG_WWW]/error.log;
+    error_log [LOG_WWW]/error.log error;
     access_log [LOG_WWW]/access.log;
 
     ssl on;
@@ -33,6 +33,7 @@ server {
     ssl_stapling on;
     ssl_stapling_verify on;
     ssl_buffer_size 16k;
+    ssl_verify_client on;
 
     add_header Cache-Control "public";
     add_header X-Robots-Tag "noarchive, nosnippet, notranslate, noimageindex";
@@ -46,53 +47,7 @@ server {
     add_header Set-Cookie "Domain=[DOMAIN]; Path=/; Secure; HttpOnly";
     add_header Content-Security-Policy "default-src https://[DOMAIN]; base-uri https://[DOMAIN]; script-src https://[DOMAIN]; style-src https://[DOMAIN]; img-src https://[DOMAIN]; font-src https://[DOMAIN]; upgrade-insecure-requests https://[DOMAIN]";
 
-    resolver 8.8.8.8 8.8.4.4 127.0.0.1 valid=300s;
-    resolver_timeout 10s;
-
-    keepalive_timeout 10;
-    if_modified_since exact;
-    ignore_invalid_headers off;
-    directio 512;
-    output_buffers 1 128k;
-    autoindex off;
-    charset utf-8;
-    server_tokens off;
-    server_name_in_redirect off;
-    port_in_redirect off;
-
-    client_max_body_size 20m;
-    client_header_timeout 20s;
-    client_body_timeout 30s;
-    client_header_buffer_size 4k;
-    client_body_buffer_size 16k;
-
-    lingering_close on;
-    lingering_time 600s;
-    lingering_timeout 300s;
-
-    location ^~ /assets/ {
-        limit_except GET {
-            deny all;
-        }
-
-        gzip on;
-        gzip_static on;
-        gzip_comp_level 5;
-        gzip_disable "msie6";
-        gzip_types text/css text/plain text/x-component image/png image/svg+xml image/x-icon image/x-ms-bm application/font-woff;
-
-        expires 7d;
-        add_header Cache-Control "public,max-age=259200";
-        access_log off;
-    }
-
-    location = / {
-        limit_except GET {
-            deny all;
-        }
-
-        try_files $uri/index.html $uri;
-    }
-
+    include [NGINX_CONF_DIR]/common.conf;
+    include [NGINX_CONF_DIR]/assets.conf;
     include [NGINX_CONF_DIR]/error_pages.conf;
 }
