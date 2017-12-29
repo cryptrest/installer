@@ -43,18 +43,22 @@ server {
     ssl_stapling on;
     ssl_stapling_verify on;
     ssl_buffer_size 16k;
-    ssl_verify_client on;
 
-    add_header Cache-Control "public";
+#    ssl_client_certificate [SSL_DOMAIN_DIR]/client.pem;
+#    ssl_verify_client on;
+
+    add_header X-SSL-CERT "$ssl_client_cert";
+    add_header Upgrade-Insecure-Requests "1";
+    add_header Cache-Control "private";
     add_header X-Frame-Options "SAMEORIGIN";
-    add_header X-Content-Type-Options "nosniff";
-    add_header Expect-CT 'enforce, max-age=30, report-uri="https://[DOMAIN]"';
-    add_header Strict-Transport-Security "max-age=31536000; includeSubDomains; preload";
-    add_header Public-Key-Pins '[PUBLIC_KEY_PINS]max-age=31536000; includeSubDomains';
-    add_header X-XSS-Protection "1; mode=block";
     add_header Referrer-Policy "no-referrer";
+    add_header X-Content-Type-Options "nosniff";
+    add_header X-XSS-Protection "1; mode=block";
+    add_header Strict-Transport-Security "max-age=31536000; includeSubDomains; preload";
+    add_header Expect-CT 'enforce, max-age=30, report-uri="https://[DOMAIN]"';
+    add_header Public-Key-Pins '[PUBLIC_KEY_PINS]max-age=31536000; includeSubDomains';
     add_header Set-Cookie "Domain=[DOMAIN]; Path=/; Secure; HttpOnly";
-    add_header Content-Security-Policy "default-src https://[DOMAIN]; base-uri https://[DOMAIN]; script-src https://[DOMAIN]; style-src https://[DOMAIN]; img-src https://[DOMAIN]; font-src https://[DOMAIN]; upgrade-insecure-requests https://[DOMAIN]";
+    add_header Content-Security-Policy "default-src https://[DOMAIN]; base-uri https://[DOMAIN]; script-src https://[DOMAIN]; style-src https://[DOMAIN]; img-src https://[DOMAIN]; font-src https://[DOMAIN];";
 
     location @cryptrest_site {
         limit_except GET POST {
